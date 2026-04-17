@@ -96,8 +96,8 @@ function renderDisclosure() {
   const el = document.getElementById('affiliate-disclosure');
   if (!el) return;
   el.innerHTML = `
-    <div style="background:rgba(245,168,0,0.07);border-top:1px solid rgba(245,168,0,0.2);
-      padding:0.6rem 2rem;font-size:0.72rem;color:#7A839E;line-height:1.5;text-align:center">
+    <div style="background:rgba(240,237,232,0.07);border-top:1px solid rgba(240,237,232,0.2);
+      padding:0.6rem 2rem;font-size:0.72rem;color:#6B7E9F;line-height:1.5;text-align:center">
       <strong style="color:#E8EAF2">Affiliate disclosure:</strong>
       Some links on this page are affiliate links. If you book through them, we may earn a small commission
       at no extra cost to you. This helps keep the guide free. We only link to services we genuinely recommend.
@@ -136,8 +136,8 @@ function renderBookingSection(containerId, options = {}) {
     cta: 'Search Hotels',
     url: bookingHotelsUrl(hotelLocation),
     badge: 'Most Popular',
-    badgeColor: 'rgba(76,175,80,0.12)',
-    badgeText: '#81C784',
+    badgeColor: 'rgba(0,40,104,0.25)',
+    badgeText: '#F0EDE8',
   });
 
   if (showFlights) cards.push({
@@ -148,8 +148,8 @@ function renderBookingSection(containerId, options = {}) {
     cta: 'Search Flights',
     url: skyscannerUrl(),
     badge: 'Best for Intl',
-    badgeColor: 'rgba(33,150,243,0.12)',
-    badgeText: '#64B5F6',
+    badgeColor: 'rgba(191,10,48,0.15)',
+    badgeText: '#F0EDE8',
   });
 
   if (showCars) cards.push({
@@ -160,7 +160,7 @@ function renderBookingSection(containerId, options = {}) {
     cta: 'Compare Cars',
     url: rentalcarsUrl(),
     badge: 'Stadium Essential',
-    badgeColor: 'rgba(200,16,46,0.1)',
+    badgeColor: 'rgba(191,10,48,0.1)',
     badgeText: '#ff4d6d',
   });
 
@@ -172,8 +172,8 @@ function renderBookingSection(containerId, options = {}) {
     cta: 'Find Bus Routes',
     url: flixbusUrl(),
     badge: 'Budget Option',
-    badgeColor: 'rgba(245,168,0,0.1)',
-    badgeText: '#F5A800',
+    badgeColor: 'rgba(240,237,232,0.1)',
+    badgeText: '#F0EDE8',
   });
 
   if (showTuro) cards.push({
@@ -184,8 +184,8 @@ function renderBookingSection(containerId, options = {}) {
     cta: 'Browse Turo',
     url: turoUrl(),
     badge: 'Trending',
-    badgeColor: 'rgba(156,39,176,0.1)',
-    badgeText: '#CE93D8',
+    badgeColor: 'rgba(0,40,104,0.2)',
+    badgeText: '#F0EDE8',
   });
 
   if (showActivities) cards.push({
@@ -196,8 +196,8 @@ function renderBookingSection(containerId, options = {}) {
     cta: 'Browse Activities',
     url: viatorUrl(),
     badge: 'Experiences',
-    badgeColor: 'rgba(245,168,0,0.1)',
-    badgeText: '#F5A800',
+    badgeColor: 'rgba(240,237,232,0.1)',
+    badgeText: '#F0EDE8',
   });
 
   const cardSize = compact ? '200px' : '240px';
@@ -205,7 +205,7 @@ function renderBookingSection(containerId, options = {}) {
   el.innerHTML = `
     <div style="margin:3rem 0 0.5rem">
       <div style="font-family:var(--fh);font-size:.7rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
-        color:var(--gold);margin-bottom:.4rem;display:flex;align-items:center;gap:8px">
+        color:var(--white);margin-bottom:.4rem;display:flex;align-items:center;gap:8px">
         <span style="width:16px;height:2px;background:var(--red);display:inline-block"></span>
         Book Your Trip
       </div>
@@ -220,8 +220,8 @@ function renderBookingSection(containerId, options = {}) {
         <a href="${c.url}" target="_blank" rel="noopener sponsored"
           style="background:var(--card);border:1px solid var(--border);padding:1.25rem;
             text-decoration:none;color:inherit;display:block;transition:border-color .18s,transform .15s"
-          onmouseover="this.style.borderColor='rgba(245,168,0,0.4)';this.style.transform='translateY(-3px)'"
-          onmouseout="this.style.borderColor='';this.style.transform=''">
+          onmouseover="this.style.borderColor='rgba(240,237,232,0.4)';this.style.transform='translateY(-3px)'"
+          onmouseout="this.style.borderColor='rgba(255,255,255,0.07)';this.style.transform=''">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.6rem">
             <span style="font-size:1.4rem">${c.icon}</span>
             <span style="font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
@@ -229,11 +229,11 @@ function renderBookingSection(containerId, options = {}) {
           </div>
           <div style="font-family:var(--fh);font-weight:700;font-size:.95rem;text-transform:uppercase;
             letter-spacing:.02em;margin-bottom:1px">${c.label}</div>
-          <div style="font-size:.65rem;color:var(--gold);font-weight:600;letter-spacing:.08em;
+          <div style="font-size:.65rem;color:var(--white);font-weight:600;letter-spacing:.08em;
             text-transform:uppercase;margin-bottom:.5rem">${c.partner}</div>
           <div style="font-size:.78rem;color:var(--muted);line-height:1.6;font-weight:300;margin-bottom:1rem">${c.desc}</div>
           <div style="font-family:var(--fh);font-size:.72rem;font-weight:700;letter-spacing:.1em;
-            text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:5px">
+            text-transform:uppercase;color:var(--white);display:flex;align-items:center;gap:5px">
             ${c.cta} <span style="transition:transform .15s">↗</span>
           </div>
         </a>`).join('')}
@@ -252,21 +252,21 @@ function renderMatchFlightCTA(containerId, matchDate, matchLabel) {
   // matchDate format: "2026-06-15" → arrival day before = "2026-06-14"
   const arrive = matchDate; // simplified
   el.innerHTML = `
-    <div style="background:rgba(245,168,0,0.06);border:1px solid rgba(245,168,0,0.2);
+    <div style="background:rgba(240,237,232,0.06);border:1px solid rgba(240,237,232,0.2);
       border-left:3px solid var(--gold);padding:.85rem 1.1rem;margin-top:.5rem;
       display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem">
       <div>
         <div style="font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-          color:var(--gold);margin-bottom:2px">Flying in for this match?</div>
+          color:var(--white);margin-bottom:2px">Flying in for this match?</div>
         <div style="font-size:.78rem;color:var(--muted);font-weight:300">Find flights arriving ${matchLabel}</div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <a href="${skyscannerUrl('','DFW',arrive.replace(/-/g,''))}" target="_blank" rel="noopener sponsored"
           style="font-family:var(--fh);font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-            color:var(--gold);border:1px solid rgba(245,168,0,0.3);background:rgba(245,168,0,0.07);
+            color:var(--white);border:1px solid rgba(240,237,232,0.3);background:rgba(240,237,232,0.07);
             padding:6px 12px;text-decoration:none;white-space:nowrap;transition:background .15s"
-          onmouseover="this.style.background='rgba(245,168,0,0.14)'"
-          onmouseout="this.style.background='rgba(245,168,0,0.07)'">Flights on Skyscanner ↗</a>
+          onmouseover="this.style.background='rgba(240,237,232,0.14)'"
+          onmouseout="this.style.background='rgba(240,237,232,0.07)'">Flights on Skyscanner ↗</a>
         <a href="${bookingHotelsUrl('Arlington Texas', arrive, '')}" target="_blank" rel="noopener sponsored"
           style="font-family:var(--fh);font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
             color:var(--muted);border:1px solid var(--border2);background:transparent;
@@ -287,36 +287,36 @@ function renderNeighborhoodBooking(containerId, neighborhoodName, needsCar = fal
       <a href="${bookingHotelsUrl(neighborhoodName + ', Dallas Texas')}" target="_blank" rel="noopener sponsored"
         style="background:var(--card);border:1px solid var(--border);padding:1.1rem;
           text-decoration:none;color:inherit;display:block;transition:border-color .18s"
-        onmouseover="this.style.borderColor='rgba(245,168,0,0.4)'"
+        onmouseover="this.style.borderColor='rgba(240,237,232,0.4)'"
         onmouseout="this.style.borderColor=''">
         <div style="font-size:1.2rem;margin-bottom:.5rem">🏨</div>
         <div style="font-family:var(--fh);font-weight:700;font-size:.88rem;text-transform:uppercase;margin-bottom:.25rem">Hotels Nearby</div>
-        <div style="font-size:.65rem;color:var(--gold);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem">via Booking.com</div>
+        <div style="font-size:.65rem;color:var(--white);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem">via Booking.com</div>
         <div style="font-size:.75rem;color:var(--muted);font-weight:300">Hotels in ${neighborhoodName} with free cancellation.</div>
-        <div style="font-family:var(--fh);font-size:.68rem;font-weight:700;color:var(--gold);margin-top:.75rem;letter-spacing:.08em;text-transform:uppercase">Search Hotels ↗</div>
+        <div style="font-family:var(--fh);font-size:.68rem;font-weight:700;color:var(--white);margin-top:.75rem;letter-spacing:.08em;text-transform:uppercase">Search Hotels ↗</div>
       </a>
       ${needsCar ? `
       <a href="${rentalcarsUrl()}" target="_blank" rel="noopener sponsored"
         style="background:var(--card);border:1px solid var(--border);padding:1.1rem;
           text-decoration:none;color:inherit;display:block;transition:border-color .18s"
-        onmouseover="this.style.borderColor='rgba(245,168,0,0.4)'"
+        onmouseover="this.style.borderColor='rgba(240,237,232,0.4)'"
         onmouseout="this.style.borderColor=''">
         <div style="font-size:1.2rem;margin-bottom:.5rem">🚗</div>
         <div style="font-family:var(--fh);font-weight:700;font-size:.88rem;text-transform:uppercase;margin-bottom:.25rem">Rent a Car</div>
-        <div style="font-size:.65rem;color:var(--gold);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem">via Rentalcars.com</div>
+        <div style="font-size:.65rem;color:var(--white);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem">via Rentalcars.com</div>
         <div style="font-size:.75rem;color:var(--muted);font-weight:300">No rail to this area. Pick up at DFW Airport.</div>
-        <div style="font-family:var(--fh);font-size:.68rem;font-weight:700;color:var(--gold);margin-top:.75rem;letter-spacing:.08em;text-transform:uppercase">Compare Cars ↗</div>
+        <div style="font-family:var(--fh);font-size:.68rem;font-weight:700;color:var(--white);margin-top:.75rem;letter-spacing:.08em;text-transform:uppercase">Compare Cars ↗</div>
       </a>` : ''}
       <a href="${viatorUrl()}" target="_blank" rel="noopener sponsored"
         style="background:var(--card);border:1px solid var(--border);padding:1.1rem;
           text-decoration:none;color:inherit;display:block;transition:border-color .18s"
-        onmouseover="this.style.borderColor='rgba(245,168,0,0.4)'"
+        onmouseover="this.style.borderColor='rgba(240,237,232,0.4)'"
         onmouseout="this.style.borderColor=''">
         <div style="font-size:1.2rem;margin-bottom:.5rem">🎟️</div>
         <div style="font-family:var(--fh);font-weight:700;font-size:.88rem;text-transform:uppercase;margin-bottom:.25rem">Tours & Experiences</div>
-        <div style="font-size:.65rem;color:var(--gold);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem">via Viator</div>
+        <div style="font-size:.65rem;color:var(--white);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem">via Viator</div>
         <div style="font-size:.75rem;color:var(--muted);font-weight:300">Local tours, food walks, and cultural experiences.</div>
-        <div style="font-family:var(--fh);font-size:.68rx;font-weight:700;color:var(--gold);margin-top:.75rem;letter-spacing:.08em;text-transform:uppercase">Browse Experiences ↗</div>
+        <div style="font-family:var(--fh);font-size:.68rx;font-weight:700;color:var(--white);margin-top:.75rem;letter-spacing:.08em;text-transform:uppercase">Browse Experiences ↗</div>
       </a>
     </div>
     <div style="font-size:.63rem;color:var(--dim);margin-top:.75rem;font-weight:300">

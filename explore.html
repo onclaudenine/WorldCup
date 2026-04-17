@@ -11,11 +11,11 @@
 .nbh-card:hover{background:var(--card2)}
 .nbh-icon{font-size:2rem;margin-bottom:.9rem;display:block}
 .nbh-tag{display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
-  background:rgba(245,168,0,.1);color:var(--gold);border:1px solid rgba(245,168,0,.25);padding:2px 8px;margin-bottom:.6rem}
+  background:rgba(245,168,0,.1);color:var(--white);border:1px solid rgba(245,168,0,.25);padding:2px 8px;margin-bottom:.6rem}
 .nbh-name{font-family:var(--fh);font-weight:700;font-size:1.15rem;text-transform:uppercase;margin-bottom:.4rem;letter-spacing:.02em}
 .nbh-desc{font-size:.8rem;color:var(--muted);line-height:1.65;font-weight:300;margin-bottom:1.1rem}
 .nbh-link{font-family:var(--fh);font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--gold);text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:gap .15s}
+  color:var(--white);text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:gap .15s}
 .nbh-link:hover{gap:9px}
 .rest-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
 .rest-card{background:var(--card);border:1px solid var(--border);padding:1.4rem;
@@ -23,8 +23,8 @@
 .rest-card:hover{border-color:rgba(245,168,0,.35);transform:translateY(-3px)}
 .rc-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem}
 .rc-name{font-family:var(--fh);font-weight:700;font-size:1rem;text-transform:uppercase;letter-spacing:.02em}
-.rc-stars{color:var(--gold);font-size:.75rem}
-.rc-cuisine{font-size:.7rem;color:var(--gold);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.35rem}
+.rc-stars{color:var(--white);font-size:.75rem}
+.rc-cuisine{font-size:.7rem;color:var(--white);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.35rem}
 .rc-area{font-size:.68rem;color:var(--dim);margin-bottom:.5rem}
 .rc-desc{font-size:.78rem;color:var(--muted);line-height:1.6;font-weight:300;margin-bottom:.75rem}
 .rc-tags{display:flex;gap:6px;flex-wrap:wrap}
@@ -34,7 +34,7 @@
 .tab{font-family:var(--fh);font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
   color:var(--muted);border:none;background:none;padding:11px 18px;cursor:pointer;
   border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s}
-.tab.active,.tab:hover{color:var(--gold);border-color:var(--gold)}
+.tab.active,.tab:hover{color:var(--white);border-color:var(--white)}
 </style>
 </head>
 <body>
@@ -42,10 +42,18 @@
 <nav id="main-nav"></nav>
 
 <div class="page-hero" style="margin-top:56px">
-  <div class="page-hero-bg"></div>
+  <div class="page-hero-bg"></div>  <!-- Texas Flag subtle overlay -->
+  <div style="position:absolute;right:0;top:0;bottom:0;width:50%;pointer-events:none;z-index:0;overflow:hidden;opacity:0.06">
+    <svg viewBox="0 0 900 600" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="300" height="600" fill="#002868"/>
+      <rect x="300" y="0" width="600" height="300" fill="#BF0A30"/>
+      <rect x="300" y="300" width="600" height="300" fill="#F0EDE8"/>
+      <polygon points="150,120 163,162 207,162 172,187 185,229 150,204 115,229 128,187 93,162 137,162" fill="#F0EDE8"/>
+    </svg>
+  </div>
   <div class="page-hero-content">
     <div class="sec-label">Beyond the Stadium</div>
-    <h1 style="font-family:var(--fh);font-weight:900;font-size:clamp(2.5rem,7vw,5rem);line-height:.9;text-transform:uppercase;margin-bottom:1rem">Explore <em style="color:var(--gold);font-style:normal">Dallas</em></h1>
+    <h1 style="font-family:var(--fh);font-weight:900;font-size:clamp(2.5rem,7vw,5rem);line-height:.9;text-transform:uppercase;margin-bottom:1rem">Explore <em style="color:var(--white);font-style:normal">Dallas</em></h1>
     <p style="font-size:1rem;color:var(--muted);line-height:1.75;max-width:560px;font-weight:300">Dallas is a city of neighborhoods, each with its own personality. Here's how to find the real city — not just the stadium.</p>
   </div>
 </div>

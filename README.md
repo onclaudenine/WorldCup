@@ -80,3 +80,24 @@ dallas2026/
 - **Jan–May 2026**: Affiliate bookings begin as fans plan trips
 - **Peak earning window**: April–July 2026 (highest search volume)
 - **Tournament**: June 11 – July 19, 2026
+
+## 🎡 Family Activities Section (new)
+- `families.html` — Main listing of 10 family activities with filters
+- `activities/*.html` — 10 individual detail pages with:
+  - Full transit directions (DART, driving, rideshare)
+  - Admission prices per age group
+  - Insider tips
+  - Viator booking links (affiliate)
+  - Hotel and car rental widgets
+
+Activities covered:
+1. Perot Museum of Nature & Science (DART accessible)
+2. Dallas Zoo (DART accessible)
+3. LEGOLAND Discovery Center Grapevine (car required)
+4. SEA LIFE Grapevine Aquarium (car required)
+5. Reunion Tower GeO-Deck (DART accessible)
+6. Six Flags Over Texas (car required, near stadium)
+7. Fort Worth Stockyards cattle drive (TRE + rideshare)
+8. Hawaiian Falls Water Park (car required)
+9. Globe Life Field Stadium Tour (car required, near stadium)
+10. Dallas Arboretum & Children's Garden (DART + bus)

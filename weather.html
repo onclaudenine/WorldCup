@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dallas Weather — Dallas 2026</title>
+<meta name="description" content="Live Dallas weather forecast for FIFA World Cup 2026 visitors. 7-day forecast, hourly breakdown, °F/°C toggle.">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+/* ── WEATHER PAGE STYLES ── */
+.w-hero{background:var(--mid);border-bottom:1px solid var(--border);padding:2rem;margin-top:56px}
+.w-hero-inner{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;max-width:900px}
+
+/* Current conditions card */
+.current-card{background:var(--card);border:1px solid var(--border);padding:1.75rem 2rem;min-width:280px;flex:1}
+.current-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem}
+.current-icon{font-size:3.5rem;line-height:1}
+.current-right{text-align:right}
+.current-temp{font-family:var(--fh);font-size:4.5rem;font-weight:900;line-height:1;color:var(--white)}
+.current-feel{font-size:.75rem;color:var(--muted);font-weight:300;margin-top:2px}
+.current-desc{font-family:var(--fh);font-size:1.1rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.04em;color:var(--text);margin-bottom:.25rem}
+.current-loc{font-size:.7rem;color:var(--white);font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.current-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:1.25rem}
+.cm-cell{background:var(--mid);padding:.7rem .85rem;text-align:center}
+.cm-val{font-family:var(--fh);font-size:1.1rem;font-weight:900;color:var(--text);line-height:1}
+.cm-lbl{font-size:.6rem;color:var(--muted);font-weight:300;text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+
+/* Unit toggle */
+.unit-toggle{display:flex;border:1px solid var(--border2);overflow:hidden;align-self:flex-start}
+.ut-btn{font-family:var(--fh);font-size:.8rem;font-weight:700;letter-spacing:.06em;
+  padding:8px 18px;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
+.ut-btn.active{background:var(--white);color:var(--navy)}
+
+/* Hourly scroll */
+.hourly-scroll{overflow-x:auto;margin:0 -2rem;padding:0 2rem}
+.hourly-track{display:flex;gap:6px;padding-bottom:.5rem;min-width:max-content}
+.hour-cell{background:var(--card);border:1px solid var(--border);padding:.85rem .65rem;
+  text-align:center;min-width:72px;transition:border-color .15s}
+.hour-cell:hover{border-color:rgba(240,237,232,.35)}
+.hour-cell.now{border-color:var(--white);background:rgba(240,237,232,.07)}
+.hc-time{font-size:.65rem;color:var(--muted);font-weight:300;margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.06em}
+.hc-time.now-lbl{color:var(--white);font-weight:700}
+.hc-icon{font-size:1.3rem;margin-bottom:.35rem;line-height:1;display:block}
+.hc-temp{font-family:var(--fh);font-size:1rem;font-weight:900;color:var(--text)}
+.hc-rain{font-size:.6rem;color:#64B5F6;margin-top:2px;font-weight:300}
+
+/* 7-day forecast */
+.forecast-grid{display:flex;flex-direction:column;gap:4px}
+.forecast-row{display:grid;grid-template-columns:110px 40px 1fr 80px;align-items:center;gap:1rem;
+  background:var(--card);border:1px solid var(--border);padding:.85rem 1.1rem;transition:border-color .15s}
+.forecast-row:hover{border-color:rgba(240,237,232,.3)}
+.forecast-row.today{border-color:rgba(240,237,232,.4);background:rgba(240,237,232,.04)}
+.fr-day{font-family:var(--fh);font-size:.88rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.fr-day.today-lbl{color:var(--white)}
+.fr-icon{font-size:1.4rem;text-align:center}
+.fr-bar-wrap{display:flex;align-items:center;gap:8px}
+.fr-lo{font-family:var(--fh);font-size:.8rem;font-weight:700;color:var(--dim);min-width:28px;text-align:right}
+.fr-bar-track{flex:1;height:6px;background:var(--border2);border-radius:3px;overflow:hidden;position:relative}
+.fr-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#64B5F6,#F0EDE8,#BF0A30)}
+.fr-hi{font-family:var(--fh);font-size:.8rem;font-weight:700;color:var(--text);min-width:28px}
+.fr-rain{font-size:.72rem;color:#64B5F6;font-weight:300;text-align:right;white-space:nowrap}
+
+/* Heat warning band */
+.heat-band{display:flex;align-items:center;gap:12px;padding:.85rem 1.1rem;margin-bottom:1rem;
+  border-left:3px solid}
+.heat-ok{border-color:#4CAF50;background:rgba(76,175,80,.06)}
+.heat-warm{border-color:var(--white);background:rgba(240,237,232,.06)}
+.heat-hot{border-color:#FF6B35;background:rgba(255,107,53,.07)}
+.heat-extreme{border-color:var(--red);background:rgba(191,10,48,.08)}
+.hb-icon{font-size:1.1rem;flex-shrink:0}
+.hb-text{font-size:.78rem;line-height:1.5;font-weight:300;color:var(--muted)}
+.hb-text strong{color:var(--text);font-weight:500}
+
+/* UV/Wind/Humidity extras */
+.extras-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.ex-card{background:var(--card);border:1px solid var(--border);padding:1.1rem;text-align:center}
+.ex-val{font-family:var(--fh);font-size:1.8rem;font-weight:900;line-height:1;margin-bottom:2px}
+.ex-lbl{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:300}
+.ex-sub{font-size:.7rem;color:var(--dim);margin-top:4px;font-weight:300}
+
+/* Tabs */
+.section-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
+.stab{font-family:var(--fh);font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);border:none;background:none;padding:10px 18px;cursor:pointer;
+  border-bottom:2px solid transparent;transition:all .15s}
+.stab.active,.stab:hover{color:var(--white);border-color:var(--white)}
+
+/* Last updated */
+.last-updated{font-size:.68rem;color:var(--dim);font-weight:300;margin-top:1rem}
+.live-badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--fh);font-size:.62rem;
+  font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--white)}
+
+/* Loading / Error states */
+.w-loading{text-align:center;padding:3rem;color:var(--muted);font-size:.85rem;font-weight:300}
+.w-error{background:rgba(191,10,48,.08);border:1px solid rgba(191,10,48,.25);border-left:3px solid var(--red);
+  padding:1rem 1.25rem;font-size:.82rem;color:var(--muted);font-weight:300}
+</style>
+</head>
+<body>
+<div id="affiliate-disclosure"></div>
+<nav id="main-nav"></nav>
+
+<!-- HERO: current conditions -->
+<div class="w-hero">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.25rem">
+    <div>
+      <div class="sec-label">Live from Dallas, TX</div>
+      <div style="font-family:var(--fh);font-weight:900;font-size:clamp(1.8rem,4vw,2.6rem);text-transform:uppercase;line-height:.92">
+        Dallas <span style="color:var(--red)">Weather</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <div class="live-badge"><span class="live-dot"></span>Live Data</div>
+      <div class="unit-toggle">
+        <button class="ut-btn active" id="btn-f" onclick="setUnit('F')">°F</button>
+        <button class="ut-btn" id="btn-c" onclick="setUnit('C')">°C</button>
+      </div>
+    </div>
+  </div>
+  <div id="current-conditions"><div class="w-loading">Loading weather data…</div></div>
+</div>
+
+<!-- HOURLY -->
+<section style="padding:2rem;background:var(--dark)">
+  <div class="sec-label" style="margin-bottom:.75rem">Next 24 Hours</div>
+  <div id="heat-warning"></div>
+  <div class="hourly-scroll">
+    <div class="hourly-track" id="hourly-track">
+      <div class="w-loading">Loading hourly forecast…</div>
+    </div>
+  </div>
+</section>
+
+<!-- 7-DAY -->
+<section style="padding:2rem;background:var(--mid)">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem">
+    <div class="sec-label" style="margin-bottom:0">7-Day Forecast</div>
+    <div class="last-updated" id="last-updated"></div>
+  </div>
+  <div id="heat-warning-week"></div>
+  <div class="forecast-grid" id="forecast-grid">
+    <div class="w-loading">Loading 7-day forecast…</div>
+  </div>
+</section>
+
+<!-- EXTRAS: UV, Wind, Humidity -->
+<section style="padding:2rem;background:var(--dark)">
+  <div class="sec-label" style="margin-bottom:1rem">Conditions at a Glance</div>
+  <div class="extras-grid" id="extras-grid">
+    <div class="w-loading">Loading…</div>
+  </div>
+</section>
+
+<!-- FIFA MATCH WEATHER TIP -->
+<section style="padding:2rem;background:var(--mid)">
+  <div class="sec-label">Match Day Advice</div>
+  <div class="sec-title" style="margin-bottom:1.25rem">Stadium <em>Weather Tips</em></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px">
+    <div style="background:var(--card);border:1px solid var(--border);padding:1.3rem">
+      <div style="font-size:1.2rem;margin-bottom:.5rem">🏟️</div>
+      <div style="font-family:var(--fh);font-weight:700;font-size:.9rem;text-transform:uppercase;margin-bottom:.4rem">AT&T Stadium</div>
+      <div style="font-size:.78rem;color:var(--muted);line-height:1.65;font-weight:300">The stadium has a retractable roof and full climate control — inside it's always comfortable regardless of outside conditions. Dress for 70°F (21°C) inside.</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);padding:1.3rem">
+      <div style="font-size:1.2rem;margin-bottom:.5rem">🚶</div>
+      <div style="font-family:var(--fh);font-weight:700;font-size:.9rem;text-transform:uppercase;margin-bottom:.4rem">Getting to the Stadium</div>
+      <div style="font-size:.78rem;color:var(--muted);line-height:1.65;font-weight:300">The walk from CentrePort to the shuttle, and the outdoor approach to gates, is exposed. In June–July this is brutal in the heat. Wear light clothing and bring water.</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);padding:1.3rem">
+      <div style="font-size:1.2rem;margin-bottom:.5rem">☔</div>
+      <div style="font-family:var(--fh);font-weight:700;font-size:.9rem;text-transform:uppercase;margin-bottom:.4rem">Thunderstorms</div>
+      <div style="font-size:.78rem;color:var(--muted);line-height:1.65;font-weight:300">Dallas gets fast-moving afternoon thunderstorms in summer. They usually pass in 30–45 min. The stadium roof closes immediately for lightning. Keep an eye on the radar.</div>
+      <div style="margin-top:.75rem"><a href="https://www.weather.gov/fwd" target="_blank" rel="noopener" class="ext-link" style="font-size:.65rem">NWS Dallas Forecast ↗</a></div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);padding:1.3rem">
+      <div style="font-size:1.2rem;margin-bottom:.5rem">💧</div>
+      <div style="font-family:var(--fh);font-weight:700;font-size:.9rem;text-transform:uppercase;margin-bottom:.4rem">Hydration</div>
+      <div style="font-size:.78rem;color:var(--muted);line-height:1.65;font-weight:300">In 100°F+ heat you can lose a litre of water per hour outdoors. Drink before you feel thirsty. Empty refillable bottles are allowed through stadium security.</div>
+    </div>
+  </div>
+</section>
+
+<footer id="main-footer"></footer>
+<script src="js/site.js"></script>
+<script src="js/affiliate.js"></script>
+<script>
+renderNav(); renderFooter(); renderDisclosure();
+
+// ── STATE ──────────────────────────────────────────────────────
+let unit = localStorage.getItem('dallas2026-unit') || 'F';
+let weatherData = null;
+
+const WX_CODES = {
+  0:  { label: 'Clear Sky',         icon: '☀️' },
+  1:  { label: 'Mostly Clear',      icon: '🌤️' },
+  2:  { label: 'Partly Cloudy',     icon: '⛅' },
+  3:  { label: 'Overcast',          icon: '☁️' },
+  45: { label: 'Foggy',             icon: '🌫️' },
+  48: { label: 'Icy Fog',           icon: '🌫️' },
+  51: { label: 'Light Drizzle',     icon: '🌦️' },
+  53: { label: 'Drizzle',           icon: '🌦️' },
+  61: { label: 'Light Rain',        icon: '🌧️' },
+  63: { label: 'Rain',              icon: '🌧️' },
+  65: { label: 'Heavy Rain',        icon: '⛈️' },
+  71: { label: 'Light Snow',        icon: '🌨️' },
+  80: { label: 'Rain Showers',      icon: '🌦️' },
+  81: { label: 'Showers',           icon: '🌧️' },
+  95: { label: 'Thunderstorms',     icon: '⛈️' },
+  96: { label: 'Thunderstorms + Hail', icon: '⛈️' },
+};
+
+function wxInfo(code) {
+  return WX_CODES[code] || { label: 'Variable', icon: '🌡️' };
+}
+
+// ── UNIT CONVERSION ────────────────────────────────────────────
+function toDisplay(c) {
+  // c is always Celsius from the API
+  return unit === 'F' ? Math.round(c * 9/5 + 32) : Math.round(c);
+}
+function unitLabel() { return unit === 'F' ? '°F' : '°C'; }
+
+function setUnit(u) {
+  unit = u;
+  localStorage.setItem('dallas2026-unit', u);
+  document.getElementById('btn-f').classList.toggle('active', u === 'F');
+  document.getElementById('btn-c').classList.toggle('active', u === 'C');
+  if (weatherData) renderAll();
+}
+
+// ── HEAT LEVEL ────────────────────────────────────────────────
+function heatLevel(tempC) {
+  if (tempC < 27) return { cls:'heat-ok',     icon:'✅', label:'Comfortable', advice:'Pleasant conditions for outdoor activities.' };
+  if (tempC < 33) return { cls:'heat-warm',   icon:'🌤️', label:'Warm',        advice:'Stay hydrated. Apply sunscreen for extended outdoor time.' };
+  if (tempC < 38) return { cls:'heat-hot',    icon:'⚠️', label:'Hot',         advice:'Limit outdoor exposure midday. Carry water at all times. Seek shade.' };
+  return                  { cls:'heat-extreme', icon:'🔴', label:'Extreme Heat', advice:'Avoid outdoor activity 11am–5pm. Risk of heat exhaustion. Seek air conditioning.' };
+}
+
+// ── WIND LABEL ────────────────────────────────────────────────
+function windLabel(ms) {
+  const kph = ms * 3.6;
+  if (kph < 10) return 'Calm';
+  if (kph < 25) return 'Light breeze';
+  if (kph < 40) return 'Moderate';
+  if (kph < 60) return 'Breezy';
+  return 'Windy';
+}
+
+// ── RENDER: CURRENT CONDITIONS ─────────────────────────────────
+function renderCurrent() {
+  const c = weatherData.current;
+  const wx = wxInfo(c.weather_code);
+  const heat = heatLevel(c.temperature_2m);
+  const feelsC = c.apparent_temperature;
+  const windMs = c.wind_speed_10m;
+  const windKph = Math.round(windMs * 3.6);
+  const windMph = Math.round(windMs * 2.237);
+  const windDisplay = unit === 'F' ? `${windMph} mph` : `${windKph} km/h`;
+
+  document.getElementById('current-conditions').innerHTML = `
+    <div style="display:flex;flex-wrap:wrap;gap:12px">
+      <div class="current-card" style="min-width:260px">
+        <div class="current-top">
+          <div>
+            <div class="current-desc">${wx.label}</div>
+            <div class="current-loc">📍 Dallas, TX — Live</div>
+          </div>
+          <div class="current-icon">${wx.icon}</div>
+        </div>
+        <div style="display:flex;align-items:baseline;gap:6px">
+          <div class="current-temp">${toDisplay(c.temperature_2m)}${unitLabel()}</div>
+        </div>
+        <div class="current-feel">Feels like ${toDisplay(feelsC)}${unitLabel()}</div>
+        <div class="current-meta">
+          <div class="cm-cell"><div class="cm-val">${c.relative_humidity_2m}%</div><div class="cm-lbl">Humidity</div></div>
+          <div class="cm-cell"><div class="cm-val">${windDisplay}</div><div class="cm-lbl">Wind</div></div>
+          <div class="cm-cell"><div class="cm-val">${c.precipitation != null ? c.precipitation.toFixed(1)+'mm' : '0mm'}</div><div class="cm-lbl">Precip</div></div>
+        </div>
+      </div>
+      <div class="heat-band ${heat.cls}" style="flex:1;min-width:220px;align-items:flex-start">
+        <span class="hb-icon">${heat.icon}</span>
+        <div class="hb-text"><strong>${heat.label}</strong><br>${heat.advice}</div>
+      </div>
+    </div>`;
+}
+
+// ── RENDER: HOURLY ─────────────────────────────────────────────
+function renderHourly() {
+  const hourly = weatherData.hourly;
+  const now = new Date();
+  const nowHour = now.getHours();
+  const track = document.getElementById('hourly-track');
+
+  // Find current hour index
+  let startIdx = 0;
+  hourly.time.forEach((t, i) => {
+    const h = new Date(t);
+    if (h <= now) startIdx = i;
+  });
+
+  // Show 24 hours from now
+  const slice = hourly.time.slice(startIdx, startIdx + 25);
+  track.innerHTML = slice.map((t, i) => {
+    const h = new Date(t);
+    const hh = h.getHours();
+    const isNow = i === 0;
+    const timeStr = isNow ? 'Now' : (hh === 0 ? 'Midnight' : hh === 12 ? 'Noon' : hh > 12 ? `${hh-12}pm` : `${hh}am`);
+    const idx = startIdx + i;
+    const tempC = hourly.temperature_2m[idx];
+    const rain = hourly.precipitation_probability[idx] || 0;
+    const wx = wxInfo(hourly.weather_code[idx]);
+    return `
+      <div class="hour-cell${isNow ? ' now' : ''}">
+        <div class="hc-time${isNow ? ' now-lbl' : ''}">${timeStr}</div>
+        <span class="hc-icon">${wx.icon}</span>
+        <div class="hc-temp">${toDisplay(tempC)}${unitLabel()}</div>
+        <div class="hc-rain">${rain > 10 ? `${rain}% 💧` : '—'}</div>
+      </div>`;
+  }).join('');
+
+  // Heat warning for peak today
+  const todayTemps = hourly.temperature_2m.slice(startIdx, startIdx + 24);
+  const maxTempC = Math.max(...todayTemps);
+  const heat = heatLevel(maxTempC);
+  const warn = document.getElementById('heat-warning');
+  warn.innerHTML = `
+    <div class="heat-band ${heat.cls}" style="margin-bottom:1rem">
+      <span class="hb-icon">${heat.icon}</span>
+      <div class="hb-text"><strong>Today's peak: ${toDisplay(maxTempC)}${unitLabel()} — ${heat.label}.</strong> ${heat.advice}</div>
+    </div>`;
+}
+
+// ── RENDER: 7-DAY ─────────────────────────────────────────────
+function renderForecast() {
+  const daily = weatherData.daily;
+  const grid = document.getElementById('forecast-grid');
+
+  // Global range for bar scaling
+  const allHi = daily.temperature_2m_max;
+  const allLo = daily.temperature_2m_min;
+  const globalMin = Math.min(...allLo);
+  const globalMax = Math.max(...allHi);
+  const range = globalMax - globalMin || 1;
+
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  grid.innerHTML = daily.time.map((t, i) => {
+    const d = new Date(t + 'T12:00:00');
+    const isToday = i === 0;
+    const dayName = isToday ? 'Today' : days[d.getDay()];
+    const dateStr = `${months[d.getMonth()]} ${d.getDate()}`;
+    const hi = daily.temperature_2m_max[i];
+    const lo = daily.temperature_2m_min[i];
+    const rain = daily.precipitation_probability_max[i] || 0;
+    const wx = wxInfo(daily.weather_code[i]);
+    // Bar: position of lo and width of range relative to global
+    const barLeft = ((lo - globalMin) / range * 100).toFixed(1);
+    const barWidth = ((hi - lo) / range * 100).toFixed(1);
+    return `
+      <div class="forecast-row${isToday ? ' today' : ''}">
+        <div>
+          <div class="fr-day${isToday ? ' today-lbl' : ''}">${dayName}</div>
+          <div style="font-size:.65rem;color:var(--dim);font-weight:300">${dateStr}</div>
+        </div>
+        <div class="fr-icon">${wx.icon}</div>
+        <div class="fr-bar-wrap">
+          <div class="fr-lo">${toDisplay(lo)}°</div>
+          <div class="fr-bar-track">
+            <div class="fr-bar-fill" style="margin-left:${barLeft}%;width:${barWidth}%"></div>
+          </div>
+          <div class="fr-hi">${toDisplay(hi)}°</div>
+        </div>
+        <div class="fr-rain">${rain > 10 ? `${rain}% 💧` : '—'}</div>
+      </div>`;
+  }).join('');
+
+  // Week heat summary
+  const maxWeek = Math.max(...allHi);
+  const heat = heatLevel(maxWeek);
+  document.getElementById('heat-warning-week').innerHTML = `
+    <div class="heat-band ${heat.cls}" style="margin-bottom:1rem">
+      <span class="hb-icon">${heat.icon}</span>
+      <div class="hb-text"><strong>Week peak: ${toDisplay(maxWeek)}${unitLabel()} — ${heat.label}.</strong> ${heat.advice}</div>
+    </div>`;
+
+  // Last updated
+  const now = new Date();
+  document.getElementById('last-updated').textContent =
+    `Updated ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')} local time`;
+}
+
+// ── RENDER: EXTRAS ────────────────────────────────────────────
+function renderExtras() {
+  const c = weatherData.current;
+  const daily = weatherData.daily;
+  const windMs = c.wind_speed_10m;
+  const windDisplay = unit === 'F'
+    ? `${Math.round(windMs * 2.237)} mph`
+    : `${Math.round(windMs * 3.6)} km/h`;
+
+  const uvMax = daily.uv_index_max ? daily.uv_index_max[0] : null;
+  const uvLabel = uvMax == null ? 'N/A' : uvMax <= 2 ? 'Low' : uvMax <= 5 ? 'Moderate' : uvMax <= 7 ? 'High' : uvMax <= 10 ? 'Very High' : 'Extreme';
+
+  const sunrise = daily.sunrise ? daily.sunrise[0].slice(-5) : '--:--';
+  const sunset  = daily.sunset  ? daily.sunset[0].slice(-5)  : '--:--';
+
+  document.getElementById('extras-grid').innerHTML = `
+    <div class="ex-card">
+      <div class="ex-val" style="color:var(--white)">${c.relative_humidity_2m}%</div>
+      <div class="ex-lbl">Humidity</div>
+      <div class="ex-sub">${c.relative_humidity_2m > 70 ? 'Feels muggy' : c.relative_humidity_2m > 50 ? 'Noticeable' : 'Comfortable'}</div>
+    </div>
+    <div class="ex-card">
+      <div class="ex-val" style="color:#64B5F6">${windDisplay}</div>
+      <div class="ex-lbl">Wind Speed</div>
+      <div class="ex-sub">${windLabel(windMs)}</div>
+    </div>
+    ${uvMax != null ? `
+    <div class="ex-card">
+      <div class="ex-val" style="color:${uvMax > 7 ? 'var(--red)' : uvMax > 5 ? '#FF6B35' : 'var(--gold)'}">${uvMax.toFixed(0)}</div>
+      <div class="ex-lbl">UV Index</div>
+      <div class="ex-sub">${uvLabel}</div>
+    </div>` : ''}
+    <div class="ex-card">
+      <div class="ex-val" style="color:#FFF176;font-size:1.2rem">🌅 ${sunrise}</div>
+      <div class="ex-lbl">Sunrise</div>
+      <div class="ex-sub">Dallas local time</div>
+    </div>
+    <div class="ex-card">
+      <div class="ex-val" style="color:#FF8A65;font-size:1.2rem">🌇 ${sunset}</div>
+      <div class="ex-lbl">Sunset</div>
+      <div class="ex-sub">Dallas local time</div>
+    </div>
+    <div class="ex-card">
+      <div class="ex-val" style="color:var(--muted);font-size:1rem">💨</div>
+      <div class="ex-lbl">Wind Dir</div>
+      <div class="ex-sub">${c.wind_direction_10m != null ? c.wind_direction_10m + '°' : 'N/A'}</div>
+    </div>`;
+}
+
+// ── RENDER ALL ─────────────────────────────────────────────────
+function renderAll() {
+  if (!weatherData) return;
+  renderCurrent();
+  renderHourly();
+  renderForecast();
+  renderExtras();
+}
+
+// ── FETCH WEATHER ─────────────────────────────────────────────
+async function fetchWeather() {
+  try {
+    const url = [
+      'https://api.open-meteo.com/v1/forecast',
+      '?latitude=32.7767',
+      '&longitude=-96.7970',
+      '&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m,precipitation',
+      '&hourly=temperature_2m,weather_code,precipitation_probability',
+      '&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_probability_max,uv_index_max,sunrise,sunset',
+      '&temperature_unit=celsius',
+      '&wind_speed_unit=ms',
+      '&timezone=America%2FChicago',
+      '&forecast_days=7'
+    ].join('');
+
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('API error');
+    weatherData = await res.json();
+
+    // Apply saved unit preference
+    document.getElementById('btn-f').classList.toggle('active', unit === 'F');
+    document.getElementById('btn-c').classList.toggle('active', unit === 'C');
+
+    renderAll();
+  } catch(e) {
+    document.getElementById('current-conditions').innerHTML = `
+      <div class="w-error">
+        Unable to load weather data. Please check your connection and
+        <a href="https://www.weather.gov/fwd" target="_blank" rel="noopener" style="color:var(--white)">visit NWS Dallas ↗</a> for the latest forecast.
+      </div>`;
+    ['hourly-track','forecast-grid','extras-grid'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = '';
+    });
+  }
+}
+
+fetchWeather();
+// Refresh every 15 minutes
+setInterval(fetchWeather, 15 * 60 * 1000);
+</script>
+</body>
+</html>

@@ -10,17 +10,25 @@
 .ic{background:var(--card);padding:1.2rem}
 .ic-lbl{font-family:var(--fh);font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
 .ic-val{font-size:.85rem;color:var(--text);line-height:1.5;font-weight:300}
-.ic-val a{color:var(--gold)}
+.ic-val a{color:var(--white)}
 .tips-list{display:flex;flex-direction:column;gap:8px;margin-bottom:2rem}
 .tip-item{display:flex;gap:10px;padding:.85rem 1rem;background:var(--card);border-left:3px solid var(--gold);font-size:.82rem;color:var(--muted);line-height:1.55;font-weight:300}
-.tip-num{font-family:var(--fh);font-weight:700;color:var(--gold);flex-shrink:0;min-width:24px}
+.tip-num{font-family:var(--fh);font-weight:700;color:var(--white);flex-shrink:0;min-width:24px}
 </style>
 </head>
 <body>
 <div id="affiliate-disclosure"></div>
 <nav id="main-nav"></nav>
 <div class="page-hero" style="margin-top:56px">
-  <div class="page-hero-bg"></div>
+  <div class="page-hero-bg"></div>  <!-- Texas Flag subtle overlay -->
+  <div style="position:absolute;right:0;top:0;bottom:0;width:50%;pointer-events:none;z-index:0;overflow:hidden;opacity:0.06">
+    <svg viewBox="0 0 900 600" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="300" height="600" fill="#002868"/>
+      <rect x="300" y="0" width="600" height="300" fill="#BF0A30"/>
+      <rect x="300" y="300" width="600" height="300" fill="#F0EDE8"/>
+      <polygon points="150,120 163,162 207,162 172,187 185,229 150,204 115,229 128,187 93,162 137,162" fill="#F0EDE8"/>
+    </svg>
+  </div>
   <div class="page-hero-content">
     <div class="breadcrumb">
       <a href="../index.html">Home</a><span>/</span>
@@ -29,7 +37,7 @@
     </div>
     <h1><em>Pecan Lodge</em></h1>
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:.85rem;flex-wrap:wrap">
-      <span style="font-size:1.1rem;color:var(--gold);letter-spacing:.05em">★★★★★</span>
+      <span style="font-size:1.1rem;color:var(--white);letter-spacing:.05em">★★★★★</span>
       <span style="font-family:var(--fh);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">$$ · Mid-range</span>
     </div>
     <p class="page-hero-sub">Best brisket in Dallas. Insane burnt ends. Lines start at 11am — get there early or expect a 90-min wait.</p>

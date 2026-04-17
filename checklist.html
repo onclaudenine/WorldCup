@@ -13,7 +13,7 @@
 .prog-bar-wrap{background:var(--card);border:1px solid var(--border);padding:1.1rem 1.4rem;display:flex;align-items:center;gap:1.5rem;margin-bottom:1.5rem}
 .prog-bar{flex:1;height:4px;background:var(--border2);border-radius:2px;overflow:hidden}
 .prog-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .3s}
-.prog-num{font-family:var(--fh);font-size:1.4rem;font-weight:900;color:var(--gold);white-space:nowrap}
+.prog-num{font-family:var(--fh);font-size:1.4rem;font-weight:900;color:var(--white);white-space:nowrap}
 .prog-lbl{font-family:var(--fh);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
 </style>
 </head>
@@ -21,7 +21,15 @@
 <div id="affiliate-disclosure"></div>
 <nav id="main-nav"></nav>
 <div class="page-hero" style="margin-top:56px">
-  <div class="page-hero-bg"></div>
+  <div class="page-hero-bg"></div>  <!-- Texas Flag subtle overlay -->
+  <div style="position:absolute;right:0;top:0;bottom:0;width:50%;pointer-events:none;z-index:0;overflow:hidden;opacity:0.06">
+    <svg viewBox="0 0 900 600" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="300" height="600" fill="#002868"/>
+      <rect x="300" y="0" width="600" height="300" fill="#BF0A30"/>
+      <rect x="300" y="300" width="600" height="300" fill="#F0EDE8"/>
+      <polygon points="150,120 163,162 207,162 172,187 185,229 150,204 115,229 128,187 93,162 137,162" fill="#F0EDE8"/>
+    </svg>
+  </div>
   <div class="page-hero-content">
     <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span style="color:var(--text)">Checklist</span></div>
     <h1>Match Day <em>Checklist</em></h1>
@@ -83,7 +91,7 @@ function renderChecklist() {
         ${g.items.map((item,ii) => {
           const key = gi+'_'+ii, done = checks[key];
           return `<div class="cl-item${done?' done':''}" onclick="toggle('${key}',this)">
-            <div class="cl-check" style="width:18px;height:18px;border:1.5px solid var(--border2);border-radius:2px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;${done?'background:var(--gold);border-color:var(--gold);color:var(--dark)':''}">${done?'✓':''}</div>
+            <div class="cl-check" style="width:18px;height:18px;border:1.5px solid var(--border2);border-radius:2px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;${done?'background:var(--gold);border-color:var(--white);color:var(--dark)':''}">${done?'✓':''}</div>
             <div class="cl-label" style="font-size:.8rem;color:var(--muted);font-weight:300;line-height:1.4;${done?'text-decoration:line-through;color:var(--dim)':''}">${item}</div>
           </div>`;
         }).join('')}

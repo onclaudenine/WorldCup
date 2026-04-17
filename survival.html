@@ -15,14 +15,22 @@
 .surv-items{list-style:none;display:flex;flex-direction:column;gap:6px}
 .surv-items li{font-size:.78rem;color:var(--muted);line-height:1.55;font-weight:300;display:flex;gap:7px;align-items:flex-start}
 .surv-items li::before{content:'—';color:var(--red);flex-shrink:0;margin-top:1px}
-.surv-items a{color:var(--gold)}
+.surv-items a{color:var(--white)}
 </style>
 </head>
 <body>
 <div id="affiliate-disclosure"></div>
 <nav id="main-nav"></nav>
 <div class="page-hero" style="margin-top:56px">
-  <div class="page-hero-bg"></div>
+  <div class="page-hero-bg"></div>  <!-- Texas Flag subtle overlay -->
+  <div style="position:absolute;right:0;top:0;bottom:0;width:50%;pointer-events:none;z-index:0;overflow:hidden;opacity:0.06">
+    <svg viewBox="0 0 900 600" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="300" height="600" fill="#002868"/>
+      <rect x="300" y="0" width="600" height="300" fill="#BF0A30"/>
+      <rect x="300" y="300" width="600" height="300" fill="#F0EDE8"/>
+      <polygon points="150,120 163,162 207,162 172,187 185,229 150,204 115,229 128,187 93,162 137,162" fill="#F0EDE8"/>
+    </svg>
+  </div>
   <div class="page-hero-content">
     <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span style="color:var(--text)">Survival Guide</span></div>
     <h1>Survival <em>Guide</em></h1>
@@ -43,9 +51,15 @@
     <div class="surv-card"><div class="surv-head"><span class="surv-ico">🌐</span><span class="surv-title">Useful Resources</span></div><ul class="surv-items"><li><a href="https://www.visitdallas.com" target="_blank" rel="noopener">Visit Dallas official tourism ↗</a></li><li><a href="https://www.fifa.com/fifaplus/en/tournaments/mens/worldcup/canadamexicousa2026" target="_blank" rel="noopener">FIFA World Cup 2026 official ↗</a></li><li><a href="https://www.dart.org" target="_blank" rel="noopener">DART transit trip planner ↗</a></li><li><a href="https://www.weather.gov/fwd" target="_blank" rel="noopener">Dallas weather forecast (NWS) ↗</a></li><li><a href="https://esta.cbp.dhs.gov" target="_blank" rel="noopener">US ESTA visa waiver application ↗</a></li></ul></div>
   </div>
 </section>
+<section>
+  <div class="sec-label">Live Conditions</div>
+  <div class="sec-title" style="margin-bottom:1.25rem">Dallas <em>Weather</em></div>
+  <p style="font-size:.82rem;color:var(--muted);font-weight:300;max-width:540px;line-height:1.65;margin-bottom:1.25rem">Real-time Dallas weather — toggle between °F and °C. Plan your outdoor activities around the heat.</p>
+  <div id="survival-weather" style="max-width:700px"></div>
+</section>
 <footer id="main-footer"></footer>
 <script src="js/site.js"></script>
 <script src="js/affiliate.js"></script>
-<script>renderNav(); renderFooter(); renderDisclosure();</script>
+<script>renderNav(); renderFooter(); renderDisclosure(); renderWeatherWidget('survival-weather');</script>
 </body>
 </html>

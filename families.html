@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Family Activities — Dallas 2026</title>
+<meta name="description" content="Best family activities in and around Dallas for FIFA World Cup 2026 — museums, theme parks, water parks, zoos, and more with transit directions.">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+.activity-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.activity-card{background:var(--card);border:1px solid var(--border);display:block;
+  text-decoration:none;color:inherit;transition:border-color .18s,transform .15s;position:relative;overflow:hidden}
+.activity-card:hover{border-color:rgba(240,237,232,.4);transform:translateY(-3px)}
+.ac-hero{background:var(--mid);padding:1.5rem 1.5rem 1rem;border-bottom:1px solid var(--border)}
+.ac-icon{font-size:2.2rem;margin-bottom:.6rem;display:block}
+.ac-name{font-family:var(--fh);font-weight:900;font-size:1.15rem;text-transform:uppercase;
+  letter-spacing:.02em;margin-bottom:.25rem;line-height:1}
+.ac-area{font-size:.7rem;color:var(--white);font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.ac-body{padding:1.1rem 1.5rem 1.25rem}
+.ac-desc{font-size:.8rem;color:var(--muted);line-height:1.65;font-weight:300;margin-bottom:.85rem}
+.ac-meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.85rem}
+.meta-pill{font-size:.62rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  padding:3px 8px;border:1px solid var(--border2);color:var(--muted)}
+.meta-pill.transit-yes{border-color:rgba(76,175,80,.3);color:#81C784;background:rgba(76,175,80,.07)}
+.meta-pill.transit-no{border-color:rgba(191,10,48,.25);color:#ff4d6d;background:rgba(191,10,48,.07)}
+.ac-tags{display:flex;gap:5px;flex-wrap:wrap}
+.ac-tag{font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:2px 7px;background:rgba(240,237,232,.09);color:var(--white);border:1px solid rgba(240,237,232,.2)}
+.ac-arrow{position:absolute;bottom:1.1rem;right:1.1rem;font-family:var(--fh);font-weight:700;
+  color:var(--dim);font-size:1.1rem;transition:color .18s,transform .18s}
+.activity-card:hover .ac-arrow{color:var(--white);transform:translate(2px,-2px)}
+.tab-bar{display:flex;border-bottom:1px solid var(--border);margin-bottom:2rem;overflow-x:auto}
+.tab{font-family:var(--fh);font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);border:none;background:none;padding:11px 18px;cursor:pointer;
+  border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s}
+.tab.active,.tab:hover{color:var(--white);border-color:var(--white)}
+.heat-alert{background:rgba(191,10,48,.08);border:1px solid rgba(191,10,48,.25);border-left:3px solid var(--red);
+  padding:1rem 1.25rem;margin-bottom:2rem;display:flex;gap:12px;align-items:flex-start}
+.heat-alert-text{font-size:.82rem;color:var(--muted);line-height:1.6;font-weight:300}
+.heat-alert-text strong{color:var(--text);font-weight:500}
+.transit-legend{display:flex;gap:1.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.tl-item{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--muted);font-weight:300}
+.tl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+</style>
+</head>
+<body>
+<div id="affiliate-disclosure"></div>
+<nav id="main-nav"></nav>
+
+<div class="page-hero" style="margin-top:56px">
+  <div class="page-hero-bg"></div>  <!-- Texas Flag subtle overlay -->
+  <div style="position:absolute;right:0;top:0;bottom:0;width:50%;pointer-events:none;z-index:0;overflow:hidden;opacity:0.06">
+    <svg viewBox="0 0 900 600" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="300" height="600" fill="#002868"/>
+      <rect x="300" y="0" width="600" height="300" fill="#BF0A30"/>
+      <rect x="300" y="300" width="600" height="300" fill="#F0EDE8"/>
+      <polygon points="150,120 163,162 207,162 172,187 185,229 150,204 115,229 128,187 93,162 137,162" fill="#F0EDE8"/>
+    </svg>
+  </div>
+  <div class="page-hero-content">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span style="color:var(--text)">Family Activities</span></div>
+    <h1>Family <em>Dallas</em></h1>
+    <p class="page-hero-sub">The best things to do with kids in and around Dallas during the World Cup — museums, theme parks, water parks, zoos, and Texas experiences they'll never forget.</p>
+    <div class="page-hero-tags">
+      <span class="tag tag-gold">10 Attractions</span>
+      <span class="tag tag-blue">All Ages</span>
+      <span class="tag tag-green">Transit Info Included</span>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="heat-alert">
+    <span style="font-size:1.2rem;flex-shrink:0">🌡️</span>
+    <div class="heat-alert-text">
+      <strong>Summer heat warning:</strong> Dallas in June and July regularly hits 100–105°F (38–40°C).
+      Schedule outdoor activities for early morning (9–11am) or late afternoon (after 5pm).
+      Water parks, museums, and air-conditioned venues are the best midday choices for families.
+    </div>
+  </div>
+
+  <div class="sec-label">10 Attractions for Families</div>
+  <div class="sec-title">Things to <em>Do</em></div>
+
+  <div class="transit-legend">
+    <div class="tl-item"><div class="tl-dot" style="background:#4CAF50"></div>DART/TRE rail accessible</div>
+    <div class="tl-item"><div class="tl-dot" style="background:#BF0A30"></div>Car or rideshare required</div>
+  </div>
+
+  <div class="tab-bar" id="fam-tabs">
+    <button class="tab active" onclick="filterActs(event,'all')">All Activities</button>
+    <button class="tab" onclick="filterActs(event,'museum')">Museums</button>
+    <button class="tab" onclick="filterActs(event,'outdoors')">Outdoors</button>
+    <button class="tab" onclick="filterActs(event,'indoor')">Indoor</button>
+    <button class="tab" onclick="filterActs(event,'themepark')">Theme Parks</button>
+    <button class="tab" onclick="filterActs(event,'landmark')">Landmarks</button>
+    <button class="tab" onclick="filterActs(event,'stadium')">Stadiums</button>
+    <button class="tab" onclick="filterActs(event,'dart')">🚆 DART Only</button>
+  </div>
+
+  <div class="activity-grid" id="activity-grid"></div>
+</section>
+
+<!-- BOOKING WIDGET -->
+<section style="background:var(--mid)">
+  <div id="families-booking"></div>
+</section>
+
+<!-- TRANSIT GUIDE -->
+<section style="background:var(--dark)">
+  <div class="sec-label">Getting Around with Kids</div>
+  <div class="sec-title">Family <em>Transit Guide</em></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px">
+
+    <div style="background:var(--card);border:1px solid var(--border);padding:1.4rem">
+      <div style="font-size:1.3rem;margin-bottom:.65rem">🚆</div>
+      <div style="font-family:var(--fh);font-weight:700;font-size:.95rem;text-transform:uppercase;margin-bottom:.4rem">DART Light Rail</div>
+      <div style="font-size:.7rem;color:var(--white);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5rem">Best for: Zoo, Perot Museum, Reunion Tower</div>
+      <div style="font-size:.78rem;color:var(--muted);line-height:1.65;font-weight:300;margin-bottom:.85rem">The easiest transit for families. Kids under 5 ride free with a paying adult. Download the GoPass app before you arrive and load transit credit.</div>
+      <a href="https://www.dart.org" target="_blank" rel="noopener" class="ext-link" style="font-size:.65rem">DART Trip Planner ↗</a>
+    </div>
+
+    <div style="background:var(--card);border:1px solid var(--border);padding:1.4rem">
+      <div style="font-size:1.3rem;margin-bottom:.65rem">🚗</div>
+      <div style="font-family:var(--fh);font-weight:700;font-size:.95rem;text-transform:uppercase;margin-bottom:.4rem">Rental Car</div>
+      <div style="font-size:.7rem;color:var(--white);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5rem">Best for: LEGOLAND, Water Park, Six Flags, Stockyards</div>
+      <div style="font-size:.78rem;color:var(--muted);line-height:1.65;font-weight:300;margin-bottom:.85rem">Many of the best family attractions aren't on the rail network. A rental car from DFW Airport gives maximum flexibility. Book early — prices spike in June.</div>
+      <a href="https://www.rentalcars.com/" target="_blank" rel="noopener sponsored" class="ext-link" style="font-size:.65rem">Compare Rental Cars ↗</a>
+    </div>
+
+    <div style="background:var(--card);border:1px solid var(--border);padding:1.4rem">
+      <div style="font-size:1.3rem;margin-bottom:.65rem">🚕</div>
+      <div style="font-family:var(--fh);font-weight:700;font-size:.95rem;text-transform:uppercase;margin-bottom:.4rem">Uber / Lyft with Kids</div>
+      <div style="font-size:.7rem;color:var(--white);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5rem">Texas law: child seats not required in rideshares</div>
+      <div style="font-size:.78rem;color:var(--muted);line-height:1.65;font-weight:300;margin-bottom:.85rem">Texas law exempts rideshare passengers from child seat requirements, though bringing a portable seat is always safer. Uber and Lyft have large vehicle options for groups.</div>
+      <a href="https://www.uber.com" target="_blank" rel="noopener" class="ext-link" style="font-size:.65rem">Book Uber ↗</a>
+    </div>
+
+    <div style="background:var(--card);border:1px solid var(--border);padding:1.4rem">
+      <div style="font-size:1.3rem;margin-bottom:.65rem">🚌</div>
+      <div style="font-family:var(--fh);font-weight:700;font-size:.95rem;text-transform:uppercase;margin-bottom:.4rem">TRE Rail + Transfer</div>
+      <div style="font-size:.7rem;color:var(--white);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5rem">Best for: Fort Worth Stockyards day trip</div>
+      <div style="font-size:.78rem;color:var(--muted);line-height:1.65;font-weight:300;margin-bottom:.85rem">The Trinity Railway Express connects Dallas Union Station to Fort Worth in 55 min. From Fort Worth T&P Station, take an Uber to the Stockyards (~$10). A great half-day family adventure.</div>
+      <a href="https://www.dart.org/guide/transit-and-vehicle-guides/rail/trinity-railway-express" target="_blank" rel="noopener" class="ext-link" style="font-size:.65rem">TRE Schedule ↗</a>
+    </div>
+
+  </div>
+</section>
+
+
+<section style="background:var(--mid)">
+  <div class="sec-label">Plan Around the Heat</div>
+  <div class="sec-title" style="margin-bottom:1rem">Dallas <em>Weather</em></div>
+  <p style="font-size:.82rem;color:var(--muted);font-weight:300;max-width:540px;line-height:1.65;margin-bottom:1.25rem">Check conditions before heading out — especially important for outdoor activities like the Zoo, Arboretum, and Six Flags.</p>
+  <div id="fam-weather" style="max-width:700px"></div>
+</section>
+<footer id="main-footer"></footer>
+<script src="js/site.js"></script>
+<script src="js/affiliate.js"></script>
+<script>
+renderNav(); renderFooter(); renderDisclosure(); renderWeatherWidget("fam-weather");
+
+let activeCat = 'all';
+
+function filterActs(e, cat) {
+  activeCat = cat;
+  document.querySelectorAll('#fam-tabs .tab').forEach(t => t.classList.remove('active'));
+  e.target.classList.add('active');
+  renderActivities();
+}
+
+function renderActivities() {
+  const grid = document.getElementById('activity-grid');
+  let visible = FAMILY_ACTIVITIES;
+  if (activeCat === 'dart') {
+    visible = FAMILY_ACTIVITIES.filter(a => a.transit.dart);
+  } else if (activeCat !== 'all') {
+    visible = FAMILY_ACTIVITIES.filter(a => a.cat === activeCat);
+  }
+  if (visible.length === 0) {
+    grid.innerHTML = `<div style="grid-column:1/-1;padding:2rem;color:var(--muted);font-size:.85rem">No activities found for this filter.</div>`;
+    return;
+  }
+  grid.innerHTML = visible.map((a, i) => `
+    <a href="activities/${a.slug}.html" class="activity-card fade-up" style="animation-delay:${i * .06}s">
+      <div class="ac-hero">
+        <span class="ac-icon">${a.icon}</span>
+        <div class="ac-name">${a.name}</div>
+        <div class="ac-area">📍 ${a.area}</div>
+      </div>
+      <div class="ac-body">
+        <div class="ac-desc">${a.desc}</div>
+        <div class="ac-meta">
+          <span class="meta-pill">⏱ ${a.duration}</span>
+          <span class="meta-pill">👨‍👩‍👧 ${a.age}</span>
+          <span class="meta-pill">${a.indoorOutdoor}</span>
+          <span class="meta-pill ${a.transit.dart ? 'transit-yes' : 'transit-no'}">${a.transit.dart ? '🚆 DART' : '🚗 Drive/Ride'}</span>
+        </div>
+        <div class="ac-tags">${a.tags.map(t => `<span class="ac-tag">${t}</span>`).join('')}</div>
+      </div>
+      <span class="ac-arrow">→</span>
+    </a>`).join('');
+}
+
+renderActivities();
+
+renderBookingSection('families-booking', {
+  title: 'Plan Your Family Stay',
+  subtitle: 'Hotels with pools are in high demand during the World Cup. Book early, especially near the best family attractions.',
+  showHotels: true,
+  showFlights: true,
+  showCars: true,
+  showBus: false,
+  showTuro: true,
+  showActivities: true,
+  hotelLocation: 'Dallas Texas family hotel',
+  compact: false,
+});
+</script>
+</body>
+</html>

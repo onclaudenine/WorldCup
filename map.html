@@ -11,22 +11,22 @@
 .map-filter-title{font-family:var(--fh);font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding:.85rem 1rem .4rem}
 .cat-btn{display:flex;align-items:center;gap:10px;padding:.7rem 1rem;cursor:pointer;border:none;background:none;color:var(--muted);width:100%;text-align:left;transition:all .15s;border-left:3px solid transparent}
 .cat-btn:hover{background:rgba(255,255,255,.03);color:var(--text)}
-.cat-btn.active{background:rgba(245,168,0,.07);color:var(--gold);border-left-color:var(--gold)}
+.cat-btn.active{background:rgba(240,237,232,.07);color:var(--white);border-left-color:var(--white)}
 .cat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .cat-name{font-family:var(--fh);font-size:.82rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
 .places-list{border-top:1px solid var(--border);overflow-y:auto;flex:1}
 .place-item{padding:.85rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;text-decoration:none;display:block;color:inherit}
-.place-item:hover,.place-item.sel{background:rgba(245,168,0,.06)}
+.place-item:hover,.place-item.sel{background:rgba(240,237,232,.06)}
 .pi-name{font-family:var(--fh);font-size:.88rem;font-weight:700;text-transform:uppercase;letter-spacing:.02em;margin-bottom:2px}
 .pi-type{font-size:.68rem;color:var(--muted);font-weight:300}
-.pi-action{font-size:.65rem;color:var(--gold);margin-top:3px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.pi-action{font-size:.65rem;color:var(--white);margin-top:3px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
 .map-canvas{position:relative;overflow:hidden;background:var(--mid)}
 .map-svg{width:100%;height:100%}
 .tooltip{position:absolute;background:var(--card);border:1px solid var(--border2);padding:.65rem .9rem;
   pointer-events:none;opacity:0;transition:opacity .15s;max-width:200px;z-index:10}
 .tt-name{font-family:var(--fh);font-weight:700;font-size:.9rem;text-transform:uppercase;margin-bottom:3px}
 .tt-desc{font-size:.72rem;color:var(--muted);font-weight:300;line-height:1.5;margin-bottom:4px}
-.tt-link{font-size:.65rem;color:var(--gold);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.tt-link{font-size:.65rem;color:var(--white);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
 @media(max-width:600px){.map-wrap{grid-template-columns:1fr;height:auto}.map-sidebar{height:180px}.map-canvas{height:340px}}
 </style>
 </head>
@@ -46,22 +46,22 @@
     <div class="map-sidebar">
       <div class="map-filter-title">Filter by Category</div>
       <button class="cat-btn active" data-cat="all"><span class="cat-dot" style="background:#888"></span><span class="cat-name">All</span></button>
-      <button class="cat-btn" data-cat="stadium"><span class="cat-dot" style="background:#C8102E"></span><span class="cat-name">Stadium</span></button>
+      <button class="cat-btn" data-cat="stadium"><span class="cat-dot" style="background:#BF0A30"></span><span class="cat-name">Stadium</span></button>
       <button class="cat-btn" data-cat="transit"><span class="cat-dot" style="background:#4CAF50"></span><span class="cat-name">Transit</span></button>
-      <button class="cat-btn" data-cat="food"><span class="cat-dot" style="background:#F5A800"></span><span class="cat-name">Food & Drink</span></button>
+      <button class="cat-btn" data-cat="food"><span class="cat-dot" style="background:#F0EDE8"></span><span class="cat-name">Food & Drink</span></button>
       <button class="cat-btn" data-cat="hotel"><span class="cat-dot" style="background:#2196F3"></span><span class="cat-name">Hotels</span></button>
       <button class="cat-btn" data-cat="fanzone"><span class="cat-dot" style="background:#9C27B0"></span><span class="cat-name">Fan Zones</span></button>
       <div class="places-list" id="places-list"></div>
     </div>
     <div class="map-canvas" id="map-canvas">
       <svg class="map-svg" viewBox="0 0 700 540" id="map-svg" xmlns="http://www.w3.org/2000/svg">
-        <rect width="700" height="540" fill="#10162A"/>
-        <line x1="0" y1="200" x2="700" y2="200" stroke="#1C2540" stroke-width="9"/>
-        <line x1="0" y1="330" x2="700" y2="330" stroke="#1C2540" stroke-width="6"/>
-        <line x1="195" y1="0" x2="195" y2="540" stroke="#1C2540" stroke-width="9"/>
-        <line x1="450" y1="0" x2="450" y2="540" stroke="#1C2540" stroke-width="6"/>
-        <line x1="0" y1="265" x2="700" y2="265" stroke="#161D33" stroke-width="2.5"/>
-        <line x1="320" y1="0" x2="320" y2="540" stroke="#161D33" stroke-width="2.5"/>
+        <rect width="700" height="540" fill="#081020"/>
+        <line x1="0" y1="200" x2="700" y2="200" stroke="#132035" stroke-width="9"/>
+        <line x1="0" y1="330" x2="700" y2="330" stroke="#132035" stroke-width="6"/>
+        <line x1="195" y1="0" x2="195" y2="540" stroke="#132035" stroke-width="9"/>
+        <line x1="450" y1="0" x2="450" y2="540" stroke="#132035" stroke-width="6"/>
+        <line x1="0" y1="265" x2="700" y2="265" stroke="#0D1828" stroke-width="2.5"/>
+        <line x1="320" y1="0" x2="320" y2="540" stroke="#0D1828" stroke-width="2.5"/>
         <text x="97" y="193" fill="#253060" font-family="'Barlow Condensed'" font-size="9" font-weight="700" text-anchor="middle">I-30 WEST →</text>
         <text x="590" y="193" fill="#253060" font-family="'Barlow Condensed'" font-size="9" font-weight="700" text-anchor="middle">← I-30 EAST (DALLAS)</text>
         <text x="191" y="80" fill="#253060" font-family="'Barlow Condensed'" font-size="8" font-weight="700" text-anchor="end" transform="rotate(-90 191 80)">I-35E NORTH</text>
@@ -92,17 +92,17 @@
 renderNav(); renderFooter(); renderDisclosure();
 
 const PLACES = [
-  {id:1,name:'AT&T Stadium',cat:'stadium',desc:'FIFA WC 2026 venue. Cap. 105,000.',link:'https://maps.google.com/?q=AT%26T+Stadium+Arlington+TX',href:'matches.html',x:118,y:290,color:'#C8102E',r:11},
+  {id:1,name:'AT&T Stadium',cat:'stadium',desc:'FIFA WC 2026 venue. Cap. 105,000.',link:'https://maps.google.com/?q=AT%26T+Stadium+Arlington+TX',href:'matches.html',x:118,y:290,color:'#BF0A30',r:11},
   {id:2,name:'CentrePort/DFW Station',cat:'transit',desc:'TRE rail stop & FIFA shuttle hub.',link:'https://maps.google.com/?q=CentrePort+Station+DFW',href:'logistics.html',x:265,y:365,color:'#4CAF50',r:7},
   {id:3,name:'Union Station Dallas',cat:'transit',desc:'Downtown Dallas TRE/DART hub.',link:'https://maps.google.com/?q=Union+Station+Dallas+TX',href:'logistics.html',x:440,y:225,color:'#4CAF50',r:7},
   {id:4,name:'Fort Worth TRE Station',cat:'transit',desc:'TRE start point from Fort Worth.',link:'https://maps.google.com/?q=Fort+Worth+Intermodal+Center',href:'logistics.html',x:60,y:175,color:'#4CAF50',r:7},
   {id:5,name:'Omni Dallas Hotel',cat:'hotel',desc:'Connected to Convention Center.',link:'https://maps.google.com/?q=Omni+Dallas+Hotel',href:null,x:435,y:245,color:'#2196F3',r:6},
   {id:6,name:'Marriott Uptown',cat:'hotel',desc:'Walkable to restaurants and DART.',link:'https://maps.google.com/?q=Marriott+Dallas+Uptown',href:null,x:465,y:185,color:'#2196F3',r:6},
   {id:7,name:'Sheraton Arlington',cat:'hotel',desc:'Closest hotel to AT&T Stadium.',link:'https://maps.google.com/?q=Sheraton+Arlington+Hotel+Texas',href:null,x:155,y:275,color:'#2196F3',r:6},
-  {id:8,name:'Pecan Lodge BBQ',cat:'food',desc:'Best brisket in Dallas. Deep Ellum.',link:'https://maps.google.com/?q=Pecan+Lodge+Dallas',href:'restaurants/pecan-lodge.html',x:488,y:238,color:'#F5A800',r:6},
-  {id:9,name:'Revolver Taco',cat:'food',desc:'Chef-driven tacos. Deep Ellum.',link:'https://maps.google.com/?q=Revolver+Taco+Dallas',href:'restaurants/revolver-taco.html',x:475,y:250,color:'#F5A800',r:6},
-  {id:10,name:'Heim BBQ Fort Worth',cat:'food',desc:'Best BBQ closest to the stadium.',link:'https://maps.google.com/?q=Heim+BBQ+Fort+Worth',href:'restaurants/heim-bbq.html',x:85,y:205,color:'#F5A800',r:6},
-  {id:11,name:'HG Sply Co',cat:'food',desc:'Rooftop bar. Best pre-match spot.',link:'https://maps.google.com/?q=HG+Sply+Co+Dallas',href:'restaurants/hg-sply-co.html',x:500,y:195,color:'#F5A800',r:6},
+  {id:8,name:'Pecan Lodge BBQ',cat:'food',desc:'Best brisket in Dallas. Deep Ellum.',link:'https://maps.google.com/?q=Pecan+Lodge+Dallas',href:'restaurants/pecan-lodge.html',x:488,y:238,color:'#F0EDE8',r:6},
+  {id:9,name:'Revolver Taco',cat:'food',desc:'Chef-driven tacos. Deep Ellum.',link:'https://maps.google.com/?q=Revolver+Taco+Dallas',href:'restaurants/revolver-taco.html',x:475,y:250,color:'#F0EDE8',r:6},
+  {id:10,name:'Heim BBQ Fort Worth',cat:'food',desc:'Best BBQ closest to the stadium.',link:'https://maps.google.com/?q=Heim+BBQ+Fort+Worth',href:'restaurants/heim-bbq.html',x:85,y:205,color:'#F0EDE8',r:6},
+  {id:11,name:'HG Sply Co',cat:'food',desc:'Rooftop bar. Best pre-match spot.',link:'https://maps.google.com/?q=HG+Sply+Co+Dallas',href:'restaurants/hg-sply-co.html',x:500,y:195,color:'#F0EDE8',r:6},
   {id:12,name:'West 7th Fan Zone',cat:'fanzone',desc:'Official FIFA fan zone, Fort Worth.',link:'https://maps.google.com/?q=West+7th+Fort+Worth+TX',href:null,x:88,y:235,color:'#9C27B0',r:7},
   {id:13,name:'Reunion Tower Fan Fest',cat:'fanzone',desc:'Dallas fan gathering, downtown.',link:'https://maps.google.com/?q=Reunion+Tower+Dallas+TX',href:null,x:420,y:260,color:'#9C27B0',r:7},
   {id:14,name:'Deep Ellum Fan Walk',cat:'fanzone',desc:'Bars & live music all World Cup.',link:'https://maps.google.com/?q=Deep+Ellum+Dallas+TX',href:'neighborhoods/deep-ellum.html',x:495,y:222,color:'#9C27B0',r:7},
@@ -126,7 +126,7 @@ function renderMap() {
     if (p.cat === 'stadium') {
       const lbl = document.createElementNS('http://www.w3.org/2000/svg','text');
       lbl.setAttribute('x',p.x); lbl.setAttribute('y',p.y-15);
-      lbl.setAttribute('text-anchor','middle'); lbl.setAttribute('fill','#C8102E');
+      lbl.setAttribute('text-anchor','middle'); lbl.setAttribute('fill','#BF0A30');
       lbl.setAttribute('font-family',"'Barlow Condensed'"); lbl.setAttribute('font-size','8');
       lbl.setAttribute('font-weight','700'); lbl.textContent = 'AT&T STADIUM';
       g.appendChild(lbl);
