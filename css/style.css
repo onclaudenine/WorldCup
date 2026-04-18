@@ -509,10 +509,6 @@ html.light .mobile-nav-link:hover,html.light .mobile-nav-link.active{color:#fff}
 
 /* ── TOUCH: larger tap targets ── */
 @media(hover:none){
-  /* Only enlarge nav-links a when the nav is actually visible (desktop-width touch screens) */
-  @media(min-width:769px){
-    .nav-links a{min-height:44px;display:flex;align-items:center;line-height:1}
-  }
   .tab,.mobile-nav-link,.cl-item{min-height:44px;display:flex;align-items:center}
   .match-row{cursor:default}
   .cal-link{padding:8px 14px}
@@ -556,3 +552,9 @@ footer{padding-bottom:max(2.5rem,env(safe-area-inset-bottom))}
 .mobile-nav-drawer{padding-bottom:max(1rem,env(safe-area-inset-bottom))}
 
 html.light .hamburger span{background:#fff}
+
+/* ── DESKTOP NAV ALWAYS VISIBLE ── */
+@media(min-width:769px){
+  .nav-links{display:flex !important}
+  .hamburger{display:none !important}
+}

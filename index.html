@@ -113,17 +113,13 @@
       <span class="badge-lbl" data-i18n="home_days_away">Days Away</span>
     </div>
     <div class="weather-card" style="position:relative">
-      <!-- °F / °C toggle in top-right corner -->
-      <div style="position:absolute;top:8px;right:8px;display:flex;border:1px solid rgba(240,237,232,.25);overflow:hidden;border-radius:2px">
-        <button id="hw-f" onclick="heroWeatherUnit('F')"
-          style="font-family:var(--fh);font-size:.6rem;font-weight:700;padding:3px 7px;border:none;
-                 cursor:pointer;transition:all .15s;background:rgba(240,237,232,.9);color:var(--navy)"
-          title="Switch to Fahrenheit">°F</button>
-        <button id="hw-c" onclick="heroWeatherUnit('C')"
-          style="font-family:var(--fh);font-size:.6rem;font-weight:700;padding:3px 7px;border:none;
-                 cursor:pointer;transition:all .15s;background:transparent;color:rgba(240,237,232,.5)"
-          title="Switch to Celsius">°C</button>
-      </div>
+      <!-- Unit toggle: shows the unit you can SWITCH TO, not the current one -->
+      <button id="hw-toggle" onclick="heroWeatherToggle()"
+        style="position:absolute;top:7px;right:7px;font-family:var(--fh);font-size:.62rem;
+               font-weight:700;padding:3px 9px;border:1px solid rgba(240,237,232,.4);
+               border-radius:2px;cursor:pointer;transition:all .2s;
+               background:rgba(0,28,80,.5);color:rgba(240,237,232,.9)"
+        title="Toggle temperature unit">°C</button>
       <div class="weather-temp" id="w-temp" style="margin-top:.25rem">—°</div>
       <div class="weather-desc" id="w-desc">Loading…</div>
       <div class="weather-loc">Dallas, TX · Live</div>

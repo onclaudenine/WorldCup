@@ -40,7 +40,7 @@
     <div class="cd-game">Netherlands vs Japan — Group Stage · Jun 14, 3:00 PM CDT</div>
   </div>
   <div>
-    <div class="cd-label" data-i18n="countdown_label">Countdown to Kickoff</div>
+    <div class="cd-label" id="match-cd-label">Countdown to Kickoff</div>
     <div class="cd-units">
       <div class="cu"><span class="cu-n" id="cd-d">—</span><span class="cu-l">days</span></div>
       <div class="cu"><span class="cu-n" id="cd-h">—</span><span class="cu-l">hrs</span></div>
@@ -52,7 +52,7 @@
 
 <section>
   <div class="sec-label">AT&T Stadium · Arlington, TX</div>
-  <div class="sec-title" data-i18n="matches_title">Dallas Fixtures</div>
+  <div class="sec-title" id="match-fixtures-title">Dallas Fixtures</div>
   <div class="section-note">
     Dallas Stadium (AT&T Stadium) hosts 9 matches — the most of any venue in the tournament. The full schedule was confirmed in December 2025. All times are CDT (Central Daylight Time). Click any match to find flights and hotels.
   </div>
@@ -185,6 +185,18 @@ const FALLBACK_MATCHES = [
 ];
 
 loadAndRenderMatches();
+
+function updateMatchesLang() {
+  const ids = {
+    'match-venue-label':'match_venue_label',
+    'match-fixtures-title':'match_fixtures_title',
+    'match-next-label':'match_next',
+    'match-cd-label':'match_cd_label',
+  };
+  Object.entries(ids).forEach(([id,key])=>{const el=document.getElementById(id);if(el)el.textContent=t(key);});
+  loadAndRenderMatches();
+}
+document.addEventListener('langchange', updateMatchesLang);
 
 renderBookingSection('matches-booking', {
   title: 'Hotels Near the Stadium',

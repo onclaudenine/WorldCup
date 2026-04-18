@@ -2,13 +2,7 @@
 <html lang="en">
 <head>
 <script>
-/* Theme init — runs immediately to prevent flash of wrong theme */
-(function(){
-  var saved = localStorage.getItem('dallas2026-theme');
-  var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  var useDark = saved ? saved === 'dark' : prefersDark;
-  if (!useDark) document.documentElement.classList.add('light');
-})();
+(function(){var s=localStorage.getItem('dallas2026-theme');var d=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;if(s?s==='light':!d)document.documentElement.classList.add('light');})();
 </script>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Get There — Dallas 2026</title>
@@ -26,8 +20,7 @@
 .option-card{background:var(--card);border:1px solid var(--border);padding:1.4rem;transition:border-color .18s}
 .option-card:hover{border-color:rgba(245,168,0,.3)}
 .option-card.recommended{border-color:rgba(245,168,0,.4)}
-.rec-badge{font-family:var(--fh);font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-  background:rgba(245,168,0,.12);color:var(--white);border:1px solid rgba(245,168,0,.25);padding:2px 8px;display:inline-block;margin-bottom:.6rem}
+.rec-badge{font-family:var(--fh);font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:rgba(245,168,0,.12);color:var(--white);border:1px solid rgba(245,168,0,.25);padding:2px 8px;display:inline-block;margin-bottom:.6rem}
 .oc-title{font-family:var(--fh);font-weight:700;font-size:1rem;text-transform:uppercase;letter-spacing:.02em;margin-bottom:.4rem}
 .oc-desc{font-size:.8rem;color:var(--muted);line-height:1.65;font-weight:300;margin-bottom:.75rem}
 .oc-pros{font-size:.74rem;color:#81C784;line-height:1.55;font-weight:300;margin-bottom:.25rem}
@@ -38,72 +31,43 @@
 <div id="affiliate-disclosure"></div>
 <nav id="main-nav"></nav>
 <div class="page-hero" style="margin-top:56px">
-  <div class="page-hero-bg"></div>  <!-- Texas Flag subtle overlay -->
+  <div class="page-hero-bg"></div>
   <div style="position:absolute;right:0;top:0;bottom:0;width:50%;pointer-events:none;z-index:0;overflow:hidden;opacity:0.06">
     <svg viewBox="0 0 900 600" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%" xmlns="http://www.w3.org/2000/svg">
-      <rect x="0" y="0" width="300" height="600" fill="#002868"/>
-      <rect x="300" y="0" width="600" height="300" fill="#BF0A30"/>
-      <rect x="300" y="300" width="600" height="300" fill="#F0EDE8"/>
+      <rect x="0" y="0" width="300" height="600" fill="#002868"/><rect x="300" y="0" width="600" height="300" fill="#BF0A30"/><rect x="300" y="300" width="600" height="300" fill="#F0EDE8"/>
       <polygon points="150,120 163,162 207,162 172,187 185,229 150,204 115,229 128,187 93,162 137,162" fill="#F0EDE8"/>
     </svg>
   </div>
-  <div class="page-hero-content">
-    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span style="color:var(--text)">Get There</span></div>
-    <h1>Getting <em>There</em></h1>
+  <div class="page-hero-content" style="position:relative;z-index:2">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span style="color:var(--text)" id="log-venue">AT&T Stadium, Arlington</span></div>
+    <h1 id="log-title" style="font-family:var(--fh);font-weight:900;font-size:clamp(2.5rem,7vw,5rem);line-height:.9;text-transform:uppercase;margin-bottom:1rem">Getting There</h1>
     <p class="page-hero-sub">AT&T Stadium is in Arlington — between Dallas and Fort Worth. No direct rail. Here's exactly how to get there without losing your mind.</p>
   </div>
 </div>
 
 <section style="background:var(--mid)">
-  <div class="sec-label">Recommended Route</div>
-  <div class="sec-title">Step by <em>Step</em></div>
-  <div class="alert-box">
-    <div class="alert-text"><strong>Key fact:</strong> Arlington has no light rail or subway. Every visitor needs to plan transport carefully — match-day traffic on I-30 can add 60–90 min each way.</div>
+  <div class="sec-label" id="log-rec-label">Recommended Route</div>
+  <div style="font-family:var(--fh);font-weight:900;font-size:clamp(2rem,5vw,3.2rem);text-transform:uppercase;line-height:.92;margin-bottom:1.5rem" id="log-rec-title">Step by Step</div>
+  <div class="alert-box" style="margin-bottom:1.75rem">
+    <div class="alert-text" id="log-alert"><strong>Important:</strong> Arlington has no light rail or subway. Every visitor needs to plan transport carefully — match-day traffic on I-30 can add 60–90 min each way.</div>
   </div>
-  <div class="steps-grid">
-    <div class="step-card"><div class="step-num">01</div><div class="step-title">TRE Rail to CentrePort</div><p class="step-body">From downtown Dallas (Union Station) or Fort Worth, take the Trinity Railway Express to CentrePort/DFW Airport station. Service every 30 min on match days.</p><p class="step-tip">⚡ ~35 min from Dallas Union Station · $5 one-way</p></div>
-    <div class="step-card"><div class="step-num">02</div><div class="step-title">Free FIFA Shuttle</div><p class="step-body">Dedicated FIFA shuttles run from CentrePort directly to AT&T Stadium gates — 10–15 min ride. Runs from 3 hrs before kickoff through 1.5 hrs post-match.</p><p class="step-tip">⚡ Free with match ticket · Leave 2+ hours before kickoff</p></div>
-    <div class="step-card"><div class="step-num">03</div><div class="step-title">Gate Entry</div><p class="step-body">Show your mobile ticket at the gate. Clear bags only (12"×6"×12" max). Gates open 2.5 hours before kickoff. Security peaks at 90 min before.</p><p class="step-tip">⚡ Screenshot your ticket before entering — cellular unreliable inside</p></div>
-    <div class="step-card"><div class="step-num">04</div><div class="step-title">After the Match</div><p class="step-body">Return shuttles run until the crowd clears — expect 30–45 min post-match waits. Alternatively, walk to nearby Arlington bars to wait it out, then Uber back.</p><p class="step-tip">⚡ Pre-set your Uber pickup point before you enter the stadium</p></div>
-  </div>
+  <div class="steps-grid" id="log-steps-grid"></div>
 </section>
 
 <section>
-  <div class="sec-label">All Options</div>
-  <div class="sec-title">Getting <em>Around</em></div>
-  <div class="option-grid">
-    <div class="option-card recommended">
-      <div class="rec-badge">Recommended</div>
-      <div class="oc-title">🚂 TRE + Shuttle</div>
-      <div class="oc-desc">Trinity Railway Express from Dallas or Fort Worth, then free FIFA shuttle to stadium.</div>
-      <div class="oc-pros">✓ No traffic · $5 · Dedicated match service</div>
-      <div class="oc-cons">✗ Requires planning · Post-match waits</div>
-      <a href="https://www.dart.org" target="_blank" rel="noopener" class="ext-link" style="font-size:.65rem">DART Trip Planner ↗</a>
-    </div>
-    <div class="option-card">
-      <div class="oc-title">🚗 Drive & Park</div>
-      <div class="oc-desc">Drive to Arlington and use official AT&T Stadium lots. Pre-purchase online — lots sell out.</div>
-      <div class="oc-pros">✓ Door to door · Flexible</div>
-      <div class="oc-cons">✗ Heavy traffic · $30–60 per car · Long exit</div>
-      <a href="https://www.attstadium.com/plan-your-visit/parking" target="_blank" rel="noopener" class="ext-link" style="font-size:.65rem">Book Parking ↗</a>
-    </div>
-    <div class="option-card">
-      <div class="oc-title">🚕 Uber / Lyft</div>
-      <div class="oc-desc">Convenient from hotels but expensive on match days — 3–5× surge pricing. Drop-off on Randol Mill Rd.</div>
-      <div class="oc-pros">✓ No planning needed</div>
-      <div class="oc-cons">✗ Expensive surge · Long post-match pickup wait</div>
-    </div>
-    <div class="option-card">
-      <div class="oc-title">🚌 Bus (Budget)</div>
-      <div class="oc-desc">FlixBus and Greyhound connect Dallas to other Texas cities and nearby states. From $15 one-way.</div>
-      <div class="oc-pros">✓ Cheapest option · Routes from Houston, Austin, OKC</div>
-      <div class="oc-cons">✗ Not direct to stadium · Schedule dependent</div>
-    </div>
+  <div class="sec-label" id="log-opts-label">All Options</div>
+  <div style="font-family:var(--fh);font-weight:900;font-size:clamp(2rem,5vw,3.2rem);text-transform:uppercase;line-height:.92;margin-bottom:1.5rem" id="log-opts-title">Getting Around</div>
+  <div class="option-grid" id="log-opts-grid"></div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <a href="https://www.dart.org" target="_blank" rel="noopener" class="ext-link">DART Transit ↗</a>
+    <a href="https://maps.google.com/?q=AT%26T+Stadium+Arlington+TX" target="_blank" rel="noopener" class="ext-link">Stadium Directions ↗</a>
+    <a href="https://www.attstadium.com" target="_blank" rel="noopener" class="ext-link">AT&T Stadium ↗</a>
+    <a href="https://www.uber.com" target="_blank" rel="noopener" class="ext-link">Uber ↗</a>
   </div>
 </section>
 
-<!-- TRANSPORT BOOKING SECTION — highest-converting placement -->
 <section style="background:var(--mid)">
+  <div class="sec-label" id="log-book-label">Book Your Transport</div>
   <div id="logistics-booking"></div>
 </section>
 
@@ -112,16 +76,22 @@
 <script src="js/affiliate.js"></script>
 <script>
 renderNav(); renderFooter(); renderDisclosure(); initLang();
+renderLogisticsPage();
 renderBookingSection('logistics-booking', {
-  title: 'Book Your Transport',
-  subtitle: 'Rental cars are the most flexible option for Arlington. Hotels near the stadium book out fast — reserve early.',
-  showHotels: true,
-  showFlights: true,
-  showCars: true,
-  showBus: true,
-  showTuro: true,
-  showActivities: false,
+  title: t('log_book_label'),
+  subtitle: t('log_book_sub'),
+  showHotels: true, showFlights: true, showCars: true,
+  showBus: true, showTuro: true, showActivities: false,
   hotelLocation: 'Arlington Texas AT&T Stadium',
+});
+document.addEventListener('langchange', () => {
+  renderLogisticsPage();
+  renderBookingSection('logistics-booking', {
+    title: t('log_book_label'), subtitle: t('log_book_sub'),
+    showHotels:true, showFlights:true, showCars:true,
+    showBus:true, showTuro:true, showActivities:false,
+    hotelLocation:'Arlington Texas AT&T Stadium',
+  });
 });
 </script>
 </body>

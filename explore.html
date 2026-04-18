@@ -71,10 +71,10 @@
   <div class="sec-label">Six Areas to Know</div>
   <div class="sec-title">Neighborhoods</div>
   <div class="tab-bar" id="nbh-tabs">
-    <button class="tab active" onclick="filterNbh(event,'all')">All Areas</button>
-    <button class="tab" onclick="filterNbh(event,'food')">Food & Drink</button>
-    <button class="tab" onclick="filterNbh(event,'nightlife')">Nightlife</button>
-    <button class="tab" onclick="filterNbh(event,'culture')">Culture</button>
+    <button class="tab active" onclick="filterNbh(event,'all')" id="exp-tab-all">All Areas</button>
+    <button class="tab" onclick="filterNbh(event,'food')" id="exp-tab-food">Food & Drink</button>
+    <button class="tab" onclick="filterNbh(event,'nightlife')" id="exp-tab-night">Nightlife</button>
+    <button class="tab" onclick="filterNbh(event,'culture')" id="exp-tab-culture">Culture</button>
   </div>
   <div class="nbh-grid" id="nbh-grid"></div>
 </section>
@@ -83,11 +83,11 @@
   <div class="sec-label" data-i18n="local_favorites">Local Favorites</div>
   <div class="sec-title">Where to <em>Eat</em></div>
   <div class="tab-bar" id="rest-tabs">
-    <button class="tab active" onclick="filterRest(event,'all')">All</button>
-    <button class="tab" onclick="filterRest(event,'bbq')">BBQ</button>
-    <button class="tab" onclick="filterRest(event,'texmex')">Tex-Mex</button>
-    <button class="tab" onclick="filterRest(event,'international')">International</button>
-    <button class="tab" onclick="filterRest(event,'bar')">Bars</button>
+    <button class="tab active" onclick="filterRest(event,'all')" id="rest-tab-all">All</button>
+    <button class="tab" onclick="filterRest(event,'bbq')" id="rest-tab-bbq">BBQ</button>
+    <button class="tab" onclick="filterRest(event,'texmex')" id="rest-tab-tex">Tex-Mex</button>
+    <button class="tab" onclick="filterRest(event,'international')" id="rest-tab-intl">International</button>
+    <button class="tab" onclick="filterRest(event,'bar')" id="rest-tab-bar">Bars</button>
   </div>
   <div class="rest-grid" id="rest-grid"></div>
 </section>
@@ -139,6 +139,23 @@ function renderRestaurants() {
     </a>`).join('');
 }
 renderRestaurants();
+
+function updateExploreLang() {
+  const tabMap = {
+    'exp-tab-all': 'exp_tabs_all', 'exp-tab-food': 'exp_tabs_food',
+    'exp-tab-night': 'exp_tabs_night', 'exp-tab-culture': 'exp_tabs_culture',
+    'rest-tab-all': 'exp_rest_all', 'rest-tab-bbq': 'exp_rest_bbq',
+    'rest-tab-tex': 'exp_rest_tex', 'rest-tab-intl': 'exp_rest_intl',
+    'rest-tab-bar': 'exp_rest_bar',
+  };
+  Object.entries(tabMap).forEach(([id, key]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = t(key);
+  });
+  // Re-render cards with translated explore link
+  renderRestaurants();
+}
+document.addEventListener('langchange', updateExploreLang);
 
 // Scroll to restaurants if hash
 if (window.location.hash === '#restaurants') {

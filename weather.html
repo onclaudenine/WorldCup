@@ -114,13 +114,13 @@
 <div class="w-hero">
   <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.25rem">
     <div>
-      <div class="sec-label" data-i18n="live_weather">Live from Dallas, TX</div>
-      <div style="font-family:var(--fh);font-weight:900;font-size:clamp(1.8rem,4vw,2.6rem);text-transform:uppercase;line-height:.92" data-i18n="weather_title">
+      <div class="sec-label" id="wx-label">Live from Dallas, TX</div>
+      <div style="font-family:var(--fh);font-weight:900;font-size:clamp(1.8rem,4vw,2.6rem);text-transform:uppercase;line-height:.92" id="wx-title">
         Dallas Weather
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-      <div class="live-badge"><span class="live-dot"></span>Live Data</div>
+      <div class="live-badge"><span class="live-dot"></span><span id="wx-live">Live Data</span></div>
       <div class="unit-toggle">
         <button class="ut-btn active" id="btn-f" onclick="setUnit('F')">°F</button>
         <button class="ut-btn" id="btn-c" onclick="setUnit('C')">°C</button>
@@ -132,7 +132,7 @@
 
 <!-- HOURLY -->
 <section style="padding:2rem;background:var(--dark)">
-  <div class="sec-label" style="margin-bottom:.75rem" data-i18n="next_24h">Next 24 Hours</div>
+  <div class="sec-label" style="margin-bottom:.75rem" id="wx-next24">Next 24 Hours</div>
   <div id="heat-warning"></div>
   <div class="hourly-scroll">
     <div class="hourly-track" id="hourly-track">
@@ -144,7 +144,7 @@
 <!-- 7-DAY -->
 <section style="padding:2rem;background:var(--mid)">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem">
-    <div class="sec-label" style="margin-bottom:0">7-Day Forecast</div>
+    <div class="sec-label" style="margin-bottom:0" id="wx-7day">7-Day Forecast</div>
     <div class="last-updated" id="last-updated"></div>
   </div>
   <div id="heat-warning-week"></div>
@@ -155,7 +155,7 @@
 
 <!-- EXTRAS: UV, Wind, Humidity -->
 <section style="padding:2rem;background:var(--dark)">
-  <div class="sec-label" style="margin-bottom:1rem" data-i18n="conditions_glance">Conditions at a Glance</div>
+  <div class="sec-label" style="margin-bottom:1rem" id="wx-glance">Conditions at a Glance</div>
   <div class="extras-grid" id="extras-grid">
     <div class="w-loading">Loading…</div>
   </div>
@@ -163,9 +163,9 @@
 
 <!-- FIFA MATCH WEATHER TIP -->
 <section style="padding:2rem;background:var(--mid)">
-  <div class="sec-label" data-i18n="match_day_advice">Match Day Advice</div>
+  <div class="sec-label" id="wx-advice">Match Day Advice</div>
   <div class="sec-title" style="margin-bottom:1.25rem">Stadium <em>Weather Tips</em></div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px">
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px" id="wx-advice-cards">
     <div style="background:var(--card);border:1px solid var(--border);padding:1.3rem">
       <div style="font-size:1.2rem;margin-bottom:.5rem">🏟️</div>
       <div style="font-family:var(--fh);font-weight:700;font-size:.9rem;text-transform:uppercase;margin-bottom:.4rem">AT&T Stadium</div>
@@ -497,6 +497,30 @@ async function fetchWeather() {
 }
 
 fetchWeather();
+
+function updateWeatherLang() {
+  const ids = {
+    'wx-label':'wx_label','wx-title':'wx_title','wx-live':'wx_live',
+    'wx-next24':'wx_next24','wx-glance':'wx_glance','wx-advice':'wx_advice',
+    'wx-stadium-title':'wx_stadium_title','wx-7day':'wx_7day',
+  };
+  Object.entries(ids).forEach(([id,key])=>{const el=document.getElementById(id);if(el)el.textContent=t(key);});
+  // Re-render advice cards
+  const cards = t('wx_advice_cards');
+  const grid = document.getElementById('wx-advice-cards');
+  if (grid && Array.isArray(cards)) {
+    grid.innerHTML = cards.map(card => `
+      <div style="background:var(--card);border:1px solid var(--border);padding:1.3rem">
+        <div style="font-size:1.2rem;margin-bottom:.5rem">${card.icon}</div>
+        <div style="font-family:var(--fh);font-weight:700;font-size:.9rem;text-transform:uppercase;margin-bottom:.4rem">${card.title}</div>
+        <div style="font-size:.78rem;color:var(--muted);line-height:1.65;font-weight:300">${card.body}</div>
+      </div>`).join('');
+  }
+  // Re-render weather data with new labels
+  if (weatherData) renderAll();
+}
+document.addEventListener('langchange', updateWeatherLang);
+
 // Refresh every 15 minutes
 setInterval(fetchWeather, 15 * 60 * 1000);
 </script>

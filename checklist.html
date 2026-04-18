@@ -2,13 +2,7 @@
 <html lang="en">
 <head>
 <script>
-/* Theme init — runs immediately to prevent flash of wrong theme */
-(function(){
-  var saved = localStorage.getItem('dallas2026-theme');
-  var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  var useDark = saved ? saved === 'dark' : prefersDark;
-  if (!useDark) document.documentElement.classList.add('light');
-})();
+(function(){var s=localStorage.getItem('dallas2026-theme');var d=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;if(s?s==='light':!d)document.documentElement.classList.add('light');})();
 </script>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Match Day Checklist — Dallas 2026</title>
@@ -17,43 +11,40 @@
 <style>
 .cl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
 .cl-group{background:var(--card);border:1px solid var(--border);padding:1.5rem}
-.cl-group-title{font-family:var(--fh);font-weight:700;font-size:.95rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.cl-group-title{font-family:var(--fh);font-weight:700;font-size:.95rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1rem}
 .cl-items{display:flex;flex-direction:column;gap:4px}
-.prog-bar-wrap{background:var(--card);border:1px solid var(--border);padding:1.1rem 1.4rem;display:flex;align-items:center;gap:1.5rem;margin-bottom:1.5rem}
-.prog-bar{flex:1;height:4px;background:var(--border2);border-radius:2px;overflow:hidden}
-.prog-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .3s}
+.prog-bar-wrap{background:var(--card);border:1px solid var(--border);padding:1.1rem 1.4rem;display:flex;align-items:center;gap:1.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.prog-bar{flex:1;height:4px;background:var(--border2);border-radius:2px;overflow:hidden;min-width:80px}
+.prog-fill{height:100%;background:var(--white);border-radius:2px;transition:width .3s}
 .prog-num{font-family:var(--fh);font-size:1.4rem;font-weight:900;color:var(--white);white-space:nowrap}
-.prog-lbl{font-family:var(--fh);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
 </style>
 </head>
 <body>
 <div id="affiliate-disclosure"></div>
 <nav id="main-nav"></nav>
 <div class="page-hero" style="margin-top:56px">
-  <div class="page-hero-bg"></div>  <!-- Texas Flag subtle overlay -->
+  <div class="page-hero-bg"></div>
   <div style="position:absolute;right:0;top:0;bottom:0;width:50%;pointer-events:none;z-index:0;overflow:hidden;opacity:0.06">
     <svg viewBox="0 0 900 600" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%" xmlns="http://www.w3.org/2000/svg">
-      <rect x="0" y="0" width="300" height="600" fill="#002868"/>
-      <rect x="300" y="0" width="600" height="300" fill="#BF0A30"/>
-      <rect x="300" y="300" width="600" height="300" fill="#F0EDE8"/>
+      <rect x="0" y="0" width="300" height="600" fill="#002868"/><rect x="300" y="0" width="600" height="300" fill="#BF0A30"/><rect x="300" y="300" width="600" height="300" fill="#F0EDE8"/>
       <polygon points="150,120 163,162 207,162 172,187 185,229 150,204 115,229 128,187 93,162 137,162" fill="#F0EDE8"/>
     </svg>
   </div>
-  <div class="page-hero-content">
-    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span style="color:var(--text)">Checklist</span></div>
-    <h1>Match Day <em>Checklist</em></h1>
-    <p class="page-hero-sub">35 things to have sorted before you head to AT&T Stadium. Check them off as you go — progress saves in your browser.</p>
+  <div class="page-hero-content" style="position:relative;z-index:2">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span style="color:var(--text)" id="cl-page-label">Interactive Tool</span></div>
+    <h1 id="cl-page-title" style="font-family:var(--fh);font-weight:900;font-size:clamp(2.5rem,7vw,5rem);line-height:.9;text-transform:uppercase;margin-bottom:1rem">Match Day Checklist</h1>
+    <p class="page-hero-sub" id="cl-page-sub">35 things to have sorted before you head to AT&T Stadium. Check them off as you go — progress saves in your browser.</p>
   </div>
 </div>
 
 <section>
   <div class="prog-bar-wrap">
     <div style="flex:1">
-      <div class="prog-lbl">Your Progress</div>
+      <div style="font-family:var(--fh);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem" id="cl-prog-label">Your Progress</div>
       <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
     </div>
-    <div class="prog-num"><span id="prog-done">0</span>/<span id="prog-total">0</span> done</div>
-    <button class="btn-ghost" onclick="resetAll()">Reset</button>
+    <div class="prog-num"><span id="prog-done">0</span>/<span id="prog-total">0</span> <span style="font-size:.8rem;font-weight:400;color:var(--muted)" id="cl-done-word">done</span></div>
+    <button class="btn-ghost" id="cl-reset-btn" onclick="clReset()">Reset</button>
   </div>
   <div class="cl-grid" id="cl-grid"></div>
 </section>
@@ -63,54 +54,8 @@
 <script src="js/affiliate.js"></script>
 <script>
 renderNav(); renderFooter(); renderDisclosure(); initLang();
-const CHECKS = [
-  {g:'🎫 Tickets & Docs', items:['Download FIFA app and load your ticket','Screenshot your ticket (cellular unreliable inside)','Passport or valid government ID packed','Travel insurance policy number saved offline','Hotel booking confirmation downloaded']},
-  {g:'🚌 Transport', items:['Planned your route to AT&T Stadium','GoPass DART app downloaded and topped up','Shuttle schedule checked — depart 2hrs before','Uber/Lyft pre-set with Arlington pickup point','Parking pass pre-purchased (if driving)']},
-  {g:'👝 What to Bring', items:['Clear bag (12"×6"×12" max — no exceptions)','Sunscreen SPF 50+ applied and packed','Refillable water bottle (empty to pass security)','Phone fully charged before leaving hotel','Portable battery pack packed','Team jersey, scarf, or colors','Small cash (USD) for vendors and tips']},
-  {g:'🏨 Before You Leave', items:['Hotel front desk has your match-day contact','Know the nearest DART/TRE stop to your hotel','Agree on post-match meeting point with your group','Check Dallas weather forecast for the day']},
-  {g:'📱 Apps & Downloads', items:['FIFA official app installed','Google Maps offline map of Dallas downloaded','GoPass transit app installed','Uber/Lyft account set up and payment added','Emergency contacts saved: 911, hotel, embassy']},
-  {g:'🍽️ Food & Plan', items:['Pre-match restaurant reserved (book early!)','Pre-match bar or fan zone agreed with group','Post-match dinner spot identified (they book fast)','Breakfast or lunch sorted — you\'ll be hungry']},
-];
-let checks = JSON.parse(localStorage.getItem('dallas2026-checks') || '{}');
-function save() { try { localStorage.setItem('dallas2026-checks', JSON.stringify(checks)); } catch(e){} }
-function updateProgress() {
-  const total = CHECKS.reduce((a,g)=>a+g.items.length,0);
-  const done = Object.values(checks).filter(Boolean).length;
-  document.getElementById('prog-done').textContent = done;
-  document.getElementById('prog-total').textContent = total;
-  document.getElementById('prog-fill').style.width = (done/total*100) + '%';
-}
-function toggle(key, el) {
-  checks[key] = !checks[key];
-  el.classList.toggle('done', checks[key]);
-  el.querySelector('.cl-check').textContent = checks[key] ? '✓' : '';
-  el.querySelector('.cl-label').style.textDecoration = checks[key] ? 'line-through' : '';
-  el.querySelector('.cl-label').style.color = checks[key] ? 'var(--dim)' : '';
-  save(); updateProgress();
-}
-function resetAll() { checks = {}; save(); renderChecklist();
-// scroll to restaurants if hash
-if(window.location.hash==="#restaurants"){setTimeout(()=>document.getElementById("restaurants").scrollIntoView({behavior:"smooth"}),200);} }
-function renderChecklist() {
-  const grid = document.getElementById('cl-grid');
-  grid.innerHTML = CHECKS.map((g,gi) => `
-    <div class="cl-group">
-      <div class="cl-group-title">${g.g}</div>
-      <div class="cl-items">
-        ${g.items.map((item,ii) => {
-          const key = gi+'_'+ii, done = checks[key];
-          return `<div class="cl-item${done?' done':''}" onclick="toggle('${key}',this)">
-            <div class="cl-check" style="width:18px;height:18px;border:1.5px solid var(--border2);border-radius:2px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;${done?'background:var(--gold);border-color:var(--white);color:var(--dark)':''}">${done?'✓':''}</div>
-            <div class="cl-label" style="font-size:.8rem;color:var(--muted);font-weight:300;line-height:1.4;${done?'text-decoration:line-through;color:var(--dim)':''}">${item}</div>
-          </div>`;
-        }).join('')}
-      </div>
-    </div>`).join('');
-  updateProgress();
-}
-renderChecklist();
-// scroll to restaurants if hash
-if(window.location.hash==="#restaurants"){setTimeout(()=>document.getElementById("restaurants").scrollIntoView({behavior:"smooth"}),200);}
+renderChecklistPage();
+document.addEventListener('langchange', renderChecklistPage);
 </script>
 </body>
 </html>

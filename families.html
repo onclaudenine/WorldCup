@@ -213,6 +213,21 @@ function renderActivities() {
 
 renderActivities();
 
+function updateFamiliesLang() {
+  const ids = {
+    'fam-heat-warn': 'fam_heat_warning',
+  };
+  Object.entries(ids).forEach(([id,key])=>{const el=document.getElementById(id);if(el)el.textContent=t(key);});
+  // Update tab buttons
+  const tabs = {
+    0:'fam_tab_all',1:'fam_tab_museum',2:'fam_tab_outdoors',3:'fam_tab_indoor',
+    4:'fam_tab_theme',5:'fam_tab_landmark',6:'fam_tab_stadium',7:'fam_tab_dart'
+  };
+  document.querySelectorAll('#fam-tabs .tab').forEach((btn,i)=>{if(tabs[i])btn.textContent=t(tabs[i]);});
+  renderActivities();
+}
+document.addEventListener('langchange', updateFamiliesLang);
+
 renderBookingSection('families-booking', {
   title: 'Plan Your Family Stay',
   subtitle: 'Hotels with pools are in high demand during the World Cup. Book early, especially near the best family attractions.',

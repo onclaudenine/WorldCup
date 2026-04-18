@@ -340,16 +340,17 @@ function renderFooter() {
 
 // ── COUNTDOWN ─────────────────────────────────────────────────
 // All confirmed Dallas match datetimes in ISO format (CDT = UTC-5)
+// CDT = Central Daylight Time = UTC-4 (summer offset, NOT UTC-5)
 const DALLAS_MATCH_TIMES = [
-  new Date('2026-06-14T15:00:00-05:00'), // Netherlands vs Japan
-  new Date('2026-06-17T15:00:00-05:00'), // England vs Croatia
-  new Date('2026-06-22T12:00:00-05:00'), // Argentina vs Austria
-  new Date('2026-06-25T18:00:00-05:00'), // Japan vs Sweden
-  new Date('2026-06-27T21:00:00-05:00'), // Jordan vs Argentina
-  new Date('2026-06-30T12:00:00-05:00'), // Round of 32
-  new Date('2026-07-03T13:00:00-05:00'), // Round of 32
-  new Date('2026-07-06T14:00:00-05:00'), // Round of 16
-  new Date('2026-07-14T14:00:00-05:00'), // Semifinal
+  new Date('2026-06-14T15:00:00-04:00'), // Netherlands vs Japan  — 3:00 PM CDT
+  new Date('2026-06-17T15:00:00-04:00'), // England vs Croatia    — 3:00 PM CDT
+  new Date('2026-06-22T12:00:00-04:00'), // Argentina vs Austria  — 12:00 PM CDT
+  new Date('2026-06-25T18:00:00-04:00'), // Japan vs Sweden       — 6:00 PM CDT
+  new Date('2026-06-27T21:00:00-04:00'), // Jordan vs Argentina   — 9:00 PM CDT
+  new Date('2026-06-30T12:00:00-04:00'), // Round of 32           — 12:00 PM CDT
+  new Date('2026-07-03T13:00:00-04:00'), // Round of 32           — 1:00 PM CDT
+  new Date('2026-07-06T14:00:00-04:00'), // Round of 16           — 2:00 PM CDT
+  new Date('2026-07-14T14:00:00-04:00'), // Semifinal             — 2:00 PM CDT
 ];
 
 function getNextMatch() {
@@ -440,26 +441,24 @@ function renderHeroWeather() {
   if (windEl)     windEl.textContent = wind;
   if (windUnitEl) windUnitEl.textContent = wUnit;
 
-  // Update toggle button active states
-  const btnF = document.getElementById('hw-f');
-  const btnC = document.getElementById('hw-c');
-  if (btnF) {
-    btnF.style.background = isCelsius ? 'transparent' : 'rgba(240,237,232,.9)';
-    btnF.style.color      = isCelsius ? 'rgba(240,237,232,.5)' : 'var(--navy)';
-  }
-  if (btnC) {
-    btnC.style.background = isCelsius ? 'rgba(240,237,232,.9)' : 'transparent';
-    btnC.style.color      = isCelsius ? 'var(--navy)' : 'rgba(240,237,232,.5)';
+  // Update toggle button — shows the unit you'll SWITCH TO (not current)
+  const btn = document.getElementById('hw-toggle');
+  if (btn) {
+    btn.textContent = isCelsius ? '°F' : '°C';
+    btn.title = isCelsius ? 'Switch to Fahrenheit' : 'Switch to Celsius';
   }
 }
 
 function heroWeatherUnit(u) {
   _heroWeatherUnit = u;
-  // Keep in sync with the site-wide unit preference
   localStorage.setItem('dallas2026-unit', u);
-  // Also sync the full weather page toggle if open
   if (typeof ww_setUnit === 'function') ww_setUnit(u);
   renderHeroWeather();
+}
+
+function heroWeatherToggle() {
+  // Toggle between F and C
+  heroWeatherUnit(_heroWeatherUnit === 'F' ? 'C' : 'F');
 }
 
 // ── EXTERNAL LINK HELPER ──────────────────────────────────────
@@ -1313,4 +1312,688 @@ function setLang(lang) {
 function initLang() {
   const saved = localStorage.getItem('dallas2026-lang') || 'en';
   if (saved !== 'en') setLang(saved);
+}
+
+// ══════════════════════════════════════════════════════════════
+// EXTENDED TRANSLATIONS — page content
+// ══════════════════════════════════════════════════════════════
+const PAGE_CONTENT = {
+  en: {
+    // ── SURVIVAL ──────────────────────────────────────────────
+    surv_know_label: 'For International Visitors',
+    surv_know_title: 'Know Before You Go',
+    surv_heat_title: 'Texas Heat',
+    surv_heat: ['June–July temps hit 95–105°F (35–40°C) with high humidity','Carry a refillable water bottle — hydrate constantly','AT&T Stadium is fully air-conditioned indoors','Sunscreen SPF 50+ for outdoor fan zones and tailgates','Light, breathable fabrics only — avoid jeans on match days','Heat exhaustion is a real risk — sit in shade during breaks'],
+    surv_transit_title: 'Getting Around Dallas',
+    surv_transit: ['Dallas is a car city — public transit is limited outside downtown','DART light rail covers downtown, Uptown, and Deep Ellum','Uber/Lyft surge heavily on match days — plan ahead','Rent a car if staying outside the central area','Download the GoPass app for DART tickets before you arrive'],
+    surv_money_title: 'Money & Tipping',
+    surv_money: ['USD only — have cash for food trucks and street vendors','Tip 18–20% at sit-down restaurants — culturally mandatory','15% tip expected at bars; $1/drink is the minimum','Credit cards accepted almost everywhere; contactless available','ATMs charge $3–5 foreign withdrawal fees — use Wise or Revolut','Prices shown before tax — add 8.25% sales tax at checkout'],
+    surv_conn_title: 'Connectivity',
+    surv_conn: ['Buy a T-Mobile or AT&T prepaid SIM at DFW Airport on arrival','eSIM options: Airalo or Google Fi work in the US','Stadium WiFi is free but congested — download what you need first','Download offline Google Maps for the Dallas metro before arriving','Emergency: dial 911 (free from any phone)'],
+    surv_health_title: 'Health & Safety',
+    surv_health: ['Travel insurance strongly recommended — US healthcare is very expensive','Nearest hospital: Medical City Arlington, 5 min from stadium','Urgent care clinics for minor issues — cheaper than ER','CVS and Walgreens pharmacies are on almost every corner','Tap water is safe to drink throughout the Dallas metro'],
+    surv_arriving_title: 'Arriving in Dallas',
+    surv_arriving: ['Main airport: DFW International (DFW) — 25 min from Dallas','DART Orange Line connects DFW directly to downtown Dallas','Secondary airport: Dallas Love Field (DAL) — domestic flights','Customs and immigration can take 60–90 min — allow extra time','ESTA or visa required for non-US visitors — apply at least 72hrs ahead'],
+    surv_resources_title: 'Useful Resources',
+    surv_resources: ['Visit Dallas official tourism ↗','FIFA World Cup 2026 official ↗','DART transit trip planner ↗','Dallas weather forecast (NWS) ↗','US ESTA visa waiver application ↗'],
+    surv_weather_label: 'Live Conditions',
+    surv_weather_title: 'Dallas Weather',
+    surv_weather_sub: 'Real-time Dallas weather — toggle between °F and °C. Plan your outdoor activities around the heat.',
+
+    // ── LOGISTICS ─────────────────────────────────────────────
+    log_venue: 'AT&T Stadium, Arlington',
+    log_title: 'Getting There',
+    log_hero_sub: "AT&T Stadium is in Arlington — between Dallas and Fort Worth. No direct rail. Here's exactly how to get there without losing your mind.",
+    log_rec_label: 'Recommended Route',
+    log_rec_title: 'Step by Step',
+    log_alert: 'Arlington has no light rail or subway. Every visitor needs to plan transport carefully — match-day traffic on I-30 can add 60–90 min each way.',
+    log_s1_title: 'TRE Rail to CentrePort',
+    log_s1_body: 'From downtown Dallas (Union Station) or Fort Worth, take the Trinity Railway Express to CentrePort/DFW Airport station. Service every 30 min on match days.',
+    log_s1_tip: '~35 min from Dallas Union Station · $5 one-way',
+    log_s2_title: 'Free FIFA Shuttle',
+    log_s2_body: 'Dedicated FIFA shuttles run from CentrePort directly to AT&T Stadium gates — 10–15 min ride. Runs from 3 hrs before kickoff through 1.5 hrs post-match.',
+    log_s2_tip: 'Free with match ticket · Leave 2+ hours before kickoff',
+    log_s3_title: 'Gate Entry',
+    log_s3_body: 'Show your mobile ticket at the gate. Clear bags only (12"×6"×12" max). Gates open 2.5 hours before kickoff. Security peaks at 90 min before.',
+    log_s3_tip: 'Screenshot your ticket before entering — cellular unreliable inside',
+    log_s4_title: 'After the Match',
+    log_s4_body: 'Return shuttles run until the crowd clears — expect 30–45 min post-match waits. Alternatively, walk to nearby Arlington bars to wait it out, then Uber back.',
+    log_s4_tip: 'Pre-set your Uber pickup point before you enter the stadium',
+    log_opts_label: 'All Options',
+    log_opts_title: 'Getting Around',
+    log_opt_rec: 'Recommended',
+    log_opt_tre_title: 'TRE + Shuttle',
+    log_opt_tre_desc: 'Trinity Railway Express from Dallas or Fort Worth, then free FIFA shuttle to stadium.',
+    log_opt_tre_pros: 'No traffic · $5 · Dedicated match service',
+    log_opt_tre_cons: 'Requires planning · Post-match waits',
+    log_opt_drive_title: 'Drive & Park',
+    log_opt_drive_desc: 'Drive to Arlington and use official AT&T Stadium lots. Pre-purchase online — lots sell out.',
+    log_opt_drive_pros: 'Door to door · Flexible',
+    log_opt_drive_cons: 'Heavy traffic · $30–60 per car · Long exit',
+    log_opt_uber_title: 'Uber / Lyft',
+    log_opt_uber_desc: 'Convenient from hotels but expensive on match days — 3–5× surge pricing. Drop-off on Randol Mill Rd.',
+    log_opt_uber_pros: 'No planning needed',
+    log_opt_uber_cons: 'Expensive surge · Long post-match pickup wait',
+    log_opt_bus_title: 'Bus (Budget)',
+    log_opt_bus_desc: 'FlixBus and Greyhound connect Dallas to other Texas cities and nearby states. From $15 one-way.',
+    log_opt_bus_pros: 'Cheapest option · Routes from Houston, Austin, OKC',
+    log_opt_bus_cons: 'Not direct to stadium · Schedule dependent',
+    log_book_label: 'Book Your Transport',
+    log_book_sub: 'Rental cars are the most flexible option for Arlington. Hotels near the stadium book out fast — reserve early.',
+
+    // ── CHECKLIST ─────────────────────────────────────────────
+    cl_label: 'Interactive Tool',
+    cl_title: 'Match Day Checklist',
+    cl_sub: '35 things to have sorted before you head to AT&T Stadium. Check them off as you go — progress saves in your browser.',
+    cl_progress: 'Your Progress',
+    cl_reset: 'Reset',
+    cl_done: 'done',
+    cl_groups: [
+      { g: '🎫 Tickets & Docs', items: ['Download FIFA app and load your ticket','Screenshot your ticket (cellular unreliable inside)','Passport or valid government ID packed','Travel insurance policy number saved offline','Hotel booking confirmation downloaded'] },
+      { g: '🚌 Transport', items: ['Planned your route to AT&T Stadium','GoPass DART app downloaded and topped up','Shuttle schedule checked — depart 2hrs before','Uber/Lyft pre-set with Arlington pickup point','Parking pass pre-purchased (if driving)'] },
+      { g: '👝 What to Bring', items: ['Clear bag (12"×6"×12" max — no exceptions)','Sunscreen SPF 50+ applied and packed','Refillable water bottle (empty to pass security)','Phone fully charged before leaving hotel','Portable battery pack packed','Team jersey, scarf, or colors','Small cash (USD) for vendors and tips'] },
+      { g: '🏨 Before You Leave', items: ['Hotel front desk has your match-day contact','Know the nearest DART/TRE stop to your hotel','Agree on post-match meeting point with your group','Check Dallas weather forecast for the day'] },
+      { g: '📱 Apps & Downloads', items: ['FIFA official app installed','Google Maps offline map of Dallas downloaded','GoPass transit app installed','Uber/Lyft account set up and payment added','Emergency contacts saved: 911, hotel, embassy'] },
+      { g: '🍽️ Food & Plan', items: ['Pre-match restaurant reserved (book early!)','Pre-match bar or fan zone agreed with group','Post-match dinner spot identified (they book fast)','Breakfast or lunch sorted — you\'ll be hungry'] },
+    ],
+
+    // ── EXPLORE ───────────────────────────────────────────────
+    exp_beyond: 'Beyond the Stadium',
+    exp_title: 'Explore Dallas',
+    exp_sub: 'Dallas is a city of neighborhoods, each with its own personality. Here\'s how to find the real city — not just the stadium.',
+    exp_nbh_label: 'Six Areas to Know',
+    exp_nbh_title: 'Neighborhoods',
+    exp_rest_label: 'Local Favorites',
+    exp_rest_title: 'Where to Eat',
+    exp_tabs_all: 'All Areas', exp_tabs_food: 'Food & Drink', exp_tabs_night: 'Nightlife', exp_tabs_culture: 'Culture',
+    exp_rest_all: 'All', exp_rest_bbq: 'BBQ', exp_rest_tex: 'Tex-Mex', exp_rest_intl: 'International', exp_rest_bar: 'Bars',
+
+    // ── MAP ───────────────────────────────────────────────────
+    map_label: 'Interactive Visitor Map',
+    map_title: 'Dallas Map',
+    map_sub: 'Stadium, transit stops, hotels, fan zones, and top restaurants — all on one map. Click any pin for details and directions.',
+    map_filter: 'Filter by Category',
+    map_all: 'All', map_stadium: 'Stadium', map_transit: 'Transit',
+    map_food: 'Food & Drink', map_hotels: 'Hotels', map_fanzones: 'Fan Zones',
+
+    // ── FAMILIES ──────────────────────────────────────────────
+    fam_label: 'Family Activities',
+    fam_title: 'Family Dallas',
+    fam_sub: 'The best things to do with kids in and around Dallas during the World Cup — museums, theme parks, water parks, zoos, and Texas experiences they\'ll never forget.',
+    fam_heat_warning: 'Summer heat warning:',
+    fam_heat_text: 'Dallas in June and July regularly hits 100–105°F (38–40°C). Schedule outdoor activities for early morning (9–11am) or late afternoon (after 5pm). Water parks, museums, and air-conditioned venues are the best midday choices for families.',
+    fam_acts_label: '10 Attractions for Families',
+    fam_acts_title: 'Things to Do',
+    fam_transit_label: 'Getting Around with Kids',
+    fam_transit_title: 'Family Transit Guide',
+    fam_tab_all: 'All Activities', fam_tab_museum: 'Museums', fam_tab_outdoors: 'Outdoors',
+    fam_tab_indoor: 'Indoor', fam_tab_theme: 'Theme Parks', fam_tab_landmark: 'Landmarks',
+    fam_tab_stadium: 'Stadiums', fam_tab_dart: '🚆 DART Only',
+    fam_dart_yes: 'DART Accessible', fam_dart_no: 'Drive/Ride',
+    fam_duration: 'Duration', fam_age: 'Best Age',
+    fam_transit_dart: '🚆 DART Accessible', fam_transit_car: '🚗 Car Recommended',
+
+    // ── WEATHER ───────────────────────────────────────────────
+    wx_label: 'Live from Dallas, TX',
+    wx_title: 'Dallas Weather',
+    wx_live: 'Live Data',
+    wx_next24: 'Next 24 Hours',
+    wx_7day: '7-Day Forecast',
+    wx_glance: 'Conditions at a Glance',
+    wx_advice: 'Match Day Advice',
+    wx_stadium_title: 'Stadium Weather Tips',
+    wx_loading: 'Loading weather data…',
+    wx_unavailable: 'Weather unavailable',
+    wx_updated: 'Updated',
+    wx_humidity: 'Humidity', wx_wind: 'Wind Speed', wx_uv: 'UV Index',
+    wx_sunrise: 'Sunrise', wx_sunset: 'Sunset', wx_winddir: 'Wind Dir',
+    wx_feels: 'Feels like',
+    wx_heat_ok: 'Comfortable', wx_heat_warm: 'Warm', wx_heat_hot: 'Hot', wx_heat_extreme: 'Extreme Heat',
+    wx_advice_cards: [
+      { icon: '🏟️', title: 'AT&T Stadium', body: 'The stadium has a retractable roof and full climate control — inside it\'s always comfortable regardless of outside conditions. Dress for 70°F (21°C) inside.' },
+      { icon: '🚶', title: 'Getting to the Stadium', body: 'The walk from CentrePort to the shuttle, and the outdoor approach to gates, is exposed. In June–July this is brutal in the heat. Wear light clothing and bring water.' },
+      { icon: '☔', title: 'Thunderstorms', body: 'Dallas gets fast-moving afternoon thunderstorms in summer. They usually pass in 30–45 min. The stadium roof closes immediately for lightning. Keep an eye on the radar.' },
+      { icon: '💧', title: 'Hydration', body: 'In 100°F+ heat you can lose a litre of water per hour outdoors. Drink before you feel thirsty. Empty refillable bottles are allowed through stadium security.' },
+    ],
+
+    // ── MATCHES page extras ────────────────────────────────────
+    match_venue_label: 'AT&T Stadium · Arlington, TX',
+    match_fixtures_title: 'Dallas Fixtures',
+    match_note: 'Dallas Stadium (AT&T Stadium) hosts 9 matches — the most of any venue in the tournament. All times are CDT. Click any match to find flights and hotels.',
+    match_next: 'Next Dallas Match',
+    match_cd_label: 'Countdown to Kickoff',
+    match_stay_label: 'Stay Near the Action',
+    match_venue_info: 'Venue Info',
+    match_address: 'Address', match_capacity: 'Capacity',
+    match_getting: 'Getting There', match_bags: 'Bag Policy',
+    match_bags_text: 'Clear bags only · Max 12"×6"×12" · Mobile tickets required · No outside food/drink',
+    match_getting_text: 'TRE rail to CentrePort, then free FIFA shuttle. No direct rail to Arlington.',
+    match_transit_link: 'Full Transit Guide →',
+    match_add_cal: '+ Add to Calendar',
+    match_flying: 'Flying in for this match?',
+    match_find_date: 'Find flights arriving',
+  },
+
+  es: {
+    surv_know_label: 'Para Visitantes Internacionales',
+    surv_know_title: 'Lo que Debes Saber',
+    surv_heat_title: 'El Calor de Texas',
+    surv_heat: ['Temperaturas de junio–julio: 35–40°C con alta humedad','Lleva una botella de agua reutilizable — hidrátate constantemente','El AT&T Stadium tiene aire acondicionado total en interiores','Protector solar FPS 50+ para las fan zones al aire libre','Ropa ligera y transpirable — evita los jeans en días de partido','El golpe de calor es un riesgo real — siéntate a la sombra en los descansos'],
+    surv_transit_title: 'Cómo Moverse por Dallas',
+    surv_transit: ['Dallas es ciudad de autos — el transporte público es limitado fuera del centro','El tren ligero DART cubre el centro, Uptown y Deep Ellum','Uber/Lyft tienen tarifas altas en días de partido — planifica con anticipación','Alquila un auto si te hospedas fuera del área central','Descarga la app GoPass para boletos DART antes de llegar'],
+    surv_money_title: 'Dinero y Propinas',
+    surv_money: ['Solo USD — ten efectivo para food trucks y vendedores','Propina 18–20% en restaurantes — es culturalmente obligatorio','Se espera 15% en bares; $1/bebida como mínimo','Tarjetas de crédito aceptadas casi en todos lados; contactless disponible','Los cajeros cobran $3–5 de comisión — usa Wise o Revolut','Los precios no incluyen impuestos — añade 8.25% en caja'],
+    surv_conn_title: 'Conectividad',
+    surv_conn: ['Compra un SIM prepago de T-Mobile o AT&T en el aeropuerto DFW','eSIM: Airalo o Google Fi funcionan en EUA','WiFi gratuito en el estadio pero congestionado — descarga lo que necesites antes','Descarga mapas offline de Dallas antes de llegar','Emergencias: marca el 911 (gratis desde cualquier teléfono)'],
+    surv_health_title: 'Salud y Seguridad',
+    surv_health: ['Seguro de viaje muy recomendado — la salud en EUA es muy cara','Hospital más cercano: Medical City Arlington, a 5 min del estadio','Clínicas de urgencias para problemas menores — más baratas que urgencias','Farmacias CVS y Walgreens en casi cada esquina','El agua del grifo es segura en toda el área de Dallas'],
+    surv_arriving_title: 'Llegando a Dallas',
+    surv_arriving: ['Aeropuerto principal: DFW Internacional — a 25 min de Dallas','La línea naranja de DART conecta DFW con el centro de Dallas','Aeropuerto secundario: Dallas Love Field (DAL) — vuelos domésticos','La aduana puede tomar 60–90 min — deja tiempo extra','ESTA o visa requerida para visitantes no estadounidenses — solicítala con 72h de anticipación'],
+    surv_resources_title: 'Recursos Útiles',
+    surv_resources: ['Turismo oficial de Dallas ↗','Copa Mundial FIFA 2026 oficial ↗','Planificador de viajes DART ↗','Pronóstico del tiempo en Dallas ↗','Solicitud de exención de visa ESTA ↗'],
+    surv_weather_label: 'Condiciones en Vivo',
+    surv_weather_title: 'Clima en Dallas',
+    surv_weather_sub: 'Clima en vivo en Dallas — alterna entre °F y °C. Planifica tus actividades al aire libre según el calor.',
+    log_venue: 'Estadio Dallas, Arlington',
+    log_title: 'Cómo Llegar',
+    log_hero_sub: 'El Estadio Dallas está en Arlington, entre Dallas y Fort Worth. Sin ferrocarril directo. Así es exactamente como llegar.',
+    log_rec_label: 'Ruta Recomendada',
+    log_rec_title: 'Paso a Paso',
+    log_alert: 'Arlington no tiene metro ni tren ligero. Planifica tu transporte — el tráfico en días de partido puede añadir 60–90 min por trayecto.',
+    log_s1_title: 'TRE a CentrePort',
+    log_s1_body: 'Desde Union Station (centro de Dallas) o Fort Worth, toma el Trinity Railway Express hasta CentrePort/Aeropuerto DFW. Sale cada 30 min en días de partido.',
+    log_s1_tip: '~35 min desde Union Station · $5 por trayecto',
+    log_s2_title: 'Shuttle Gratuito FIFA',
+    log_s2_body: 'Autobuses FIFA gratuitos salen de CentrePort directamente a las entradas del estadio — 10–15 min de viaje.',
+    log_s2_tip: 'Gratis con tu boleto · Sal 2+ horas antes',
+    log_s3_title: 'Entrada al Estadio',
+    log_s3_body: 'Muestra tu boleto móvil en la entrada. Solo bolsas transparentes (30×15×30 cm máx). Las puertas abren 2.5 horas antes.',
+    log_s3_tip: 'Toma captura de tu boleto — sin señal dentro del estadio',
+    log_s4_title: 'Después del Partido',
+    log_s4_body: 'Los shuttles de regreso funcionan hasta que la multitud se dispersa — espera 30–45 min. Alternativa: ve a bares cercanos a esperar y luego pide un Uber.',
+    log_s4_tip: 'Configura tu punto de recogida de Uber antes de entrar al estadio',
+    log_opts_label: 'Todas las Opciones',
+    log_opts_title: 'Cómo Moverte',
+    log_opt_rec: 'Recomendado',
+    log_opt_tre_title: 'TRE + Shuttle',
+    log_opt_tre_desc: 'Trinity Railway Express desde Dallas o Fort Worth, luego shuttle FIFA gratuito.',
+    log_opt_tre_pros: 'Sin tráfico · $5 · Servicio dedicado',
+    log_opt_tre_cons: 'Requiere planificación · Espera post-partido',
+    log_opt_drive_title: 'Auto y Estacionamiento',
+    log_opt_drive_desc: 'Maneja a Arlington y usa los estacionamientos oficiales del estadio. Reserva online.',
+    log_opt_drive_pros: 'Puerta a puerta · Flexible',
+    log_opt_drive_cons: 'Mucho tráfico · $30–60 · Larga salida',
+    log_opt_uber_title: 'Uber / Lyft',
+    log_opt_uber_desc: 'Conveniente pero caro en días de partido — tarifas 3–5× más altas. Baja en Randol Mill Rd.',
+    log_opt_uber_pros: 'Sin planificación',
+    log_opt_uber_cons: 'Tarifa elevada · Larga espera post-partido',
+    log_opt_bus_title: 'Autobús (Económico)',
+    log_opt_bus_desc: 'FlixBus y Greyhound conectan Dallas con otras ciudades de Texas. Desde $15 por trayecto.',
+    log_opt_bus_pros: 'Opción más barata · Rutas desde Houston, Austin',
+    log_opt_bus_cons: 'No va directo al estadio · Depende del horario',
+    log_book_label: 'Reserva tu Transporte',
+    log_book_sub: 'Los autos de alquiler son la opción más flexible para Arlington. Los hoteles cerca del estadio se agotan rápido — reserva con anticipación.',
+    cl_label: 'Herramienta Interactiva',
+    cl_title: 'Lista del Día del Partido',
+    cl_sub: '35 cosas que debes tener listas antes de ir al estadio. Márcalas mientras avanzas — el progreso se guarda en tu navegador.',
+    cl_progress: 'Tu Progreso', cl_reset: 'Reiniciar', cl_done: 'completados',
+    cl_groups: [
+      { g: '🎫 Boletos y Documentos', items: ['Descarga la app FIFA y carga tu boleto','Toma captura de tu boleto (sin señal dentro)','Pasaporte o identificación oficial empacada','Número de póliza del seguro de viaje guardado offline','Confirmación de hotel descargada'] },
+      { g: '🚌 Transporte', items: ['Planifica tu ruta al estadio','App GoPass DART descargada y cargada','Horario del shuttle revisado — sal 2h antes','Uber/Lyft configurado con punto de recogida en Arlington','Pase de estacionamiento pre-comprado (si manejas)'] },
+      { g: '👝 Qué Llevar', items: ['Bolsa transparente (30×15×30 cm máx — sin excepciones)','Protector solar FPS 50+ aplicado y empacado','Botella de agua reutilizable (vacía para pasar seguridad)','Teléfono completamente cargado antes de salir del hotel','Cargador portátil empacado','Playera, bufanda o colores del equipo','Efectivo pequeño (USD) para vendedores y propinas'] },
+      { g: '🏨 Antes de Salir', items: ['El hotel tiene tu contacto para el día del partido','Sabes la parada DART/TRE más cercana a tu hotel','Punto de encuentro post-partido acordado con tu grupo','Revisa el pronóstico del tiempo en Dallas para ese día'] },
+      { g: '📱 Apps y Descargas', items: ['App oficial FIFA instalada','Mapa offline de Dallas descargado','App de transporte GoPass instalada','Cuenta de Uber/Lyft configurada con método de pago','Contactos de emergencia guardados: 911, hotel, embajada'] },
+      { g: '🍽️ Comida y Plan', items: ['Restaurante pre-partido reservado (¡reserva con anticipación!)','Bar o fan zone pre-partido acordado con el grupo','Restaurante post-partido identificado (se llenan rápido)','Desayuno o almuerzo resuelto — tendrás hambre'] },
+    ],
+    exp_beyond: 'Más Allá del Estadio', exp_title: 'Explorar Dallas',
+    exp_sub: 'Dallas es una ciudad de barrios, cada uno con su propia personalidad. Así es como encontrar la ciudad real.',
+    exp_nbh_label: 'Seis Zonas para Conocer', exp_nbh_title: 'Barrios',
+    exp_rest_label: 'Favoritos Locales', exp_rest_title: 'Dónde Comer',
+    exp_tabs_all: 'Todas las Zonas', exp_tabs_food: 'Comida y Bebida', exp_tabs_night: 'Nocturno', exp_tabs_culture: 'Cultura',
+    exp_rest_all: 'Todo', exp_rest_bbq: 'BBQ', exp_rest_tex: 'Tex-Mex', exp_rest_intl: 'Internacional', exp_rest_bar: 'Bares',
+    map_label: 'Mapa Interactivo', map_title: 'Mapa de Dallas',
+    map_sub: 'Estadio, paradas de transporte, hoteles, fan zones y restaurantes — todo en un mapa.',
+    map_filter: 'Filtrar por Categoría',
+    map_all: 'Todo', map_stadium: 'Estadio', map_transit: 'Transporte',
+    map_food: 'Comida y Bebida', map_hotels: 'Hoteles', map_fanzones: 'Zonas de Fanáticos',
+    fam_label: 'Actividades Familiares', fam_title: 'Dallas en Familia',
+    fam_sub: 'Las mejores actividades con niños en Dallas durante el Mundial — museos, parques de atracciones, parques acuáticos, zoológicos y experiencias tejanas.',
+    fam_heat_warning: 'Advertencia de calor extremo:',
+    fam_heat_text: 'Dallas en junio y julio alcanza regularmente 38–40°C. Programa actividades al aire libre por la mañana (9–11h) o tarde (después de las 17h).',
+    fam_acts_label: '10 Atracciones para Familias', fam_acts_title: 'Qué Hacer',
+    fam_transit_label: 'Moverse con Niños', fam_transit_title: 'Guía de Transporte Familiar',
+    fam_tab_all: 'Todas', fam_tab_museum: 'Museos', fam_tab_outdoors: 'Exterior',
+    fam_tab_indoor: 'Interior', fam_tab_theme: 'Parques de Atracciones',
+    fam_tab_landmark: 'Monumentos', fam_tab_stadium: 'Estadios', fam_tab_dart: '🚆 Solo DART',
+    fam_dart_yes: 'Accesible en DART', fam_dart_no: 'Auto/Taxi',
+    fam_duration: 'Duración', fam_age: 'Edad Recomendada',
+    fam_transit_dart: '🚆 Accesible en DART', fam_transit_car: '🚗 Se Recomienda Auto',
+    wx_label: 'En Vivo desde Dallas, TX', wx_title: 'Clima en Dallas', wx_live: 'En Vivo',
+    wx_next24: 'Próximas 24 Horas', wx_7day: 'Pronóstico de 7 Días',
+    wx_glance: 'Condiciones de un Vistazo', wx_advice: 'Consejos para el Día del Partido',
+    wx_stadium_title: 'Clima en el Estadio', wx_loading: 'Cargando datos del clima…',
+    wx_unavailable: 'Clima no disponible', wx_updated: 'Actualizado',
+    wx_humidity: 'Humedad', wx_wind: 'Velocidad del Viento', wx_uv: 'Índice UV',
+    wx_sunrise: 'Amanecer', wx_sunset: 'Atardecer', wx_winddir: 'Dirección Viento',
+    wx_feels: 'Sensación térmica',
+    wx_heat_ok: 'Agradable', wx_heat_warm: 'Cálido', wx_heat_hot: 'Caluroso', wx_heat_extreme: 'Calor Extremo',
+    wx_advice_cards: [
+      { icon: '🏟️', title: 'Estadio Dallas', body: 'El estadio tiene techo retráctil y clima artificial — dentro siempre es cómodo. Vístete para 21°C en interiores.' },
+      { icon: '🚶', title: 'Llegar al Estadio', body: 'El camino desde CentrePort hasta el shuttle y la entrada al estadio es al aire libre. En junio–julio es brutal. Ropa ligera y agua.' },
+      { icon: '☔', title: 'Tormentas Eléctricas', body: 'Dallas tiene tormentas de verano rápidas. Suelen pasar en 30–45 min. El techo se cierra de inmediato ante rayos.' },
+      { icon: '💧', title: 'Hidratación', body: 'Con más de 38°C puedes perder un litro de agua por hora. Bebe antes de tener sed. Se permiten botellas vacías en seguridad.' },
+    ],
+    match_venue_label: 'Estadio Dallas · Arlington, TX',
+    match_fixtures_title: 'Partidos en Dallas',
+    match_note: 'El Estadio Dallas alberga 9 partidos — más que cualquier otro estadio. Todos los horarios en CDT.',
+    match_next: 'Próximo Partido en Dallas', match_cd_label: 'Cuenta Regresiva',
+    match_stay_label: 'Alójate Cerca de la Acción', match_venue_info: 'Info del Estadio',
+    match_address: 'Dirección', match_capacity: 'Capacidad',
+    match_getting: 'Cómo Llegar', match_bags: 'Política de Bolsas',
+    match_bags_text: 'Solo bolsas transparentes · Máx 30×15×30 cm · Boleto móvil obligatorio · Sin comida ni bebida exterior',
+    match_getting_text: 'Tren TRE a CentrePort, luego shuttle FIFA gratuito. Sin ferrocarril directo a Arlington.',
+    match_transit_link: 'Guía de Transporte →', match_add_cal: '+ Agregar al Calendario',
+    match_flying: '¿Viajando para este partido?', match_find_date: 'Encuentra vuelos llegando',
+  },
+
+  fr: {
+    surv_know_label: 'Pour les Visiteurs Internationaux',
+    surv_know_title: 'Ce qu\'il Faut Savoir',
+    surv_heat_title: 'La Chaleur du Texas',
+    surv_heat: ['Températures juin–juillet : 35–40°C avec forte humidité','Portez une bouteille d\'eau réutilisable — hydratez-vous constamment','L\'AT&T Stadium est entièrement climatisé à l\'intérieur','Crème solaire SPF 50+ pour les fan zones en plein air','Vêtements légers et respirants — évitez les jeans les jours de match','Le coup de chaleur est un risque réel — cherchez l\'ombre pendant les pauses'],
+    surv_transit_title: 'Se Déplacer à Dallas',
+    surv_transit: ['Dallas est une ville de voitures — les transports publics sont limités hors du centre','Le tramway DART dessert le centre-ville, Uptown et Deep Ellum','Uber/Lyft pratiquent des tarifs élevés les jours de match — planifiez à l\'avance','Louez une voiture si vous séjournez hors du centre','Téléchargez l\'application GoPass pour les billets DART avant d\'arriver'],
+    surv_money_title: 'Argent et Pourboires',
+    surv_money: ['Uniquement USD — ayez du liquide pour les food trucks','Pourboire 18–20% au restaurant — incontournable culturellement','15% attendu dans les bars ; 1$/consommation minimum','Cartes de crédit acceptées presque partout ; sans contact disponible','Les distributeurs facturent 3–5$ de frais — utilisez Wise ou Revolut','Les prix sont hors taxes — ajoutez 8,25% à la caisse'],
+    surv_conn_title: 'Connectivité',
+    surv_conn: ['Achetez une SIM prépayée T-Mobile ou AT&T à l\'aéroport DFW','eSIM : Airalo ou Google Fi fonctionnent aux États-Unis','WiFi gratuit au stade mais saturé — téléchargez ce dont vous avez besoin avant','Téléchargez des cartes hors ligne de Dallas avant d\'arriver','Urgences : composez le 911 (gratuit depuis tout téléphone)'],
+    surv_health_title: 'Santé et Sécurité',
+    surv_health: ['Assurance voyage fortement recommandée — les soins sont très chers aux États-Unis','Hôpital le plus proche : Medical City Arlington, à 5 min du stade','Cliniques de soins urgents pour les problèmes mineurs — moins chers que les urgences','Pharmacies CVS et Walgreens à presque chaque coin de rue','L\'eau du robinet est potable dans toute la région de Dallas'],
+    surv_arriving_title: 'Arriver à Dallas',
+    surv_arriving: ['Aéroport principal : DFW International — à 25 min de Dallas','La ligne Orange du DART relie DFW directement au centre-ville','Aéroport secondaire : Dallas Love Field (DAL) — vols intérieurs','La douane peut prendre 60–90 min — prévoyez du temps supplémentaire','ESTA ou visa requis pour les visiteurs non américains — demandez au moins 72h à l\'avance'],
+    surv_resources_title: 'Ressources Utiles',
+    surv_resources: ['Tourisme officiel de Dallas ↗','Coupe du Monde FIFA 2026 officielle ↗','Planificateur de trajet DART ↗','Prévisions météo Dallas (NWS) ↗','Demande de dispense de visa ESTA ↗'],
+    surv_weather_label: 'Conditions en Direct',
+    surv_weather_title: 'Météo Dallas',
+    surv_weather_sub: 'Météo de Dallas en direct — basculez entre °F et °C. Planifiez vos activités en plein air en fonction de la chaleur.',
+    log_venue: 'Stade Dallas, Arlington', log_title: 'Comment Y Aller',
+    log_hero_sub: 'Le Stade Dallas est à Arlington, entre Dallas et Fort Worth. Pas de train direct. Voici exactement comment s\'y rendre.',
+    log_rec_label: 'Itinéraire Recommandé', log_rec_title: 'Étape par Étape',
+    log_alert: 'Arlington n\'a pas de métro ni de tramway. Planifiez votre transport — la circulation les jours de match peut ajouter 60–90 min par trajet.',
+    log_s1_title: 'TRE vers CentrePort',
+    log_s1_body: 'Depuis Union Station (centre-ville de Dallas) ou Fort Worth, prenez le Trinity Railway Express jusqu\'à CentrePort/Aéroport DFW. Toutes les 30 min les jours de match.',
+    log_s1_tip: '~35 min depuis Union Station · 5$ par trajet',
+    log_s2_title: 'Navette FIFA Gratuite',
+    log_s2_body: 'Des navettes FIFA gratuites partent de CentrePort directement vers les entrées du stade — 10–15 min de trajet.',
+    log_s2_tip: 'Gratuit avec votre billet · Partez 2h+ avant',
+    log_s3_title: 'Entrée au Stade',
+    log_s3_body: 'Présentez votre billet mobile à l\'entrée. Sacs transparents uniquement (30×15×30 cm max). Portes ouvertes 2h30 avant le match.',
+    log_s3_tip: 'Faites une capture de votre billet — le réseau est saturé à l\'intérieur',
+    log_s4_title: 'Après le Match',
+    log_s4_body: 'Les navettes retour fonctionnent jusqu\'à la dispersion de la foule — prévoyez 30–45 min d\'attente. Alternative : allez dans les bars d\'Arlington en attendant, puis Uber.',
+    log_s4_tip: 'Configurez votre point de prise en charge Uber avant d\'entrer',
+    log_opts_label: 'Toutes les Options', log_opts_title: 'Comment Se Déplacer',
+    log_opt_rec: 'Recommandé',
+    log_opt_tre_title: 'TRE + Navette', log_opt_tre_desc: 'Trinity Railway Express depuis Dallas ou Fort Worth, puis navette FIFA gratuite.',
+    log_opt_tre_pros: 'Sans trafic · 5$ · Service dédié', log_opt_tre_cons: 'Planification nécessaire · Attente post-match',
+    log_opt_drive_title: 'En Voiture et Parking', log_opt_drive_desc: 'Conduisez jusqu\'à Arlington et utilisez les parkings officiels du stade. Réservez en ligne.',
+    log_opt_drive_pros: 'Porte-à-porte · Flexible', log_opt_drive_cons: 'Trafic intense · 30–60$ · Longue sortie',
+    log_opt_uber_title: 'Uber / Lyft', log_opt_uber_desc: 'Pratique mais cher les jours de match — tarifs 3–5× plus élevés. Dépose sur Randol Mill Rd.',
+    log_opt_uber_pros: 'Aucune planification', log_opt_uber_cons: 'Tarif élevé · Longue attente post-match',
+    log_opt_bus_title: 'Bus (Économique)', log_opt_bus_desc: 'FlixBus et Greyhound relient Dallas à d\'autres villes du Texas. Dès 15$ par trajet.',
+    log_opt_bus_pros: 'Option la moins chère · Routes depuis Houston, Austin', log_opt_bus_cons: 'Pas direct au stade · Dépend des horaires',
+    log_book_label: 'Réservez Votre Transport', log_book_sub: 'Les voitures de location sont l\'option la plus flexible pour Arlington. Les hôtels près du stade se remplissent vite — réservez tôt.',
+    cl_label: 'Outil Interactif', cl_title: 'Liste Jour de Match',
+    cl_sub: '35 choses à préparer avant de vous rendre au stade. Cochez-les au fur et à mesure — votre progression est sauvegardée dans votre navigateur.',
+    cl_progress: 'Votre Progression', cl_reset: 'Réinitialiser', cl_done: 'fait',
+    cl_groups: [
+      { g: '🎫 Billets & Documents', items: ['Téléchargez l\'app FIFA et chargez votre billet','Faites une capture de votre billet (réseau saturé à l\'intérieur)','Passeport ou pièce d\'identité officielle','Numéro de police d\'assurance voyage sauvegardé hors ligne','Confirmation d\'hôtel téléchargée'] },
+      { g: '🚌 Transport', items: ['Planifiez votre itinéraire vers le stade','App GoPass DART téléchargée et rechargée','Horaires de navette vérifiés — partez 2h avant','Uber/Lyft configuré avec point de prise en charge à Arlington','Pass de parking pré-acheté (si vous conduisez)'] },
+      { g: '👝 Ce qu\'il Faut Apporter', items: ['Sac transparent (30×15×30 cm max — aucune exception)','Crème solaire SPF 50+ appliquée et emportée','Bouteille d\'eau réutilisable (vide pour passer la sécurité)','Téléphone complètement chargé avant de partir','Batterie externe emportée','Maillot, écharpe ou couleurs de l\'équipe','Petites coupures (USD) pour les vendeurs et pourboires'] },
+      { g: '🏨 Avant de Partir', items: ['L\'hôtel a votre contact pour le jour du match','Connaissez l\'arrêt DART/TRE le plus proche de votre hôtel','Point de rendez-vous post-match convenu avec votre groupe','Vérifiez la météo de Dallas pour ce jour-là'] },
+      { g: '📱 Applications & Téléchargements', items: ['Application officielle FIFA installée','Carte hors ligne de Dallas téléchargée','Application de transport GoPass installée','Compte Uber/Lyft configuré avec moyen de paiement','Contacts d\'urgence sauvegardés : 911, hôtel, ambassade'] },
+      { g: '🍽️ Repas & Plan', items: ['Restaurant d\'avant-match réservé (réservez tôt !)','Bar ou fan zone d\'avant-match convenu avec le groupe','Restaurant d\'après-match identifié (ils se remplissent vite)','Petit-déjeuner ou déjeuner organisé — vous aurez faim'] },
+    ],
+    exp_beyond: 'Au-delà du Stade', exp_title: 'Explorer Dallas',
+    exp_sub: 'Dallas est une ville de quartiers, chacun avec sa propre personnalité. Voici comment trouver la vraie ville.',
+    exp_nbh_label: 'Six Zones à Connaître', exp_nbh_title: 'Quartiers',
+    exp_rest_label: 'Favoris Locaux', exp_rest_title: 'Où Manger',
+    exp_tabs_all: 'Toutes les Zones', exp_tabs_food: 'Nourriture & Boissons', exp_tabs_night: 'Soirée', exp_tabs_culture: 'Culture',
+    exp_rest_all: 'Tout', exp_rest_bbq: 'BBQ', exp_rest_tex: 'Tex-Mex', exp_rest_intl: 'International', exp_rest_bar: 'Bars',
+    map_label: 'Carte Interactive', map_title: 'Carte de Dallas',
+    map_sub: 'Stade, arrêts de transport, hôtels, fan zones et restaurants — tout sur une seule carte.',
+    map_filter: 'Filtrer par Catégorie',
+    map_all: 'Tout', map_stadium: 'Stade', map_transit: 'Transport',
+    map_food: 'Nourriture & Boissons', map_hotels: 'Hôtels', map_fanzones: 'Fan Zones',
+    fam_label: 'Activités Familiales', fam_title: 'Dallas en Famille',
+    fam_sub: 'Les meilleures activités avec des enfants à Dallas — musées, parcs d\'attractions, parcs aquatiques, zoos et expériences texanes.',
+    fam_heat_warning: 'Avertissement chaleur :',
+    fam_heat_text: 'Dallas en juin et juillet atteint régulièrement 38–40°C. Planifiez les activités en plein air le matin (9–11h) ou l\'après-midi tard (après 17h).',
+    fam_acts_label: '10 Attractions pour les Familles', fam_acts_title: 'Que Faire',
+    fam_transit_label: 'Se Déplacer avec des Enfants', fam_transit_title: 'Guide Transport Famille',
+    fam_tab_all: 'Tout', fam_tab_museum: 'Musées', fam_tab_outdoors: 'Plein Air',
+    fam_tab_indoor: 'Intérieur', fam_tab_theme: 'Parcs d\'Attractions',
+    fam_tab_landmark: 'Monuments', fam_tab_stadium: 'Stades', fam_tab_dart: '🚆 DART Uniquement',
+    fam_dart_yes: 'Accessible en DART', fam_dart_no: 'Voiture/Taxi',
+    fam_duration: 'Durée', fam_age: 'Âge Recommandé',
+    fam_transit_dart: '🚆 Accessible en DART', fam_transit_car: '🚗 Voiture Recommandée',
+    wx_label: 'En Direct de Dallas, TX', wx_title: 'Météo Dallas', wx_live: 'En Direct',
+    wx_next24: '24 Prochaines Heures', wx_7day: 'Prévisions 7 Jours',
+    wx_glance: 'Conditions en un Coup d\'Œil', wx_advice: 'Conseils Jour de Match',
+    wx_stadium_title: 'Météo au Stade', wx_loading: 'Chargement des données météo…',
+    wx_unavailable: 'Météo indisponible', wx_updated: 'Mis à jour',
+    wx_humidity: 'Humidité', wx_wind: 'Vitesse du Vent', wx_uv: 'Indice UV',
+    wx_sunrise: 'Lever du soleil', wx_sunset: 'Coucher du soleil', wx_winddir: 'Direction Vent',
+    wx_feels: 'Ressenti',
+    wx_heat_ok: 'Agréable', wx_heat_warm: 'Chaud', wx_heat_hot: 'Très chaud', wx_heat_extreme: 'Chaleur Extrême',
+    wx_advice_cards: [
+      { icon: '🏟️', title: 'Stade Dallas', body: 'Le stade a un toit rétractable et la climatisation — à l\'intérieur il fait toujours bon. Habillez-vous pour 21°C à l\'intérieur.' },
+      { icon: '🚶', title: 'Rejoindre le Stade', body: 'Le chemin depuis CentrePort jusqu\'aux navettes et aux entrées est en plein air. En juin–juillet c\'est brutal. Vêtements légers et eau.' },
+      { icon: '☔', title: 'Orages', body: 'Dallas connaît des orages estivaux rapides. Ils passent en 30–45 min. Le toit se ferme immédiatement en cas de foudre.' },
+      { icon: '💧', title: 'Hydratation', body: 'Par 38°C+ vous pouvez perdre un litre d\'eau par heure en extérieur. Buvez avant d\'avoir soif. Les bouteilles vides passent la sécurité.' },
+    ],
+    match_venue_label: 'Stade Dallas · Arlington, TX',
+    match_fixtures_title: 'Matchs à Dallas',
+    match_note: 'Le Stade Dallas accueille 9 matchs — plus que tout autre stade. Horaires en CDT.',
+    match_next: 'Prochain Match à Dallas', match_cd_label: 'Compte à Rebours',
+    match_stay_label: 'Séjournez près de l\'Action', match_venue_info: 'Infos Stade',
+    match_address: 'Adresse', match_capacity: 'Capacité',
+    match_getting: 'Comment Venir', match_bags: 'Politique Bagages',
+    match_bags_text: 'Sacs transparents uniquement · Max 30×15×30 cm · Billet mobile obligatoire · Sans nourriture ni boisson extérieure',
+    match_getting_text: 'Train TRE vers CentrePort, puis navette FIFA gratuite. Pas de train direct vers Arlington.',
+    match_transit_link: 'Guide de Transport →', match_add_cal: '+ Ajouter au Calendrier',
+    match_flying: 'Vous venez pour ce match ?', match_find_date: 'Trouvez des vols arrivant',
+  },
+
+  pt: {
+    surv_know_label: 'Para Visitantes Internacionais',
+    surv_know_title: 'O que Saber Antes de Chegar',
+    surv_heat_title: 'O Calor do Texas',
+    surv_heat: ['Temperaturas de junho–julho: 35–40°C com alta umidade','Leve uma garrafa d\'água reutilizável — hidrate-se constantemente','O AT&T Stadium tem ar-condicionado total nos ambientes internos','Protetor solar FPS 50+ para as fan zones ao ar livre','Roupas leves e respiráveis — evite jeans nos dias de jogo','O estresse térmico é um risco real — sente-se à sombra nos intervalos'],
+    surv_transit_title: 'Como se Locomover em Dallas',
+    surv_transit: ['Dallas é cidade de carros — o transporte público é limitado fora do centro','O metrô leve DART cobre o centro, Uptown e Deep Ellum','Uber/Lyft têm tarifas altas nos dias de jogo — planeje com antecedência','Alugue um carro se ficar fora da área central','Baixe o app GoPass para bilhetes DART antes de chegar'],
+    surv_money_title: 'Dinheiro e Gorjetas',
+    surv_money: ['Apenas USD — tenha dinheiro para food trucks e vendedores','Gorjeta de 18–20% em restaurantes — obrigatório culturalmente','15% esperado em bares; US$1/bebida no mínimo','Cartões de crédito aceitos em quase todo lugar; contactless disponível','Caixas eletrônicos cobram US$3–5 de taxa — use Wise ou Revolut','Preços sem impostos — adicione 8,25% no caixa'],
+    surv_conn_title: 'Conectividade',
+    surv_conn: ['Compre um SIM pré-pago da T-Mobile ou AT&T no aeroporto DFW','eSIM: Airalo ou Google Fi funcionam nos EUA','WiFi gratuito no estádio mas congestionado — baixe o que precisar antes','Baixe mapas offline de Dallas antes de chegar','Emergências: disque 911 (gratuito de qualquer telefone)'],
+    surv_health_title: 'Saúde e Segurança',
+    surv_health: ['Seguro viagem altamente recomendado — saúde nos EUA é muito cara','Hospital mais próximo: Medical City Arlington, a 5 min do estádio','Clínicas de pronto-atendimento para problemas menores — mais baratas que urgências','Farmácias CVS e Walgreens em quase cada esquina','A água da torneira é segura para beber em toda a região de Dallas'],
+    surv_arriving_title: 'Chegando a Dallas',
+    surv_arriving: ['Aeroporto principal: DFW Internacional — a 25 min de Dallas','A linha laranja do DART conecta DFW diretamente ao centro','Aeroporto secundário: Dallas Love Field (DAL) — voos domésticos','A imigração pode levar 60–90 min — deixe tempo extra','ESTA ou visto necessário para visitantes não americanos — solicite com 72h de antecedência'],
+    surv_resources_title: 'Recursos Úteis',
+    surv_resources: ['Turismo oficial de Dallas ↗','Copa do Mundo FIFA 2026 oficial ↗','Planejador de viagens DART ↗','Previsão do tempo Dallas (NWS) ↗','Solicitação de isenção de visto ESTA ↗'],
+    surv_weather_label: 'Condições ao Vivo',
+    surv_weather_title: 'Clima em Dallas',
+    surv_weather_sub: 'Clima ao vivo em Dallas — alterne entre °F e °C. Planeje suas atividades ao ar livre de acordo com o calor.',
+    log_venue: 'Estádio Dallas, Arlington', log_title: 'Como Chegar',
+    log_hero_sub: 'O Estádio Dallas fica em Arlington, entre Dallas e Fort Worth. Sem trilho direto. Veja exatamente como chegar.',
+    log_rec_label: 'Rota Recomendada', log_rec_title: 'Passo a Passo',
+    log_alert: 'Arlington não tem metrô nem VLT. Planeje seu transporte — o trânsito nos dias de jogo pode adicionar 60–90 min por trajeto.',
+    log_s1_title: 'TRE para CentrePort',
+    log_s1_body: 'Da Union Station (centro de Dallas) ou Fort Worth, pegue o Trinity Railway Express até CentrePort/Aeroporto DFW. A cada 30 min nos dias de jogo.',
+    log_s1_tip: '~35 min da Union Station · US$5 por trajeto',
+    log_s2_title: 'Ônibus FIFA Gratuito',
+    log_s2_body: 'Ônibus FIFA gratuitos saem de CentrePort diretamente para as entradas do estádio — 10–15 min de viagem.',
+    log_s2_tip: 'Gratuito com seu ingresso · Saia 2h+ antes',
+    log_s3_title: 'Entrada no Estádio',
+    log_s3_body: 'Mostre seu ingresso móvel na entrada. Apenas bolsas transparentes (30×15×30 cm máx). Portões abrem 2,5h antes do jogo.',
+    log_s3_tip: 'Tire um print do ingresso — sem sinal dentro do estádio',
+    log_s4_title: 'Após o Jogo',
+    log_s4_body: 'Os ônibus de retorno funcionam até a multidão dispersar — espere 30–45 min. Alternativa: vá a bares próximos esperar e depois chame um Uber.',
+    log_s4_tip: 'Configure seu ponto de embarque no Uber antes de entrar',
+    log_opts_label: 'Todas as Opções', log_opts_title: 'Como se Locomover',
+    log_opt_rec: 'Recomendado',
+    log_opt_tre_title: 'TRE + Ônibus', log_opt_tre_desc: 'Trinity Railway Express de Dallas ou Fort Worth, depois ônibus FIFA gratuito.',
+    log_opt_tre_pros: 'Sem trânsito · US$5 · Serviço dedicado', log_opt_tre_cons: 'Requer planejamento · Espera pós-jogo',
+    log_opt_drive_title: 'Carro e Estacionamento', log_opt_drive_desc: 'Dirija até Arlington e use os estacionamentos oficiais do estádio. Reserve online.',
+    log_opt_drive_pros: 'Porta a porta · Flexível', log_opt_drive_cons: 'Muito trânsito · US$30–60 · Longa saída',
+    log_opt_uber_title: 'Uber / Lyft', log_opt_uber_desc: 'Conveniente mas caro nos dias de jogo — tarifas 3–5× mais altas. Desembarque na Randol Mill Rd.',
+    log_opt_uber_pros: 'Sem planejamento', log_opt_uber_cons: 'Tarifa alta · Longa espera pós-jogo',
+    log_opt_bus_title: 'Ônibus (Econômico)', log_opt_bus_desc: 'FlixBus e Greyhound conectam Dallas a outras cidades do Texas. A partir de US$15.',
+    log_opt_bus_pros: 'Opção mais barata · Rotas de Houston, Austin', log_opt_bus_cons: 'Não vai direto ao estádio · Depende do horário',
+    log_book_label: 'Reserve seu Transporte', log_book_sub: 'Carros alugados são a opção mais flexível para Arlington. Hotéis perto do estádio esgotam rápido — reserve cedo.',
+    cl_label: 'Ferramenta Interativa', cl_title: 'Lista do Dia do Jogo',
+    cl_sub: '35 coisas para resolver antes de ir ao estádio. Marque conforme avança — o progresso é salvo no seu navegador.',
+    cl_progress: 'Seu Progresso', cl_reset: 'Reiniciar', cl_done: 'feitos',
+    cl_groups: [
+      { g: '🎫 Ingressos e Documentos', items: ['Baixe o app FIFA e carregue seu ingresso','Tire um print do ingresso (sem sinal dentro)','Passaporte ou documento oficial empacado','Número da apólice do seguro de viagem salvo offline','Confirmação de hotel baixada'] },
+      { g: '🚌 Transporte', items: ['Planeje sua rota ao estádio','App GoPass DART baixado e carregado','Horário do ônibus verificado — saia 2h antes','Uber/Lyft configurado com ponto de embarque em Arlington','Passe de estacionamento pré-comprado (se for de carro)'] },
+      { g: '👝 O que Levar', items: ['Bolsa transparente (30×15×30 cm máx — sem exceções)','Protetor solar FPS 50+ aplicado e na bolsa','Garrafa d\'água reutilizável (vazia para passar pela segurança)','Celular totalmente carregado antes de sair do hotel','Carregador portátil na bolsa','Camisa, cachecol ou cores do seu time','Dinheiro trocado (USD) para vendedores e gorjetas'] },
+      { g: '🏨 Antes de Sair', items: ['O hotel tem seu contato para o dia do jogo','Saiba a parada DART/TRE mais próxima do seu hotel','Ponto de encontro pós-jogo combinado com o grupo','Verifique a previsão do tempo de Dallas para o dia'] },
+      { g: '📱 Apps e Downloads', items: ['App oficial FIFA instalado','Mapa offline de Dallas baixado','App de transporte GoPass instalado','Conta Uber/Lyft configurada com meio de pagamento','Contatos de emergência salvos: 911, hotel, embaixada'] },
+      { g: '🍽️ Comida e Plano', items: ['Restaurante pré-jogo reservado (reserve cedo!)','Bar ou fan zone pré-jogo combinado com o grupo','Restaurante pós-jogo identificado (lotam rápido)','Café da manhã ou almoço resolvido — você vai estar com fome'] },
+    ],
+    exp_beyond: 'Além do Estádio', exp_title: 'Explorar Dallas',
+    exp_sub: 'Dallas é uma cidade de bairros, cada um com sua própria personalidade. Veja como encontrar a cidade real.',
+    exp_nbh_label: 'Seis Áreas para Conhecer', exp_nbh_title: 'Bairros',
+    exp_rest_label: 'Favoritos Locais', exp_rest_title: 'Onde Comer',
+    exp_tabs_all: 'Todas as Áreas', exp_tabs_food: 'Comida e Bebida', exp_tabs_night: 'Noite', exp_tabs_culture: 'Cultura',
+    exp_rest_all: 'Tudo', exp_rest_bbq: 'BBQ', exp_rest_tex: 'Tex-Mex', exp_rest_intl: 'Internacional', exp_rest_bar: 'Bares',
+    map_label: 'Mapa Interativo', map_title: 'Mapa de Dallas',
+    map_sub: 'Estádio, paradas de transporte, hotéis, fan zones e restaurantes — tudo em um mapa.',
+    map_filter: 'Filtrar por Categoria',
+    map_all: 'Tudo', map_stadium: 'Estádio', map_transit: 'Transporte',
+    map_food: 'Comida e Bebida', map_hotels: 'Hotéis', map_fanzones: 'Zonas de Fãs',
+    fam_label: 'Atividades Familiares', fam_title: 'Dallas em Família',
+    fam_sub: 'As melhores atividades com crianças em Dallas — museus, parques, parques aquáticos, zoológicos e experiências texanas.',
+    fam_heat_warning: 'Aviso de calor extremo:',
+    fam_heat_text: 'Dallas em junho e julho atinge regularmente 38–40°C. Programe atividades ao ar livre pela manhã (9–11h) ou à tarde (depois das 17h).',
+    fam_acts_label: '10 Atrações para Famílias', fam_acts_title: 'O que Fazer',
+    fam_transit_label: 'Locomover-se com Crianças', fam_transit_title: 'Guia de Transporte Familiar',
+    fam_tab_all: 'Tudo', fam_tab_museum: 'Museus', fam_tab_outdoors: 'Ar Livre',
+    fam_tab_indoor: 'Interior', fam_tab_theme: 'Parques de Diversão',
+    fam_tab_landmark: 'Pontos Turísticos', fam_tab_stadium: 'Estádios', fam_tab_dart: '🚆 Somente DART',
+    fam_dart_yes: 'Acessível pelo DART', fam_dart_no: 'Carro/Táxi',
+    fam_duration: 'Duração', fam_age: 'Idade Recomendada',
+    fam_transit_dart: '🚆 Acessível pelo DART', fam_transit_car: '🚗 Carro Recomendado',
+    wx_label: 'Ao Vivo de Dallas, TX', wx_title: 'Clima em Dallas', wx_live: 'Ao Vivo',
+    wx_next24: 'Próximas 24 Horas', wx_7day: 'Previsão de 7 Dias',
+    wx_glance: 'Condições em um Relance', wx_advice: 'Dicas para o Dia do Jogo',
+    wx_stadium_title: 'Clima no Estádio', wx_loading: 'Carregando dados do clima…',
+    wx_unavailable: 'Clima indisponível', wx_updated: 'Atualizado',
+    wx_humidity: 'Umidade', wx_wind: 'Velocidade do Vento', wx_uv: 'Índice UV',
+    wx_sunrise: 'Nascer do sol', wx_sunset: 'Pôr do sol', wx_winddir: 'Direção Vento',
+    wx_feels: 'Sensação térmica',
+    wx_heat_ok: 'Agradável', wx_heat_warm: 'Morno', wx_heat_hot: 'Quente', wx_heat_extreme: 'Calor Extremo',
+    wx_advice_cards: [
+      { icon: '🏟️', title: 'Estádio Dallas', body: 'O estádio tem teto retrátil e climatização total — dentro sempre é confortável. Vista-se para 21°C no interior.' },
+      { icon: '🚶', title: 'Chegar ao Estádio', body: 'O caminho de CentrePort até o ônibus e a entrada do estádio é ao ar livre. Em junho–julho é brutal. Roupa leve e água.' },
+      { icon: '☔', title: 'Tempestades', body: 'Dallas tem tempestades de verão rápidas. Geralmente passam em 30–45 min. O teto fecha imediatamente em caso de raios.' },
+      { icon: '💧', title: 'Hidratação', body: 'Com 38°C+ você pode perder um litro de água por hora ao ar livre. Beba antes de sentir sede. Garrafas vazias passam pela segurança.' },
+    ],
+    match_venue_label: 'Estádio Dallas · Arlington, TX',
+    match_fixtures_title: 'Jogos em Dallas',
+    match_note: 'O Estádio Dallas sedia 9 jogos — mais do que qualquer outro estádio. Horários em CDT.',
+    match_next: 'Próximo Jogo em Dallas', match_cd_label: 'Contagem Regressiva',
+    match_stay_label: 'Fique Perto da Ação', match_venue_info: 'Info do Estádio',
+    match_address: 'Endereço', match_capacity: 'Capacidade',
+    match_getting: 'Como Chegar', match_bags: 'Política de Bolsas',
+    match_bags_text: 'Apenas bolsas transparentes · Máx 30×15×30 cm · Ingresso móvel obrigatório · Sem comida ou bebida externa',
+    match_getting_text: 'Trem TRE para CentrePort, depois ônibus FIFA gratuito. Sem trilho direto para Arlington.',
+    match_transit_link: 'Guia de Transporte →', match_add_cal: '+ Adicionar ao Calendário',
+    match_flying: 'Viajando para este jogo?', match_find_date: 'Encontre voos chegando',
+  },
+};
+
+// Merge PAGE_CONTENT into TRANSLATIONS so t() works for all keys
+Object.keys(PAGE_CONTENT).forEach(lang => {
+  if (TRANSLATIONS[lang]) {
+    Object.assign(TRANSLATIONS[lang], PAGE_CONTENT[lang]);
+  }
+});
+
+// ── PAGE RENDERERS ────────────────────────────────────────────
+// Each page calls its renderer and re-calls on langchange.
+
+function renderSurvivalPage() {
+  const cards = [
+    { icon:'🌡️', titleKey:'surv_heat_title',    itemsKey:'surv_heat' },
+    { icon:'🚗', titleKey:'surv_transit_title', itemsKey:'surv_transit' },
+    { icon:'💳', titleKey:'surv_money_title',   itemsKey:'surv_money' },
+    { icon:'📱', titleKey:'surv_conn_title',     itemsKey:'surv_conn' },
+    { icon:'🏥', titleKey:'surv_health_title',  itemsKey:'surv_health' },
+    { icon:'✈️', titleKey:'surv_arriving_title',itemsKey:'surv_arriving' },
+    { icon:'🌐', titleKey:'surv_resources_title',itemsKey:'surv_resources',
+      links: [
+        {url:'https://www.visitdallas.com', key:0},
+        {url:'https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/match-schedule-fixtures-results-teams-stadiums', key:1},
+        {url:'https://www.dart.org', key:2},
+        {url:'https://www.weather.gov/fwd', key:3},
+        {url:'https://esta.cbp.dhs.gov', key:4},
+      ]
+    },
+  ];
+  const grid = document.getElementById('surv-grid');
+  if (!grid) return;
+  grid.innerHTML = cards.map(c => {
+    const items = t(c.itemsKey);
+    const liHtml = Array.isArray(items) ? items.map((item, i) => {
+      if (c.links) {
+        const link = c.links[i];
+        return `<li><a href="${link.url}" target="_blank" rel="noopener" style="color:var(--white)">${item}</a></li>`;
+      }
+      return `<li>${item}</li>`;
+    }).join('') : '';
+    return `<div class="surv-card">
+      <div class="surv-head"><span class="surv-ico">${c.icon}</span><span class="surv-title">${t(c.titleKey)}</span></div>
+      <ul class="surv-items">${liHtml}</ul>
+    </div>`;
+  }).join('');
+
+  // Section headings
+  const lbl = document.getElementById('surv-know-label');
+  const ttl = document.getElementById('surv-know-title');
+  if (lbl) lbl.textContent = t('surv_know_label');
+  if (ttl) ttl.textContent = t('surv_know_title');
+
+  // Weather widget label
+  const wlbl = document.getElementById('surv-weather-label');
+  const wttl = document.getElementById('surv-weather-title');
+  const wsub = document.getElementById('surv-weather-sub');
+  if (wlbl) wlbl.textContent = t('surv_weather_label');
+  if (wttl) wttl.textContent = t('surv_weather_title');
+  if (wsub) wsub.textContent = t('surv_weather_sub');
+}
+
+function renderLogisticsPage() {
+  // Section labels
+  const ids = {
+    'log-venue': 'log_venue', 'log-title': 'log_title',
+    'log-rec-label': 'log_rec_label', 'log-rec-title': 'log_rec_title',
+    'log-opts-label': 'log_opts_label', 'log-opts-title': 'log_opts_title',
+    'log-book-label': 'log_book_label',
+  };
+  Object.entries(ids).forEach(([id, key]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = t(key);
+  });
+
+  // Alert
+  const alert = document.getElementById('log-alert');
+  if (alert) alert.innerHTML = `<strong>${t('important')}</strong> ${t('log_alert')}`;
+
+  // Steps
+  const steps = [
+    { num:'01', tKey:'log_s1_title', bKey:'log_s1_body', tipKey:'log_s1_tip' },
+    { num:'02', tKey:'log_s2_title', bKey:'log_s2_body', tipKey:'log_s2_tip' },
+    { num:'03', tKey:'log_s3_title', bKey:'log_s3_body', tipKey:'log_s3_tip' },
+    { num:'04', tKey:'log_s4_title', bKey:'log_s4_body', tipKey:'log_s4_tip' },
+  ];
+  const stepsGrid = document.getElementById('log-steps-grid');
+  if (stepsGrid) {
+    stepsGrid.innerHTML = steps.map(s => `
+      <div class="step-card">
+        <div class="step-num">${s.num}</div>
+        <div class="step-title">${t(s.tKey)}</div>
+        <p class="step-body">${t(s.bKey)}</p>
+        <p class="step-tip">⚡ ${t(s.tipKey)}</p>
+      </div>`).join('');
+  }
+
+  // Options
+  const opts = [
+    { rec:true,  icon:'🚂', tKey:'log_opt_tre_title',   dKey:'log_opt_tre_desc',   pKey:'log_opt_tre_pros',   cKey:'log_opt_tre_cons',   link:{url:'https://www.dart.org', label:'DART Trip Planner ↗'} },
+    { rec:false, icon:'🚗', tKey:'log_opt_drive_title', dKey:'log_opt_drive_desc', pKey:'log_opt_drive_pros', cKey:'log_opt_drive_cons', link:{url:'https://www.attstadium.com/plan-your-visit/parking', label:'Book Parking ↗'} },
+    { rec:false, icon:'🚕', tKey:'log_opt_uber_title',  dKey:'log_opt_uber_desc',  pKey:'log_opt_uber_pros',  cKey:'log_opt_uber_cons',  link:null },
+    { rec:false, icon:'🚌', tKey:'log_opt_bus_title',   dKey:'log_opt_bus_desc',   pKey:'log_opt_bus_pros',   cKey:'log_opt_bus_cons',   link:null },
+  ];
+  const optsGrid = document.getElementById('log-opts-grid');
+  if (optsGrid) {
+    optsGrid.innerHTML = opts.map(o => `
+      <div class="option-card${o.rec ? ' recommended' : ''}">
+        ${o.rec ? `<div class="rec-badge">${t('log_opt_rec')}</div>` : ''}
+        <div class="oc-title">${o.icon} ${t(o.tKey)}</div>
+        <div class="oc-desc">${t(o.dKey)}</div>
+        <div class="oc-pros">✓ ${t(o.pKey)}</div>
+        <div class="oc-cons">✗ ${t(o.cKey)}</div>
+        ${o.link ? `<div style="margin-top:.75rem"><a href="${o.link.url}" target="_blank" rel="noopener" class="ext-link" style="font-size:.65rem">${o.link.label}</a></div>` : ''}
+      </div>`).join('');
+  }
+}
+
+function renderChecklistPage() {
+  const lbl = document.getElementById('cl-page-label');
+  const ttl = document.getElementById('cl-page-title');
+  const sub = document.getElementById('cl-page-sub');
+  const progLbl = document.getElementById('cl-prog-label');
+  const resetBtn = document.getElementById('cl-reset-btn');
+  if (lbl) lbl.textContent = t('cl_label');
+  if (ttl) ttl.textContent = t('cl_title');
+  if (sub) sub.textContent = t('cl_sub');
+  if (progLbl) progLbl.textContent = t('cl_progress');
+  if (resetBtn) resetBtn.textContent = t('cl_reset');
+
+  const groups = t('cl_groups');
+  if (!Array.isArray(groups)) return;
+
+  // Re-render checklist with translated strings, preserving check state
+  const checks = JSON.parse(localStorage.getItem('dallas2026-checks') || '{}');
+  const grid = document.getElementById('cl-grid');
+  if (!grid) return;
+
+  grid.innerHTML = groups.map((g, gi) => `
+    <div class="cl-group">
+      <div class="cl-group-title">${g.g}</div>
+      <div class="cl-items">
+        ${g.items.map((item, ii) => {
+          const key = gi + '_' + ii;
+          const done = checks[key];
+          return `<div class="cl-item${done ? ' done' : ''}" onclick="clToggle('${key}',this)">
+            <div class="cl-check" style="${done ? 'background:var(--gold);border-color:var(--gold);color:var(--dark)' : ''}">${done ? '✓' : ''}</div>
+            <div class="cl-label" style="${done ? 'text-decoration:line-through;color:var(--dim)' : ''}">${item}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`).join('');
+  updateChecklistProgress();
+}
+
+function updateChecklistProgress() {
+  const groups = t('cl_groups');
+  if (!Array.isArray(groups)) return;
+  const total = groups.reduce((a, g) => a + g.items.length, 0);
+  const checks = JSON.parse(localStorage.getItem('dallas2026-checks') || '{}');
+  const done = Object.values(checks).filter(Boolean).length;
+  const progDone = document.getElementById('prog-done');
+  const progTotal = document.getElementById('prog-total');
+  const progFill = document.getElementById('prog-fill');
+  if (progDone) progDone.textContent = done;
+  if (progTotal) progTotal.textContent = total;
+  if (progFill) progFill.style.width = (done / total * 100) + '%';
+}
+
+function clToggle(key, el) {
+  const checks = JSON.parse(localStorage.getItem('dallas2026-checks') || '{}');
+  checks[key] = !checks[key];
+  localStorage.setItem('dallas2026-checks', JSON.stringify(checks));
+  el.classList.toggle('done', checks[key]);
+  el.querySelector('.cl-check').textContent = checks[key] ? '✓' : '';
+  el.querySelector('.cl-check').style.cssText = checks[key] ? 'background:var(--gold);border-color:var(--gold);color:var(--dark)' : '';
+  el.querySelector('.cl-label').style.cssText = checks[key] ? 'text-decoration:line-through;color:var(--dim)' : '';
+  updateChecklistProgress();
+}
+
+function clReset() {
+  localStorage.removeItem('dallas2026-checks');
+  renderChecklistPage();
 }

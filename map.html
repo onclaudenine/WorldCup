@@ -182,6 +182,18 @@ document.querySelectorAll('.cat-btn').forEach(btn => {
     document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     renderMap();
+
+function updateMapLang() {
+  const ids = {
+    'map-label':'map_label','map-title':'map_title',
+    'map-cat-all':'map_all','map-cat-stadium':'map_stadium',
+    'map-cat-transit':'map_transit','map-cat-food':'map_food',
+    'map-cat-hotels':'map_hotels','map-cat-fanzones':'map_fanzones',
+  };
+  Object.entries(ids).forEach(([id,key])=>{const el=document.getElementById(id);if(el)el.textContent=t(key);});
+}
+document.addEventListener('langchange', updateMapLang);
+
 // Update SVG background on theme toggle
 const mapObserver = new MutationObserver(() => {
   const isLight = document.documentElement.classList.contains('light');
@@ -202,6 +214,18 @@ if (bgRect && isLightNow) bgRect.setAttribute('fill', '#E8E4DC');
   });
 });
 renderMap();
+
+function updateMapLang() {
+  const ids = {
+    'map-label':'map_label','map-title':'map_title',
+    'map-cat-all':'map_all','map-cat-stadium':'map_stadium',
+    'map-cat-transit':'map_transit','map-cat-food':'map_food',
+    'map-cat-hotels':'map_hotels','map-cat-fanzones':'map_fanzones',
+  };
+  Object.entries(ids).forEach(([id,key])=>{const el=document.getElementById(id);if(el)el.textContent=t(key);});
+}
+document.addEventListener('langchange', updateMapLang);
+
 // Update SVG background on theme toggle
 const mapObserver = new MutationObserver(() => {
   const isLight = document.documentElement.classList.contains('light');
