@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+/* Theme init — runs immediately to prevent flash of wrong theme */
+(function(){
+  var saved = localStorage.getItem('dallas2026-theme');
+  var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  var useDark = saved ? saved === 'dark' : prefersDark;
+  if (!useDark) document.documentElement.classList.add('light');
+})();
+</script>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dallas Weather — Dallas 2026</title>
 <meta name="description" content="Live Dallas weather forecast for FIFA World Cup 2026 visitors. 7-day forecast, hourly breakdown, °F/°C toggle.">
@@ -8,11 +17,11 @@
 <link rel="stylesheet" href="css/style.css">
 <style>
 /* ── WEATHER PAGE STYLES ── */
-.w-hero{background:var(--mid);border-bottom:1px solid var(--border);padding:2rem;margin-top:56px}
+.w-hero{background:var(--mid);border-bottom:1px solid var(--border);padding:2rem;margin-top:56px;transition:background .25s}
 .w-hero-inner{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;max-width:900px}
 
 /* Current conditions card */
-.current-card{background:var(--card);border:1px solid var(--border);padding:1.75rem 2rem;min-width:280px;flex:1}
+.current-card{background:var(--card);border:1px solid var(--border);padding:1.5rem;min-width:0;flex:1;transition:background .25s,border-color .25s}
 .current-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem}
 .current-icon{font-size:3.5rem;line-height:1}
 .current-right{text-align:right}
@@ -30,12 +39,12 @@
 .unit-toggle{display:flex;border:1px solid var(--border2);overflow:hidden;align-self:flex-start}
 .ut-btn{font-family:var(--fh);font-size:.8rem;font-weight:700;letter-spacing:.06em;
   padding:8px 18px;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
-.ut-btn.active{background:var(--white);color:var(--navy)}
+.ut-btn.active{background:var(--navy);color:#fff}
 
 /* Hourly scroll */
 .hourly-scroll{overflow-x:auto;margin:0 -2rem;padding:0 2rem}
 .hourly-track{display:flex;gap:6px;padding-bottom:.5rem;min-width:max-content}
-.hour-cell{background:var(--card);border:1px solid var(--border);padding:.85rem .65rem;
+.hour-cell{background:var(--card);border:1px solid var(--border);transition:background .25s;padding:.85rem .65rem;
   text-align:center;min-width:72px;transition:border-color .15s}
 .hour-cell:hover{border-color:rgba(240,237,232,.35)}
 .hour-cell.now{border-color:var(--white);background:rgba(240,237,232,.07)}
@@ -47,7 +56,7 @@
 
 /* 7-day forecast */
 .forecast-grid{display:flex;flex-direction:column;gap:4px}
-.forecast-row{display:grid;grid-template-columns:110px 40px 1fr 80px;align-items:center;gap:1rem;
+.forecast-row{display:grid;grid-template-columns:100px 36px 1fr 64px;align-items:center;gap:1rem;
   background:var(--card);border:1px solid var(--border);padding:.85rem 1.1rem;transition:border-color .15s}
 .forecast-row:hover{border-color:rgba(240,237,232,.3)}
 .forecast-row.today{border-color:rgba(240,237,232,.4);background:rgba(240,237,232,.04)}

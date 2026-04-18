@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+/* Theme init — runs immediately to prevent flash of wrong theme */
+(function(){
+  var saved = localStorage.getItem('dallas2026-theme');
+  var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  var useDark = saved ? saved === 'dark' : prefersDark;
+  if (!useDark) document.documentElement.classList.add('light');
+})();
+</script>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Match Day Checklist — Dallas 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">

@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+/* Theme init — runs immediately to prevent flash of wrong theme */
+(function(){
+  var saved = localStorage.getItem('dallas2026-theme');
+  var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  var useDark = saved ? saved === 'dark' : prefersDark;
+  if (!useDark) document.documentElement.classList.add('light');
+})();
+</script>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Family Activities — Dallas 2026</title>
 <meta name="description" content="Best family activities in and around Dallas for FIFA World Cup 2026 — museums, theme parks, water parks, zoos, and more with transit directions.">

@@ -144,6 +144,8 @@ function renderNav(activePage) {
   const nav = document.getElementById('main-nav');
   if (!nav) return;
   const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+  const isLight = document.documentElement.classList.contains('light');
+
   nav.innerHTML = `
     <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#002868 33.3%,#BF0A30 33.3%,#BF0A30 66.6%,#F0EDE8 66.6%);opacity:0.7;z-index:1"></div>
     <a class="logo" href="${base}index.html">⚽ Dallas<span class="g">2026</span></a>
@@ -155,18 +157,121 @@ function renderNav(activePage) {
         return `<li><a href="${href}" class="${isActive ? 'active' : ''}">${n.label}</a></li>`;
       }).join('')}
     </ul>
-    <div class="lang-switcher">
-      <button class="lang-btn active" onclick="setLang('en')">EN</button>
-      <button class="lang-btn" onclick="setLang('es')">ES</button>
-      <button class="lang-btn" onclick="setLang('fr')">FR</button>
-      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+    <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+      <div class="lang-switcher">
+        <button class="lang-btn active" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" onclick="setLang('es')">ES</button>
+        <button class="lang-btn" onclick="setLang('fr')">FR</button>
+        <button class="lang-btn" onclick="setLang('pt')">PT</button>
+      </div>
+      <button class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()"
+        title="${isLight ? 'Switch to dark mode' : 'Switch to light mode'}"
+        aria-label="Toggle light/dark mode">
+        ${isLight ? '🌙' : '☀️'}
+      </button>
+      <button class="hamburger" id="hamburger-btn" onclick="toggleMobileNav()"
+        aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>`;
+
+  // Inject mobile drawer after nav (only once)
+  if (!document.getElementById('mobile-nav-drawer')) {
+    const drawer = document.createElement('div');
+    drawer.id = 'mobile-nav-drawer';
+    drawer.className = 'mobile-nav-drawer';
+    drawer.setAttribute('aria-hidden', 'true');
+    drawer.innerHTML = `
+      <div style="padding:.5rem 1.25rem 1rem;border-bottom:1px solid var(--border);margin-bottom:.5rem">
+        <div style="font-family:var(--fh);font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem">Navigate</div>
+        ${SITE.nav.map(n => {
+          const href = base + n.href.replace(/^\//, '');
+          const fileName = n.href.replace(/^\//, '');
+          const isActive = currentPath === fileName;
+          return `<a href="${href}" class="mobile-nav-link${isActive ? ' active' : ''}" onclick="closeMobileNav()">${n.label}</a>`;
+        }).join('')}
+      </div>
+      <div style="padding:1rem 1.25rem">
+        <div style="font-family:var(--fh);font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem">Language</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="lang-btn active" onclick="setLang('en');closeMobileNav()">EN — English</button>
+          <button class="lang-btn" onclick="setLang('es');closeMobileNav()">ES — Español</button>
+          <button class="lang-btn" onclick="setLang('fr');closeMobileNav()">FR — Français</button>
+          <button class="lang-btn" onclick="setLang('pt');closeMobileNav()">PT — Português</button>
+        </div>
+      </div>`;
+    document.body.insertBefore(drawer, document.body.firstChild);
+  }
 }
+
+function toggleMobileNav() {
+  const drawer = document.getElementById('mobile-nav-drawer');
+  const btn = document.getElementById('hamburger-btn');
+  if (!drawer || !btn) return;
+  const isOpen = drawer.classList.contains('open');
+  drawer.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  btn.setAttribute('aria-expanded', String(!isOpen));
+  drawer.setAttribute('aria-hidden', String(isOpen));
+  // Prevent body scroll when drawer is open
+  document.body.style.overflow = isOpen ? '' : 'hidden';
+}
+
+function closeMobileNav() {
+  const drawer = document.getElementById('mobile-nav-drawer');
+  const btn = document.getElementById('hamburger-btn');
+  if (drawer) { drawer.classList.remove('open'); drawer.setAttribute('aria-hidden', 'true'); }
+  if (btn) { btn.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
+  document.body.style.overflow = '';
+}
+
+// Close drawer on Escape key
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobileNav(); });
+
+// ── THEME MANAGEMENT ──────────────────────────────────────────
+function initTheme() {
+  const saved = localStorage.getItem('dallas2026-theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const useDark = saved ? saved === 'dark' : prefersDark;
+  if (!useDark) {
+    document.documentElement.classList.add('light');
+  }
+}
+
+function toggleTheme() {
+  // Smooth transition class
+  document.documentElement.classList.add('theme-transitioning');
+  document.documentElement.classList.toggle('light');
+  const isLight = document.documentElement.classList.contains('light');
+  localStorage.setItem('dallas2026-theme', isLight ? 'light' : 'dark');
+  // Update toggle button
+  const btn = document.getElementById('theme-toggle-btn');
+  if (btn) {
+    btn.textContent = isLight ? '🌙' : '☀️';
+    btn.title = isLight ? 'Switch to dark mode' : 'Switch to light mode';
+  }
+  // Also update hero background if on homepage
+  updateHeroForTheme(isLight);
+  // Remove transition class after animation
+  setTimeout(() => document.documentElement.classList.remove('theme-transitioning'), 350);
+}
+
+function updateHeroForTheme(isLight) {
+  // Weather card background on index.html
+  const wCard = document.querySelector('.weather-card');
+  if (wCard) {
+    wCard.style.background = isLight ? 'rgba(0,40,104,0.08)' : 'rgba(0,40,104,0.6)';
+    wCard.style.borderColor = isLight ? 'rgba(0,40,104,0.2)' : 'rgba(240,237,232,0.15)';
+  }
+}
+
+// Run immediately so theme applies before render
+initTheme();
 
 function getBase() {
   // Works for both local file and deployed subdirectory
   const depth = window.location.pathname.split('/').filter(Boolean).length;
-  const isSubDir = window.location.pathname.includes('/neighborhoods/') || window.location.pathname.includes('/restaurants/');
+  const isSubDir = window.location.pathname.includes('/neighborhoods/') || window.location.pathname.includes('/restaurants/') || window.location.pathname.includes('/activities/');
   return isSubDir ? '../../' : './';
 }
 

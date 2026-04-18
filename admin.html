@@ -184,6 +184,26 @@ code{background:rgba(240,237,232,.1);color:var(--white);padding:1px 5px;font-siz
 const ADMIN_PASSWORD = 'dallas2026admin';
 
 // Common flags for quick picking
+// Auto-suggest flags when typing a team name
+const FLAG_MAP = {
+  'Netherlands':'🇳🇱','Japan':'🇯🇵','England':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Croatia':'🇭🇷',
+  'Argentina':'🇦🇷','Austria':'🇦🇹','Jordan':'🇯🇴','Sweden':'🇸🇪',
+  'USA':'🇺🇸','United States':'🇺🇸','France':'🇫🇷','Brazil':'🇧🇷',
+  'Germany':'🇩🇪','Spain':'🇪🇸','Portugal':'🇵🇹','Belgium':'🇧🇪',
+  'Uruguay':'🇺🇾','Switzerland':'🇨🇭','Denmark':'🇩🇰','Mexico':'🇲🇽',
+  'Morocco':'🇲🇦','Senegal':'🇸🇳','Ecuador':'🇪🇨','South Korea':'🇰🇷',
+  'Canada':'🇨🇦','Serbia':'🇷🇸','Poland':'🇵🇱','Australia':'🇦🇺',
+  'Colombia':'🇨🇴','Ghana':'🇬🇭','Tunisia':'🇹🇳','Cameroon':'🇨🇲',
+  'Norway':'🇳🇴','Scotland':'🏴󠁧󠁢󠁳󠁣󠁴󠁿','Iran':'🇮🇷','Saudi Arabia':'🇸🇦',
+  'Ukraine':'🇺🇦','Turkey':'🇹🇷','Türkiye':'🇹🇷','Czech Republic':'🇨🇿',
+  'Czechia':'🇨🇿','Bosnia and Herzegovina':'🇧🇦','Indonesia':'🇮🇩',
+  'Iraq':'🇮🇶','Paraguay':'🇵🇾','New Zealand':'🇳🇿','South Africa':'🇿🇦',
+  'Qatar':'🇶🇦','Algeria':'🇩🇿','Egypt':'🇪🇬','Ivory Coast':'🇨🇮',
+  "Côte d'Ivoire":'🇨🇮','Panama':'🇵🇦','Haiti':'🇭🇹','Jamaica':'🇯🇲',
+  'Curaçao':'🇨🇼','Suriname':'🇸🇷','Bolivia':'🇧🇴','DR Congo':'🇨🇩',
+  'New Caledonia':'🇳🇨','Uzbekistan':'🇺🇿',
+};
+
 const FLAGS = [
   '🇦🇷','🇧🇷','🇫🇷','🇩🇪','🇪🇸','🇵🇹','🇮🇹','🇳🇱','🇧🇪','🇭🇷',
   '🏴󠁧󠁢󠁥󠁮󠁧󠁿','🇨🇭','🇩🇰','🇸🇪','🇳🇴','🇵🇱','🇦🇹','🇷🇸','🇨🇿','🇸🇰',
@@ -200,6 +220,18 @@ const FLAGS = [
 let matchData = null;
 let isDirty = false;
 
+// Apply stored theme
+(function(){
+  var saved = localStorage.getItem('dallas2026-theme');
+  if (saved === 'light') {
+    document.documentElement.classList.add('light');
+    document.documentElement.style.setProperty('--dark','#F4F1EC');
+    document.documentElement.style.setProperty('--mid','#E8E4DC');
+    document.documentElement.style.setProperty('--card','#FFFFFF');
+    document.documentElement.style.setProperty('--text','#0D1828');
+    document.documentElement.style.setProperty('--muted','#4A6080');
+  }
+})();
 // ── AUTH ──────────────────────────────────────────────────────
 function doLogin() {
   const pwd = document.getElementById('pwd-input').value;
@@ -334,14 +366,25 @@ function pickFlag(side, id, flag) {
 }
 
 function onFieldChange(id) {
-  // Live preview flag emoji
   const f1 = document.getElementById('flag1-'+id);
   const f2 = document.getElementById('flag2-'+id);
+  const t1 = document.getElementById('team1-'+id);
+  const t2 = document.getElementById('team2-'+id);
   const p1 = document.getElementById('flag1-preview-'+id);
   const p2 = document.getElementById('flag2-preview-'+id);
+
+  // Auto-suggest flag when team name is recognized
+  if (t1 && f1 && FLAG_MAP[t1.value.trim()]) {
+    const suggested = FLAG_MAP[t1.value.trim()];
+    if (f1.value === '🏆' || f1.value === '') { f1.value = suggested; }
+  }
+  if (t2 && f2 && FLAG_MAP[t2.value.trim()]) {
+    const suggested = FLAG_MAP[t2.value.trim()];
+    if (f2.value === '🏆' || f2.value === '') { f2.value = suggested; }
+  }
+
   if (f1 && p1) p1.textContent = f1.value;
   if (f2 && p2) p2.textContent = f2.value;
-  // Mark dirty
   isDirty = true;
   document.getElementById('save-status').textContent = '● Unsaved changes';
 }
@@ -441,7 +484,7 @@ function getDefaultData() {
       { "id":"gs1","editable":false,"flag1":"🇳🇱","team1":"Netherlands","flag2":"🇯🇵","team2":"Japan","date":"Jun 14, 2026","isoDate":"2026-06-14","time":"3:00 PM CDT","round":"Group Stage — Group E","note":"","cal":"https://calendar.google.com/calendar/render?action=TEMPLATE&text=Netherlands+vs+Japan+%7C+FIFA+WC+2026+Dallas&dates=20260614T150000/20260614T170000&location=Dallas+Stadium%2C+Arlington+TX" },
       { "id":"gs2","editable":false,"flag1":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","team1":"England","flag2":"🇭🇷","team2":"Croatia","date":"Jun 17, 2026","isoDate":"2026-06-17","time":"3:00 PM CDT","round":"Group Stage — Group F","note":"2018 semifinal rematch","cal":"https://calendar.google.com/calendar/render?action=TEMPLATE&text=England+vs+Croatia+%7C+FIFA+WC+2026+Dallas&dates=20260617T150000/20260617T170000&location=Dallas+Stadium%2C+Arlington+TX" },
       { "id":"gs3","editable":false,"flag1":"🇦🇷","team1":"Argentina","flag2":"🇦🇹","team2":"Austria","date":"Jun 22, 2026","isoDate":"2026-06-22","time":"12:00 PM CDT","round":"Group Stage — Group J","note":"Lionel Messi — defending champions in Dallas","cal":"https://calendar.google.com/calendar/render?action=TEMPLATE&text=Argentina+vs+Austria+%7C+FIFA+WC+2026+Dallas&dates=20260622T120000/20260622T140000&location=Dallas+Stadium%2C+Arlington+TX" },
-      { "id":"gs4","editable":false,"flag1":"🇯🇵","team1":"Japan","flag2":"🇺🇦","team2":"UEFA Playoff B*","date":"Jun 25, 2026","isoDate":"2026-06-25","time":"6:00 PM CDT","round":"Group Stage — Group E","note":"*Playoff B: Ukraine, Sweden, Poland, or Albania","cal":"https://calendar.google.com/calendar/render?action=TEMPLATE&text=Japan+vs+UEFA+Playoff+B+%7C+FIFA+WC+2026+Dallas&dates=20260625T180000/20260625T200000&location=Dallas+Stadium%2C+Arlington+TX" },
+      { "id":"gs4","editable":false,"flag1":"🇯🇵","team1":"Japan","flag2":"🇸🇪","team2":"Sweden","date":"Jun 25, 2026","isoDate":"2026-06-25","time":"6:00 PM CDT","round":"Group Stage — Group E","note":"*Playoff B: Ukraine, Sweden, Poland, or Albania","cal":"https://calendar.google.com/calendar/render?action=TEMPLATE&text=Japan+vs+UEFA+Playoff+B+%7C+FIFA+WC+2026+Dallas&dates=20260625T180000/20260625T200000&location=Dallas+Stadium%2C+Arlington+TX" },
       { "id":"gs5","editable":false,"flag1":"🇯🇴","team1":"Jordan","flag2":"🇦🇷","team2":"Argentina","date":"Jun 27, 2026","isoDate":"2026-06-27","time":"9:00 PM CDT","round":"Group Stage — Group J","note":"Messi's 2nd Dallas match","cal":"https://calendar.google.com/calendar/render?action=TEMPLATE&text=Jordan+vs+Argentina+%7C+FIFA+WC+2026+Dallas&dates=20260627T210000/20260627T230000&location=Dallas+Stadium%2C+Arlington+TX" },
       { "id":"r32a","editable":true,"flag1":"🏆","team1":"Group E Runner-up","flag2":"🏆","team2":"Group I Runner-up","date":"Jun 30, 2026","isoDate":"2026-06-30","time":"12:00 PM CDT","round":"Round of 32","note":"Known after Jun 27","cal":"https://calendar.google.com/calendar/render?action=TEMPLATE&text=Round+of+32+%7C+FIFA+WC+2026+Dallas&dates=20260630T120000/20260630T140000&location=Dallas+Stadium%2C+Arlington+TX" },
       { "id":"r32b","editable":true,"flag1":"🏆","team1":"Group D Runner-up","flag2":"🏆","team2":"Group G Runner-up","date":"Jul 3, 2026","isoDate":"2026-07-03","time":"1:00 PM CDT","round":"Round of 32","note":"Known after Jun 27","cal":"https://calendar.google.com/calendar/render?action=TEMPLATE&text=Round+of+32+%7C+FIFA+WC+2026+Dallas&dates=20260703T130000/20260703T150000&location=Dallas+Stadium%2C+Arlington+TX" },
