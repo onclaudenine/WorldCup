@@ -311,8 +311,8 @@ function renderBookingSection(containerId, options = {}) {
   if (!el) return;
 
   const {
-    title = 'Book Your Trip',
-    subtitle = 'Find the best deals on hotels, flights, and transport to Dallas.',
+    title = null,
+    subtitle = null,
     context = 'dallas',
     showHotels = true,
     showFlights = true,
@@ -327,114 +327,129 @@ function renderBookingSection(containerId, options = {}) {
     compact = false,
   } = options;
 
+  // Use t() if available (loaded from site.js), otherwise fall back to English
+  const tr = (key, fallback) => (typeof t === 'function' && t(key)) ? t(key) : fallback;
+
+  const sectionTitle    = title    || tr('book_your_trip', 'Book Your Trip');
+  const sectionSubtitle = subtitle || tr('booking_sub',    'Find the best deals on hotels, flights, and transport to Dallas.');
+
   const cards = [];
 
   if (showHotels) cards.push({
     icon: '🏨',
-    label: 'Hotels',
+    label: tr('bk_hotels_label', 'Hotels'),
     partner: 'via Booking.com',
-    desc: compact ? 'Best rates, free cancellation on most rooms.' : 'Compare 500+ Dallas & Arlington hotels. Free cancellation on most rooms. Best price guarantee.',
-    cta: 'Search Hotels',
+    desc: compact
+      ? tr('bk_hotels_desc_s', 'Best rates, free cancellation on most rooms.')
+      : tr('bk_hotels_desc',   'Compare 500+ Dallas & Arlington hotels. Free cancellation on most rooms. Best price guarantee.'),
+    cta: tr('bk_hotels_cta', 'Search Hotels'),
     url: bookingHotelsUrl(hotelLocation),
-    badge: 'Most Popular',
-    badgeColor: 'rgba(0,40,104,0.25)',
-    badgeText: '#F0EDE8',
+    badge: tr('bk_hotels_badge', 'Most Popular'),
+    badgeColor: 'rgba(0,40,104,0.25)', badgeText: '#F0EDE8',
   });
 
   if (showFlights) cards.push({
     icon: '✈️',
-    label: 'Flights to DFW',
+    label: tr('bk_flights_label', 'Flights to DFW'),
     partner: 'via Skyscanner',
-    desc: compact ? 'Search every airline. Best prices for June 2026.' : 'Search every airline flying into Dallas Fort Worth (DFW). Set fare alerts for World Cup dates in June–July 2026.',
-    cta: 'Search Flights',
+    desc: compact
+      ? tr('bk_flights_desc_s', 'Search every airline. Best prices for June 2026.')
+      : tr('bk_flights_desc',   'Search every airline flying into Dallas Fort Worth (DFW). Set fare alerts for World Cup dates in June–July 2026.'),
+    cta: tr('bk_flights_cta', 'Search Flights'),
     url: skyscannerUrl(),
-    badge: 'Best for Intl',
-    badgeColor: 'rgba(191,10,48,0.15)',
-    badgeText: '#F0EDE8',
+    badge: tr('bk_flights_badge', 'Best for Intl'),
+    badgeColor: 'rgba(191,10,48,0.15)', badgeText: '#F0EDE8',
   });
 
   if (showCars) cards.push({
     icon: '🚗',
-    label: 'Rental Cars',
+    label: tr('bk_cars_label', 'Rental Cars'),
     partner: 'via Rentalcars.com',
-    desc: compact ? 'Pick up at DFW Airport. Essential for Arlington.' : 'Pick up at DFW Airport or downtown Dallas. Essential for reaching AT&T Stadium — Arlington has no direct rail service.',
-    cta: 'Compare Cars',
+    desc: compact
+      ? tr('bk_cars_desc_s', 'Pick up at DFW Airport. Essential for Arlington.')
+      : tr('bk_cars_desc',   'Pick up at DFW Airport or downtown Dallas. Essential for reaching AT&T Stadium — Arlington has no direct rail service.'),
+    cta: tr('bk_cars_cta', 'Compare Cars'),
     url: rentalcarsUrl(),
-    badge: 'Stadium Essential',
-    badgeColor: 'rgba(191,10,48,0.1)',
-    badgeText: '#ff4d6d',
+    badge: tr('bk_cars_badge', 'Stadium Essential'),
+    badgeColor: 'rgba(191,10,48,0.1)', badgeText: '#ff4d6d',
   });
 
   if (showBus) cards.push({
     icon: '🚌',
-    label: 'Bus Tickets',
+    label: tr('bk_bus_label', 'Bus Tickets'),
     partner: 'via FlixBus / Greyhound',
-    desc: compact ? 'Budget routes from Houston, Austin & OKC.' : 'Budget-friendly bus routes from Houston, Austin, San Antonio, and Oklahoma City. From $15 one-way.',
-    cta: 'Find Bus Routes',
+    desc: compact
+      ? tr('bk_bus_desc_s', 'Budget routes from Houston, Austin & OKC.')
+      : tr('bk_bus_desc',   'Budget-friendly bus routes from Houston, Austin, San Antonio, and Oklahoma City. From $15 one-way.'),
+    cta: tr('bk_bus_cta', 'Find Bus Routes'),
     url: flixbusUrl(),
-    badge: 'Budget Option',
-    badgeColor: 'rgba(240,237,232,0.1)',
-    badgeText: '#F0EDE8',
+    badge: tr('bk_bus_badge', 'Budget Option'),
+    badgeColor: 'rgba(240,237,232,0.1)', badgeText: '#F0EDE8',
   });
 
   if (showTuro) cards.push({
     icon: '🔑',
-    label: 'Turo Car Sharing',
+    label: tr('bk_turo_label', 'Turo Car Sharing'),
     partner: 'via Turo',
-    desc: compact ? 'Rent unique cars from local hosts.' : 'Rent from local car owners — often cheaper than traditional rentals. Pickup near your hotel.',
-    cta: 'Browse Turo',
+    desc: compact
+      ? tr('bk_turo_desc_s', 'Rent unique cars from local hosts.')
+      : tr('bk_turo_desc',   'Rent from local car owners — often cheaper than traditional rentals. Pickup near your hotel.'),
+    cta: tr('bk_turo_cta', 'Browse Turo'),
     url: turoUrl(),
-    badge: 'Trending',
-    badgeColor: 'rgba(0,40,104,0.2)',
-    badgeText: '#F0EDE8',
+    badge: tr('bk_turo_badge', 'Trending'),
+    badgeColor: 'rgba(0,40,104,0.2)', badgeText: '#F0EDE8',
   });
 
   if (showActivities) cards.push({
     icon: '🎟️',
-    label: 'Tours & Activities',
+    label: tr('bk_act_label', 'Tours & Activities'),
     partner: 'via Viator',
-    desc: compact ? 'Stadium tours, Stockyards, Dallas experiences.' : "Stadium tours, Stockyards rodeos, Dallas food tours, and cultural experiences. Book ahead — World Cup dates sell out fast.",
-    cta: 'Browse Activities',
+    desc: compact
+      ? tr('bk_act_desc_s', 'Stadium tours, Stockyards, Dallas experiences.')
+      : tr('bk_act_desc',   'Stadium tours, Stockyards rodeos, Dallas food tours, and cultural experiences. Book ahead — World Cup dates sell out fast.'),
+    cta: tr('bk_act_cta', 'Browse Activities'),
     url: viatorUrl(),
-    badge: 'Experiences',
-    badgeColor: 'rgba(240,237,232,0.1)',
-    badgeText: '#F0EDE8',
+    badge: tr('bk_act_badge', 'Experiences'),
+    badgeColor: 'rgba(240,237,232,0.1)', badgeText: '#F0EDE8',
   });
 
   if (showAirbnb) cards.push({
     icon: '🏠',
-    label: 'Vacation Rentals',
+    label: tr('bk_airbnb_label', 'Vacation Rentals'),
     partner: 'via Airbnb',
-    desc: compact ? 'Apartments, houses & rooms near Dallas.' : "Entire apartments and houses near AT&T Stadium and downtown Dallas. Great for groups — often cheaper than hotels for 4+ people.",
-    cta: 'Search Airbnb',
+    desc: compact
+      ? tr('bk_airbnb_desc_s', 'Apartments, houses & rooms near Dallas.')
+      : tr('bk_airbnb_desc',   'Entire apartments and houses near AT&T Stadium. Great for groups — often cheaper than hotels for 4+.'),
+    cta: tr('bk_airbnb_cta', 'Search Airbnb'),
     url: airbnbUrl(hotelLocation),
-    badge: 'Homes',
-    badgeColor: 'rgba(255,90,95,0.15)',
-    badgeText: '#FF5A5F',
+    badge: tr('bk_airbnb_badge', 'Homes'),
+    badgeColor: 'rgba(255,90,95,0.15)', badgeText: '#FF5A5F',
   });
 
   if (showUberEats) cards.push({
     icon: '🛵',
-    label: 'Food Delivery',
+    label: tr('bk_eats_label', 'Food Delivery'),
     partner: 'via Uber Eats',
-    desc: compact ? 'Dallas restaurants delivered to your hotel.' : "Too hot to go out? Get Dallas's best restaurants delivered to your hotel. Pecan Lodge, Heim BBQ, and more — all on Uber Eats.",
-    cta: 'Order Food',
+    desc: compact
+      ? tr('bk_eats_desc_s', 'Dallas restaurants delivered to your hotel.')
+      : tr('bk_eats_desc',   "Get Dallas's best restaurants delivered to your hotel. Pecan Lodge, Heim BBQ, and more."),
+    cta: tr('bk_eats_cta', 'Order Food'),
     url: uberEatsUrl(),
-    badge: 'Delivery',
-    badgeColor: 'rgba(6,202,106,0.12)',
-    badgeText: '#06CA6A',
+    badge: tr('bk_eats_badge', 'Delivery'),
+    badgeColor: 'rgba(6,202,106,0.12)', badgeText: '#06CA6A',
   });
 
   if (showUber) cards.push({
     icon: '🚕',
-    label: 'Ride to the Stadium',
+    label: tr('bk_uber_label', 'Ride to the Stadium'),
     partner: 'via Uber',
-    desc: compact ? 'Uber rides to AT&T Stadium on match days.' : "New to Uber? Sign up before match day. Note: surge pricing applies on match days — book a TRE + shuttle for a better deal.",
-    cta: 'Get Uber',
+    desc: compact
+      ? tr('bk_uber_desc_s', 'Uber rides to AT&T Stadium on match days.')
+      : tr('bk_uber_desc',   'New to Uber? Sign up before match day. Surge pricing on match days — TRE + shuttle is cheaper.'),
+    cta: tr('bk_uber_cta', 'Get Uber'),
     url: uberRideUrl(),
-    badge: 'Rides',
-    badgeColor: 'rgba(0,0,0,0.1)',
-    badgeText: '#F0EDE8',
+    badge: tr('bk_uber_badge', 'Rides'),
+    badgeColor: 'rgba(0,0,0,0.1)', badgeText: '#F0EDE8',
   });
 
   const cardSize = compact ? '200px' : '240px';
@@ -444,13 +459,13 @@ function renderBookingSection(containerId, options = {}) {
       <div style="font-family:var(--fh);font-size:.7rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
         color:var(--white);margin-bottom:.4rem;display:flex;align-items:center;gap:8px">
         <span style="width:16px;height:2px;background:var(--red);display:inline-block"></span>
-        Book Your Trip
+        ${tr('book_your_trip', 'Book Your Trip')}
       </div>
       <div style="font-family:var(--fh);font-weight:900;font-size:clamp(1.6rem,4vw,2.4rem);
         text-transform:uppercase;line-height:.92;margin-bottom:.6rem">
-        ${title} <span style="color:var(--red)">Deals</span>
+        ${sectionTitle} <span style="color:var(--red)">${tr('bk_deals', 'Deals')}</span>
       </div>
-      <p style="font-size:.82rem;color:var(--muted);font-weight:300;max-width:540px;line-height:1.65;margin-bottom:1.5rem">${subtitle}</p>
+      <p style="font-size:.82rem;color:var(--muted);font-weight:300;max-width:540px;line-height:1.65;margin-bottom:1.5rem">${sectionSubtitle}</p>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(${cardSize},1fr));gap:10px;margin-bottom:1rem">
       ${cards.map(c => `
@@ -476,26 +491,30 @@ function renderBookingSection(containerId, options = {}) {
         </a>`).join('')}
     </div>
     <div style="font-size:.65rem;color:var(--dim);font-weight:300;line-height:1.5">
-      ℹ️ Affiliate links — we earn a small commission if you book, at no extra cost to you.
+      ℹ️ ${tr('affiliate_note', 'Affiliate links — we earn a small commission if you book, at no extra cost to you.')}
       <a href="#affiliate-disclosure" style="color:var(--dim);text-decoration:underline;text-underline-offset:2px">Learn more</a>
     </div>`;
 }
 
 // ── MATCH-DATE FLIGHT WIDGET ──────────────────────────────────
 // Shows flight CTAs tailored to a specific match date on matches.html
-function renderMatchFlightCTA(containerId, matchDate, matchLabel) {
+function renderMatchFlightCTA(containerId, matchDate, matchLabel, labels) {
   const el = document.getElementById(containerId);
   if (!el) return;
-  // matchDate format: "2026-06-15" → arrival day before = "2026-06-14"
-  const arrive = matchDate; // simplified
+  const arrive = matchDate;
+  // labels can be passed in for translation; fallback to English
+  const flyingIn   = (labels && labels.flyingIn)   || 'Flying in for this match?';
+  const findFlights = (labels && labels.findFlights) || 'Find flights arriving';
+  const flightsBtn  = (labels && labels.flightsBtn)  || 'Flights on Skyscanner ↗';
+  const hotelsBtn   = (labels && labels.hotelsBtn)   || 'Hotels near Stadium ↗';
   el.innerHTML = `
     <div style="background:rgba(240,237,232,0.06);border:1px solid rgba(240,237,232,0.2);
       border-left:3px solid var(--gold);padding:.85rem 1.1rem;margin-top:.5rem;
       display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem">
       <div>
         <div style="font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-          color:var(--white);margin-bottom:2px">Flying in for this match?</div>
-        <div style="font-size:.78rem;color:var(--muted);font-weight:300">Find flights arriving ${matchLabel}</div>
+          color:var(--white);margin-bottom:2px">${flyingIn}</div>
+        <div style="font-size:.78rem;color:var(--muted);font-weight:300">${findFlights} ${matchLabel}</div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <a href="${skyscannerUrl('','DFW',arrive.replace(/-/g,''))}" target="_blank" rel="noopener sponsored"
@@ -503,13 +522,13 @@ function renderMatchFlightCTA(containerId, matchDate, matchLabel) {
             color:var(--white);border:1px solid rgba(240,237,232,0.3);background:rgba(240,237,232,0.07);
             padding:6px 12px;text-decoration:none;white-space:nowrap;transition:background .15s"
           onmouseover="this.style.background='rgba(240,237,232,0.14)'"
-          onmouseout="this.style.background='rgba(240,237,232,0.07)'">Flights on Skyscanner ↗</a>
+          onmouseout="this.style.background='rgba(240,237,232,0.07)'">${flightsBtn}</a>
         <a href="${bookingHotelsUrl('Arlington Texas', arrive, '')}" target="_blank" rel="noopener sponsored"
           style="font-family:var(--fh);font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
             color:var(--muted);border:1px solid var(--border2);background:transparent;
             padding:6px 12px;text-decoration:none;white-space:nowrap;transition:all .15s"
           onmouseover="this.style.color='var(--text)';this.style.borderColor='var(--border)'"
-          onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border2)'">Hotels near Stadium ↗</a>
+          onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border2)'">${hotelsBtn}</a>
       </div>
     </div>`;
 }

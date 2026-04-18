@@ -152,6 +152,7 @@ function resolveFlag(flag, teamName) {
 }
 
 function renderMatches(MATCHES) {
+  window._MATCHES_DATA = MATCHES;
   const list = document.getElementById('matches-list');
   list.innerHTML = MATCHES.map((m, i) => `
     <div>
@@ -164,14 +165,20 @@ function renderMatches(MATCHES) {
           <div class="mi-time">${m.time}</div>
           <div class="mi-round">${m.round}</div>
           ${m.note ? `<div style="font-size:.65rem;color:var(--white);margin-top:3px;font-weight:300;font-style:italic">${m.note}</div>` : ''}
-          <a href="${m.cal}" target="_blank" rel="noopener" class="cal-link">+ Add to Calendar</a>
+          <a href="${m.cal}" target="_blank" rel="noopener" class="cal-link">${t('match_add_cal')||'+ Add to Calendar'}</a>
         </div>
       </div>
       <div id="match-cta-${i}"></div>
     </div>`).join('');
 
   MATCHES.forEach((m, i) => {
-    renderMatchFlightCTA(`match-cta-${i}`, m.isoDate, `around ${m.date.replace(', 2026','')}`);
+    const labels = {
+      flyingIn:   t('match_flying')   || 'Flying in for this match?',
+      findFlights: t('match_find_date') || 'Find flights arriving',
+      flightsBtn:  t('flights_on_skyscanner') || 'Flights on Skyscanner ↗',
+      hotelsBtn:   t('hotels_near_stadium')   || 'Hotels near Stadium ↗',
+    };
+    renderMatchFlightCTA(`match-cta-${i}`, m.isoDate, `${t('match_find_date')||'around'} ${m.date.replace(', 2026','')}`, labels);
   });
 }
 
@@ -221,18 +228,36 @@ function updateMatchesLang() {
     if(el) el.textContent=t(key)||el.textContent;
   });
   loadAndRenderMatches();
+  // Re-render CTAs with updated labels after matches load
+  setTimeout(() => {
+    document.querySelectorAll('[id^="match-cta-"]').forEach((el, i) => {
+      const m = (window._MATCHES_DATA || [])[i];
+      if (!m) return;
+      const labels = {
+        flyingIn:    t('match_flying')          || 'Flying in for this match?',
+        findFlights: t('match_find_date')        || 'Find flights arriving',
+        flightsBtn:  t('flights_on_skyscanner')  || 'Flights on Skyscanner ↗',
+        hotelsBtn:   t('hotels_near_stadium')    || 'Hotels near Stadium ↗',
+      };
+      renderMatchFlightCTA(el.id, m.isoDate, `${t('match_find_date')||'around'} ${m.date.replace(', 2026','')}`, labels);
+    });
+  }, 100);
 }
 document.addEventListener('langchange', updateMatchesLang);
 if (currentLang !== 'en') updateMatchesLang();
 
-renderBookingSection('matches-booking', {
-  title: 'Hotels Near the Stadium',
-  subtitle: 'Stay in Arlington for walkable access, or downtown Dallas with DART connections.',
-  showHotels: true, showFlights: true, showCars: true, showBus: false, showTuro: false, showActivities: false,
-  showAirbnb: true,
-  hotelLocation: 'Arlington Texas near AT&T Stadium',
-  compact: true,
-});
+function renderMatchesBooking() {
+  renderBookingSection('matches-booking', {
+    title: t('match_stay_label') || 'Hotels Near the Stadium',
+    subtitle: t('match_booking_sub') || 'Stay in Arlington for walkable access, or downtown Dallas with DART connections.',
+    showHotels: true, showFlights: true, showCars: true, showBus: false, showTuro: false, showActivities: false,
+    showAirbnb: true,
+    hotelLocation: 'Arlington Texas near AT&T Stadium',
+    compact: true,
+  });
+}
+renderMatchesBooking();
+document.addEventListener('langchange', renderMatchesBooking);
 </script>
 </body>
 </html>

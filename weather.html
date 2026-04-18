@@ -181,7 +181,7 @@
       <div style="font-size:1.2rem;margin-bottom:.5rem">☔</div>
       <div style="font-family:var(--fh);font-weight:700;font-size:.9rem;text-transform:uppercase;margin-bottom:.4rem">Thunderstorms</div>
       <div style="font-size:.78rem;color:var(--muted);line-height:1.65;font-weight:300">Dallas gets fast-moving afternoon thunderstorms in summer. They usually pass in 30–45 min. The stadium roof closes immediately for lightning. Keep an eye on the radar.</div>
-      <div style="margin-top:.75rem"><a href="https://www.weather.gov/fwd" target="_blank" rel="noopener" class="ext-link" style="font-size:.65rem">NWS Dallas Forecast ↗</a></div>
+      <div style="margin-top:.75rem"><a href="https://forecast.weather.gov/MapClick.php?lat=32.8975&lon=-97.0444" target="_blank" rel="noopener" class="ext-link" style="font-size:.65rem">NWS Dallas Forecast ↗</a></div>
     </div>
     <div style="background:var(--card);border:1px solid var(--border);padding:1.3rem">
       <div style="font-size:1.2rem;margin-bottom:.5rem">💧</div>
@@ -488,7 +488,7 @@ async function fetchWeather() {
     document.getElementById('current-conditions').innerHTML = `
       <div class="w-error">
         Unable to load weather data. Please check your connection and
-        <a href="https://www.weather.gov/fwd" target="_blank" rel="noopener" style="color:var(--white)">visit NWS Dallas ↗</a> for the latest forecast.
+        <a href="https://forecast.weather.gov/MapClick.php?lat=32.8975&lon=-97.0444" target="_blank" rel="noopener" style="color:var(--white)">visit NWS Dallas ↗</a> for the latest forecast.
       </div>`;
     ['hourly-track','forecast-grid','extras-grid'].forEach(id => {
       const el = document.getElementById(id);
