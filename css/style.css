@@ -6,8 +6,9 @@
   --white:#F0EDE8;
   --white-pure:#FFFFFF;
   --gold:var(--white);
-  --fh:'Barlow Condensed',sans-serif;
-  --fb:'Barlow',sans-serif;
+  --emoji:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji','Twemoji Mozilla',sans-serif;
+  --fh:'Barlow Condensed',var(--emoji);
+  --fb:'Barlow',var(--emoji);
 
   /* ── Dark Mode (default) ── */
   --dark:#06090F;
@@ -192,7 +193,7 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:2.5rem 
 .match-row.feat{border-color:rgba(191,10,48,.4)}
 .team-side{display:flex;align-items:center;gap:10px}
 .team-side.right{justify-content:flex-end;flex-direction:row-reverse}
-.t-flag{font-size:1.6rem;line-height:1}
+.t-flag{font-size:1.6rem;line-height:1;font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji','Twemoji Mozilla',sans-serif}
 .t-name{font-family:var(--fh);font-weight:700;font-size:1rem;text-transform:uppercase}
 .match-vs{font-family:var(--fh);font-size:1.4rem;font-weight:900;color:var(--dim);text-align:center}
 .match-info{text-align:right}
@@ -477,7 +478,7 @@ html.light .mobile-nav-link:hover,html.light .mobile-nav-link.active{color:#fff}
   .cu-n{font-size:1.6rem}
   .cu{min-width:38px}
   .t-name{font-size:.85rem}
-  .t-flag{font-size:1.3rem}
+  .t-flag{font-size:1.3rem;font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji','Twemoji Mozilla',sans-serif}
   .match-vs{font-size:1.1rem}
   .quick-links{grid-template-columns:1fr 1fr}
   .info-grid{grid-template-columns:1fr}

@@ -1311,7 +1311,25 @@ function setLang(lang) {
 // Apply saved language on page load
 function initLang() {
   const saved = localStorage.getItem('dallas2026-lang') || 'en';
-  if (saved !== 'en') setLang(saved);
+  if (saved !== 'en') {
+    // Use setTimeout so page-specific langchange listeners register first
+    currentLang = saved;
+    // Update buttons immediately (nav is already rendered)
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      const btnLang = btn.getAttribute('onclick')?.match(/setLang\(['"](\w+)['"]\)/)?.[1];
+      btn.classList.toggle('active', btnLang === saved);
+    });
+    // Translate data-i18n elements immediately
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      const val = t(key);
+      if (val) el.textContent = val;
+    });
+    // Fire langchange AFTER current script finishes, so page listeners are registered
+    setTimeout(() => {
+      document.dispatchEvent(new CustomEvent('langchange', { detail: { lang: saved } }));
+    }, 0);
+  }
 }
 
 // ══════════════════════════════════════════════════════════════

@@ -2,95 +2,132 @@
 <html lang="en">
 <head>
 <script>
-/* Theme init — runs immediately to prevent flash of wrong theme */
-(function(){
-  var saved = localStorage.getItem('dallas2026-theme');
-  var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  var useDark = saved ? saved === 'dark' : prefersDark;
-  if (!useDark) document.documentElement.classList.add('light');
-})();
+(function(){var s=localStorage.getItem('dallas2026-theme');var d=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;if(s?s==='light':!d)document.documentElement.classList.add('light');})();
 </script>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Map — Dallas 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <style>
-.map-wrap{display:grid;grid-template-columns:260px 1fr;gap:0;border:1px solid var(--border);height:540px}
-.map-sidebar{background:var(--card);border-right:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column;transition:background .25s}
-.map-filter-title{font-family:var(--fh);font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding:.85rem 1rem .4rem}
-.cat-btn{display:flex;align-items:center;gap:10px;padding:.7rem 1rem;cursor:pointer;border:none;background:none;color:var(--muted);width:100%;text-align:left;transition:all .15s;border-left:3px solid transparent}
-.cat-btn:hover{background:rgba(255,255,255,.03);color:var(--text)}
-.cat-btn.active{background:rgba(240,237,232,.07);color:var(--white);border-left-color:var(--white)}
+.map-shell{display:grid;grid-template-columns:280px 1fr;height:600px;border:1px solid var(--border);overflow:hidden}
+.map-sidebar{background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;transition:background .25s}
+.filter-head{padding:.75rem 1rem;border-bottom:1px solid var(--border);font-family:var(--fh);font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);flex-shrink:0}
+.cat-btns{display:flex;flex-direction:column;flex-shrink:0;border-bottom:1px solid var(--border)}
+.cat-btn{display:flex;align-items:center;gap:10px;padding:.6rem 1rem;cursor:pointer;border:none;background:none;color:var(--muted);width:100%;text-align:left;transition:all .15s;border-left:3px solid transparent;font-family:var(--fh);font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.cat-btn:hover{background:rgba(255,255,255,.04);color:var(--text)}
+.cat-btn.active{background:rgba(191,10,48,.07);color:var(--text);border-left-color:var(--red)}
 .cat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.cat-name{font-family:var(--fh);font-size:.78rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase}
-.places-list{border-top:1px solid var(--border);overflow-y:auto;flex:1}
-.place-item{padding:.85rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;text-decoration:none;display:block;color:inherit}
-.place-item:hover,.place-item.sel{background:rgba(240,237,232,.06)}
-.pi-name{font-family:var(--fh);font-size:.88rem;font-weight:700;text-transform:uppercase;letter-spacing:.02em;margin-bottom:2px}
-.pi-type{font-size:.68rem;color:var(--muted);font-weight:300}
-.pi-action{font-size:.65rem;color:var(--white);margin-top:3px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
-.map-canvas{position:relative;overflow:hidden;background:var(--mid);transition:background .25s}
-.map-svg{width:100%;height:100%}
-.tooltip{position:absolute;background:var(--card);border:1px solid var(--border2);padding:.65rem .9rem;
-  pointer-events:none;opacity:0;transition:opacity .15s;max-width:200px;z-index:10}
-.tt-name{font-family:var(--fh);font-weight:700;font-size:.9rem;text-transform:uppercase;margin-bottom:3px}
-.tt-desc{font-size:.72rem;color:var(--muted);font-weight:300;line-height:1.5;margin-bottom:4px}
-.tt-link{font-size:.65rem;color:var(--white);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
-@media(max-width:600px){.map-wrap{grid-template-columns:1fr;height:auto}.map-sidebar{height:180px}.map-canvas{height:340px}}
+.places-list{overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch}
+.place-item{padding:.85rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.place-item:hover,.place-item.sel{background:rgba(191,10,48,.06)}
+.pi-name{font-family:var(--fh);font-size:.88rem;font-weight:700;text-transform:uppercase;letter-spacing:.02em;color:var(--text);margin-bottom:2px}
+.pi-type{font-size:.68rem;color:var(--muted);font-weight:300;text-transform:capitalize}
+.map-area{position:relative;overflow:hidden;flex:1}
+.map-frame{width:100%;height:100%;border:none;display:block}
+/* Info panel slides up from bottom of map */
+.info-panel{position:absolute;bottom:-100%;left:0;right:0;background:var(--card);border-top:1px solid var(--border2);padding:1.25rem 1.5rem 1.5rem;transition:bottom .25s ease;z-index:10}
+.info-panel.open{bottom:0}
+.ip-close{position:absolute;top:.75rem;right:1rem;background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.2rem;line-height:1;padding:4px 8px}
+.ip-close:hover{color:var(--text)}
+.ip-cat{font-family:var(--fh);font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
+.ip-name{font-family:var(--fh);font-size:1.3rem;font-weight:900;text-transform:uppercase;line-height:1;margin-bottom:.5rem;color:var(--text)}
+.ip-desc{font-size:.82rem;color:var(--muted);line-height:1.65;font-weight:300;margin-bottom:1rem}
+.ip-actions{display:flex;gap:8px;flex-wrap:wrap}
+/* Zoom controls */
+.zoom-btns{position:absolute;top:12px;right:12px;display:flex;flex-direction:column;gap:2px;z-index:5}
+.zoom-btn{width:32px;height:32px;background:var(--card);border:1px solid var(--border2);color:var(--text);font-size:1.1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;line-height:1}
+.zoom-btn:hover{background:var(--card2)}
+/* SVG map */
+.map-svg-wrap{width:100%;height:100%;overflow:hidden;position:relative}
+#map-svg{width:100%;height:100%;cursor:grab;user-select:none}
+#map-svg:active{cursor:grabbing}
+/* Mobile */
+@media(max-width:640px){
+  .map-shell{grid-template-columns:1fr;height:auto}
+  .map-sidebar{max-height:220px;border-right:none;border-bottom:1px solid var(--border)}
+  .map-area{height:420px}
+}
 </style>
 </head>
 <body>
 <div id="affiliate-disclosure"></div>
 <nav id="main-nav"></nav>
-<div style="margin-top:56px">
 
-<div style="background:var(--mid);border-bottom:1px solid var(--border);padding:2.5rem 2rem">
-  <div class="sec-label">Interactive Visitor Map</div>
-  <div class="sec-title" style="margin-bottom:.75rem">Dallas <em>Map</em></div>
-  <p style="font-size:.85rem;color:var(--muted);font-weight:300;max-width:560px;line-height:1.65">Stadium, transit stops, hotels, fan zones, and top restaurants — all on one map. Click any pin for details and directions.</p>
+<div style="margin-top:56px">
+<div style="background:var(--mid);border-bottom:1px solid var(--border);padding:2rem 2rem 1.5rem">
+  <div class="sec-label" id="map-label">Interactive Visitor Map</div>
+  <div style="font-family:var(--fh);font-weight:900;font-size:clamp(2rem,5vw,3rem);text-transform:uppercase;line-height:.92;margin-bottom:.5rem" id="map-title">Dallas <em style="color:var(--red);font-style:normal">Map</em></div>
+  <p style="font-size:.82rem;color:var(--muted);font-weight:300;max-width:560px;line-height:1.65">Stadium, transit stops, hotels, fan zones, and top restaurants. Click any pin for details. Use +/− or scroll to zoom.</p>
 </div>
 
-<div style="padding:2rem">
-  <div class="map-wrap">
-    <div class="map-sidebar" style="-webkit-overflow-scrolling:touch">
-      <div class="map-filter-title">Filter by Category</div>
-      <button class="cat-btn active" data-cat="all"><span class="cat-dot" style="background:#888"></span><span class="cat-name">All</span></button>
-      <button class="cat-btn" data-cat="stadium"><span class="cat-dot" style="background:#BF0A30"></span><span class="cat-name">Stadium</span></button>
-      <button class="cat-btn" data-cat="transit"><span class="cat-dot" style="background:#4CAF50"></span><span class="cat-name">Transit</span></button>
-      <button class="cat-btn" data-cat="food"><span class="cat-dot" style="background:#F0EDE8"></span><span class="cat-name">Food & Drink</span></button>
-      <button class="cat-btn" data-cat="hotel"><span class="cat-dot" style="background:#2196F3"></span><span class="cat-name">Hotels</span></button>
-      <button class="cat-btn" data-cat="fanzone"><span class="cat-dot" style="background:#9C27B0"></span><span class="cat-name">Fan Zones</span></button>
-      <div class="places-list" id="places-list"></div>
+<div class="map-shell">
+  <!-- Sidebar -->
+  <div class="map-sidebar">
+    <div class="filter-head" id="map-filter-label">Filter by Category</div>
+    <div class="cat-btns">
+      <button class="cat-btn active" data-cat="all"><span class="cat-dot" style="background:#888"></span><span id="map-cat-all">All</span></button>
+      <button class="cat-btn" data-cat="stadium"><span class="cat-dot" style="background:#BF0A30"></span><span id="map-cat-stadium">Stadium</span></button>
+      <button class="cat-btn" data-cat="transit"><span class="cat-dot" style="background:#4CAF50"></span><span id="map-cat-transit">Transit</span></button>
+      <button class="cat-btn" data-cat="food"><span class="cat-dot" style="background:#F0A030"></span><span id="map-cat-food">Food & Drink</span></button>
+      <button class="cat-btn" data-cat="hotel"><span class="cat-dot" style="background:#2196F3"></span><span id="map-cat-hotels">Hotels</span></button>
+      <button class="cat-btn" data-cat="fanzone"><span class="cat-dot" style="background:#9C27B0"></span><span id="map-cat-fanzones">Fan Zones</span></button>
     </div>
-    <div class="map-canvas" id="map-canvas">
-      <svg class="map-svg" viewBox="0 0 700 540" id="map-svg" xmlns="http://www.w3.org/2000/svg">
-        <rect width="700" height="540" fill="#081020"/>
-        <line x1="0" y1="200" x2="700" y2="200" stroke="#132035" stroke-width="9"/>
-        <line x1="0" y1="330" x2="700" y2="330" stroke="#132035" stroke-width="6"/>
-        <line x1="195" y1="0" x2="195" y2="540" stroke="#132035" stroke-width="9"/>
-        <line x1="450" y1="0" x2="450" y2="540" stroke="#132035" stroke-width="6"/>
-        <line x1="0" y1="265" x2="700" y2="265" stroke="#0D1828" stroke-width="2.5"/>
-        <line x1="320" y1="0" x2="320" y2="540" stroke="#0D1828" stroke-width="2.5"/>
-        <text x="97" y="193" fill="#253060" font-family="'Barlow Condensed'" font-size="9" font-weight="700" text-anchor="middle">I-30 WEST →</text>
-        <text x="590" y="193" fill="#253060" font-family="'Barlow Condensed'" font-size="9" font-weight="700" text-anchor="middle">← I-30 EAST (DALLAS)</text>
-        <text x="191" y="80" fill="#253060" font-family="'Barlow Condensed'" font-size="8" font-weight="700" text-anchor="end" transform="rotate(-90 191 80)">I-35E NORTH</text>
-        <line x1="0" y1="395" x2="700" y2="285" stroke="#4CAF50" stroke-width="2.5" stroke-dasharray="14,5" opacity="0.7"/>
-        <text x="570" y="300" fill="#4CAF50" font-family="'Barlow Condensed'" font-size="9" font-weight="700" opacity="0.9">TRE RAIL →</text>
-        <g id="map-markers"></g>
-      </svg>
-      <div class="tooltip" id="tooltip">
-        <div class="tt-name" id="tt-name"></div>
-        <div class="tt-desc" id="tt-desc"></div>
-        <div class="tt-link" id="tt-link"></div>
-      </div>
-    </div>
+    <div class="places-list" id="places-list"></div>
   </div>
 
-  <div style="margin-top:1.5rem;display:flex;gap:10px;flex-wrap:wrap">
-    <a href="https://maps.google.com/?q=AT%26T+Stadium+Arlington+TX" target="_blank" rel="noopener" class="ext-link">AT&T Stadium on Google Maps ↗</a>
-    <a href="https://www.dart.org/maps/systemmap" target="_blank" rel="noopener" class="ext-link">DART System Map ↗</a>
-    <a href="https://www.trimet.org" target="_blank" rel="noopener" class="ext-link">TRE Rail Info ↗</a>
+  <!-- Map area -->
+  <div class="map-area" id="map-area">
+    <div class="map-svg-wrap" id="map-svg-wrap">
+      <svg id="map-svg" viewBox="0 0 700 540" xmlns="http://www.w3.org/2000/svg">
+        <!-- Background — theme-aware via JS -->
+        <rect id="map-bg" width="700" height="540" fill="#f5f2eb"/>
+        <!-- Major roads -->
+        <rect x="0" y="193" width="700" height="14" fill="#d4cfc4" opacity="0.9"/>
+        <rect x="0" y="321" width="700" height="10" fill="#d4cfc4" opacity="0.8"/>
+        <rect x="188" y="0" width="14" height="540" fill="#d4cfc4" opacity="0.9"/>
+        <rect x="443" y="0" width="10" height="540" fill="#d4cfc4" opacity="0.8"/>
+        <!-- Secondary roads -->
+        <line x1="0" y1="259" x2="700" y2="259" stroke="#e0dbd0" stroke-width="3"/>
+        <line x1="316" y1="0" x2="316" y2="540" stroke="#e0dbd0" stroke-width="3"/>
+        <line x1="570" y1="0" x2="570" y2="540" stroke="#e0dbd0" stroke-width="2"/>
+        <!-- Road labels -->
+        <text x="97" y="191" fill="#8a8070" font-family="'Barlow Condensed'" font-size="8" font-weight="700" text-anchor="middle">I-30 WEST →</text>
+        <text x="580" y="191" fill="#8a8070" font-family="'Barlow Condensed'" font-size="8" font-weight="700" text-anchor="middle">← I-30 EAST</text>
+        <text x="186" y="90" fill="#8a8070" font-family="'Barlow Condensed'" font-size="8" font-weight="700" text-anchor="end" transform="rotate(-90 186 90)">I-35E NORTH</text>
+        <!-- TRE rail line -->
+        <line x1="0" y1="395" x2="700" y2="285" stroke="#4CAF50" stroke-width="3" stroke-dasharray="14,5" opacity="0.7"/>
+        <text x="570" y="300" fill="#4CAF50" font-family="'Barlow Condensed'" font-size="9" font-weight="700" opacity="0.9">TRE RAIL →</text>
+        <!-- Area labels -->
+        <text x="97" y="420" fill="#aaa090" font-family="'Barlow Condensed'" font-size="11" font-weight="700" text-anchor="middle" opacity="0.7">ARLINGTON</text>
+        <text x="460" y="140" fill="#aaa090" font-family="'Barlow Condensed'" font-size="11" font-weight="700" text-anchor="middle" opacity="0.7">DALLAS</text>
+        <text x="70" y="130" fill="#aaa090" font-family="'Barlow Condensed'" font-size="11" font-weight="700" text-anchor="middle" opacity="0.7">FT. WORTH</text>
+        <!-- Markers group -->
+        <g id="map-markers"></g>
+      </svg>
+    </div>
+
+    <!-- Zoom controls -->
+    <div class="zoom-btns">
+      <button class="zoom-btn" id="zoom-in" title="Zoom in">+</button>
+      <button class="zoom-btn" id="zoom-out" title="Zoom out">−</button>
+      <button class="zoom-btn" id="zoom-reset" title="Reset view" style="font-size:.7rem;font-weight:700">⌂</button>
+    </div>
+
+    <!-- Info panel (replaces tooltip) -->
+    <div class="info-panel" id="info-panel">
+      <button class="ip-close" id="ip-close">✕</button>
+      <div class="ip-cat" id="ip-cat"></div>
+      <div class="ip-name" id="ip-name"></div>
+      <div class="ip-desc" id="ip-desc"></div>
+      <div class="ip-actions" id="ip-actions"></div>
+    </div>
   </div>
+</div>
+
+<div style="padding:1.25rem 2rem;display:flex;gap:10px;flex-wrap:wrap;background:var(--mid);border-top:1px solid var(--border)">
+  <a href="https://maps.google.com/?q=AT%26T+Stadium+Arlington+TX" target="_blank" rel="noopener" class="ext-link">AT&T Stadium ↗</a>
+  <a href="https://www.dart.org/maps/systemmap" target="_blank" rel="noopener" class="ext-link">DART System Map ↗</a>
+  <a href="https://www.td.com/en/content/tre-rail" target="_blank" rel="noopener" class="ext-link">TRE Rail Info ↗</a>
 </div>
 </div>
 
@@ -101,88 +138,362 @@
 renderNav(); renderFooter(); renderDisclosure(); initLang();
 
 const PLACES = [
-  {id:1,name:'AT&T Stadium',cat:'stadium',desc:'FIFA WC 2026 venue. Cap. 105,000.',link:'https://maps.google.com/?q=AT%26T+Stadium+Arlington+TX',href:'matches.html',x:118,y:290,color:'#BF0A30',r:11},
-  {id:2,name:'CentrePort/DFW Station',cat:'transit',desc:'TRE rail stop & FIFA shuttle hub.',link:'https://maps.google.com/?q=CentrePort+Station+DFW',href:'logistics.html',x:265,y:365,color:'#4CAF50',r:7},
-  {id:3,name:'Union Station Dallas',cat:'transit',desc:'Downtown Dallas TRE/DART hub.',link:'https://maps.google.com/?q=Union+Station+Dallas+TX',href:'logistics.html',x:440,y:225,color:'#4CAF50',r:7},
-  {id:4,name:'Fort Worth TRE Station',cat:'transit',desc:'TRE start point from Fort Worth.',link:'https://maps.google.com/?q=Fort+Worth+Intermodal+Center',href:'logistics.html',x:60,y:175,color:'#4CAF50',r:7},
-  {id:5,name:'Omni Dallas Hotel',cat:'hotel',desc:'Connected to Convention Center.',link:'https://maps.google.com/?q=Omni+Dallas+Hotel',href:null,x:435,y:245,color:'#2196F3',r:6},
-  {id:6,name:'Marriott Uptown',cat:'hotel',desc:'Walkable to restaurants and DART.',link:'https://maps.google.com/?q=Marriott+Dallas+Uptown',href:null,x:465,y:185,color:'#2196F3',r:6},
-  {id:7,name:'Sheraton Arlington',cat:'hotel',desc:'Closest hotel to AT&T Stadium.',link:'https://maps.google.com/?q=Sheraton+Arlington+Hotel+Texas',href:null,x:155,y:275,color:'#2196F3',r:6},
-  {id:8,name:'Pecan Lodge BBQ',cat:'food',desc:'Best brisket in Dallas. Deep Ellum.',link:'https://maps.google.com/?q=Pecan+Lodge+Dallas',href:'restaurants/pecan-lodge.html',x:488,y:238,color:'#F0EDE8',r:6},
-  {id:9,name:'Revolver Taco',cat:'food',desc:'Chef-driven tacos. Deep Ellum.',link:'https://maps.google.com/?q=Revolver+Taco+Dallas',href:'restaurants/revolver-taco.html',x:475,y:250,color:'#F0EDE8',r:6},
-  {id:10,name:'Heim BBQ Fort Worth',cat:'food',desc:'Best BBQ closest to the stadium.',link:'https://maps.google.com/?q=Heim+BBQ+Fort+Worth',href:'restaurants/heim-bbq.html',x:85,y:205,color:'#F0EDE8',r:6},
-  {id:11,name:'HG Sply Co',cat:'food',desc:'Rooftop bar. Best pre-match spot.',link:'https://maps.google.com/?q=HG+Sply+Co+Dallas',href:'restaurants/hg-sply-co.html',x:500,y:195,color:'#F0EDE8',r:6},
-  {id:12,name:'West 7th Fan Zone',cat:'fanzone',desc:'Official FIFA fan zone, Fort Worth.',link:'https://maps.google.com/?q=West+7th+Fort+Worth+TX',href:null,x:88,y:235,color:'#9C27B0',r:7},
-  {id:13,name:'Reunion Tower Fan Fest',cat:'fanzone',desc:'Dallas fan gathering, downtown.',link:'https://maps.google.com/?q=Reunion+Tower+Dallas+TX',href:null,x:420,y:260,color:'#9C27B0',r:7},
-  {id:14,name:'Deep Ellum Fan Walk',cat:'fanzone',desc:'Bars & live music all World Cup.',link:'https://maps.google.com/?q=Deep+Ellum+Dallas+TX',href:'neighborhoods/deep-ellum.html',x:495,y:222,color:'#9C27B0',r:7},
+  {id:1,  name:'AT&T Stadium',         cat:'stadium', color:'#BF0A30', r:12,
+   desc:'FIFA World Cup 2026 venue. Capacity 105,000 with retractable roof and full climate control.',
+   link:'https://maps.google.com/?q=AT%26T+Stadium+Arlington+TX', href:'matches.html',
+   tips:'Gates open 2.5 hrs before kickoff. Clear bags only. TRE + shuttle is the best way to arrive.',
+   x:118, y:290},
+  {id:2,  name:'CentrePort/DFW Station',cat:'transit', color:'#4CAF50', r:7,
+   desc:'TRE rail stop and official FIFA shuttle hub to AT&T Stadium. Key connection point.',
+   link:'https://maps.google.com/?q=CentrePort+Station+DFW', href:'logistics.html',
+   tips:'Free FIFA shuttles run from here to the stadium on match days. 10–15 min ride.',
+   x:265, y:365},
+  {id:3,  name:'Union Station Dallas',  cat:'transit', color:'#4CAF50', r:7,
+   desc:'Main TRE and DART hub in downtown Dallas. Start of the TRE rail line to CentrePort.',
+   link:'https://maps.google.com/?q=Union+Station+Dallas+TX', href:'logistics.html',
+   tips:'~35 min to CentrePort by TRE. $5 one-way. DART Green/Blue/Red lines connect here.',
+   x:440, y:225},
+  {id:4,  name:'Fort Worth TRE Station',cat:'transit', color:'#4CAF50', r:7,
+   desc:'Trinity Railway Express start point from Fort Worth side.',
+   link:'https://maps.google.com/?q=Fort+Worth+Intermodal+Center', href:'logistics.html',
+   tips:'Take TRE to CentrePort then free FIFA shuttle. Best option for Fort Worth visitors.',
+   x:60, y:175},
+  {id:5,  name:'Omni Dallas Hotel',     cat:'hotel',   color:'#2196F3', r:6,
+   desc:'Luxury hotel connected directly to the Kay Bailey Hutchison Convention Center via skybridge.',
+   link:'https://maps.google.com/?q=Omni+Dallas+Hotel', href:null,
+   tips:'Walking distance to Union Station. One of the best-located hotels for the tournament.',
+   x:435, y:245},
+  {id:6,  name:'Marriott Uptown',       cat:'hotel',   color:'#2196F3', r:6,
+   desc:'Upscale hotel in Uptown Dallas. Walkable to McKinney Ave restaurants and DART.',
+   link:'https://maps.google.com/?q=Marriott+Dallas+Uptown', href:null,
+   tips:'Best neighborhood base. McKinney Ave, West Village, and DART all within walking distance.',
+   x:465, y:185},
+  {id:7,  name:'Sheraton Arlington',    cat:'hotel',   color:'#2196F3', r:6,
+   desc:'Closest major hotel to AT&T Stadium. Walking distance to the venue on match days.',
+   link:'https://maps.google.com/?q=Sheraton+Arlington+Hotel+Texas', href:null,
+   tips:'Best for fans wanting to walk to the stadium. Book very early — fills up months in advance.',
+   x:155, y:275},
+  {id:8,  name:'Pecan Lodge BBQ',       cat:'food',    color:'#F0A030', r:6,
+   desc:'One of the best brisket spots in Texas. Legendary pit-smoked BBQ in Deep Ellum.',
+   link:'https://maps.google.com/?q=Pecan+Lodge+Dallas', href:'restaurants/pecan-lodge.html',
+   tips:'Arrive at 11am or expect a 45-min wait. Order the Trough. Cash also accepted.',
+   x:488, y:238},
+  {id:9,  name:'Revolver Taco',         cat:'food',    color:'#F0A030', r:6,
+   desc:'Chef-driven tacos with bold flavors. A Deep Ellum institution.',
+   link:'https://maps.google.com/?q=Revolver+Taco+Dallas', href:'restaurants/revolver-taco.html',
+   tips:'Try the Trompo (pastor) taco. Gets busy after 8pm on weekends.',
+   x:475, y:250},
+  {id:10, name:'Heim BBQ Fort Worth',   cat:'food',    color:'#F0A030', r:6,
+   desc:'Best BBQ closest to the stadium. Famous for bacon burnt ends.',
+   link:'https://maps.google.com/?q=Heim+BBQ+Fort+Worth', href:'restaurants/heim-bbq.html',
+   tips:'Only 15 min from AT&T Stadium. Sells out of ribs by 1pm on weekends.',
+   x:85, y:205},
+  {id:11, name:'HG Sply Co',            cat:'food',    color:'#F0A030', r:6,
+   desc:'Rooftop bar and restaurant in Uptown. Best pre-match viewing spot with a cold drink.',
+   link:'https://maps.google.com/?q=HG+Sply+Co+Dallas', href:'restaurants/hg-sply-co.html',
+   tips:'Get the rooftop on a match day. Book ahead — it fills up 2 hrs before kickoff.',
+   x:500, y:195},
+  {id:12, name:'West 7th Fan Zone',     cat:'fanzone', color:'#9C27B0', r:7,
+   desc:'Official FIFA fan zone in Fort Worth\'s West 7th entertainment district.',
+   link:'https://maps.google.com/?q=West+7th+Fort+Worth+TX', href:null,
+   tips:'Walking distance from the Fort Worth TRE station. Bars, live music, and big screens.',
+   x:88, y:235},
+  {id:13, name:'Reunion Tower Fan Fest',cat:'fanzone', color:'#9C27B0', r:7,
+   desc:'Dallas fan gathering zone at Reunion Tower, downtown.',
+   link:'https://maps.google.com/?q=Reunion+Tower+Dallas+TX', href:null,
+   tips:'Iconic Dallas skyline backdrop. Walking distance from Union Station.',
+   x:420, y:260},
+  {id:14, name:'Deep Ellum Fan Walk',   cat:'fanzone', color:'#9C27B0', r:7,
+   desc:'Dallas\'s arts and bar district — alive with World Cup fans all tournament long.',
+   link:'https://maps.google.com/?q=Deep+Ellum+Dallas+TX', href:'neighborhoods/deep-ellum.html',
+   tips:'Best nightlife in Dallas. Bars stay open until 2am. Grab a post-match drink here.',
+   x:495, y:222},
 ];
 
-let activeCat = 'all';
+// ── CATEGORY LABELS ──────────────────────────────────────────
+const CAT_LABELS = {
+  stadium:'Stadium', transit:'Transit', food:'Food & Drink',
+  hotel:'Hotel', fanzone:'Fan Zone'
+};
 
+let activeCat = 'all';
+let selectedId = null;
+
+// ── PAN + ZOOM STATE ─────────────────────────────────────────
+let scale = 1, tx = 0, ty = 0;
+const MIN_SCALE = 0.7, MAX_SCALE = 4;
+
+function applyTransform() {
+  document.getElementById('map-markers').style.transform =
+    `translate(${tx}px,${ty}px) scale(${scale})`;
+  document.getElementById('map-markers').style.transformOrigin = '0 0';
+  // Also transform background elements
+  const svgEl = document.getElementById('map-svg');
+  // We transform the inner group, SVG viewBox stays fixed
+}
+
+function clampTranslation() {
+  // Keep map from panning too far out of view
+  const w = document.getElementById('map-area').offsetWidth;
+  const h = document.getElementById('map-area').offsetHeight;
+  const svgW = 700 * scale, svgH = 540 * scale;
+  tx = Math.min(0, Math.max(tx, w - svgW));
+  ty = Math.min(0, Math.max(ty, h - svgH));
+  if (scale <= 1) { tx = 0; ty = 0; }
+}
+
+function zoom(factor, cx, cy) {
+  const svgEl = document.getElementById('map-svg');
+  const rect = svgEl.getBoundingClientRect();
+  // cx, cy in SVG pixel space
+  const newScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, scale * factor));
+  if (newScale === scale) return;
+  // Zoom towards the center point
+  tx = cx - (cx - tx) * (newScale / scale);
+  ty = cy - (cy - ty) * (newScale / scale);
+  scale = newScale;
+  clampTranslation();
+  updateMarkerTransform();
+}
+
+function resetView() {
+  scale = 1; tx = 0; ty = 0;
+  updateMarkerTransform();
+}
+
+function updateMarkerTransform() {
+  const g = document.getElementById('map-markers');
+  g.setAttribute('transform', `translate(${tx},${ty}) scale(${scale})`);
+}
+
+// ── RENDER MAP ───────────────────────────────────────────────
 function renderMap() {
   const g = document.getElementById('map-markers');
   const list = document.getElementById('places-list');
   g.innerHTML = '';
   list.innerHTML = '';
+
   const visible = PLACES.filter(p => activeCat === 'all' || p.cat === activeCat);
+
   visible.forEach(p => {
-    // SVG marker
+    // Stadium label above pin
+    if (p.cat === 'stadium') {
+      const lbl = document.createElementNS('http://www.w3.org/2000/svg','text');
+      lbl.setAttribute('x', p.x); lbl.setAttribute('y', p.y - p.r - 6);
+      lbl.setAttribute('text-anchor','middle');
+      lbl.setAttribute('fill', p.color);
+      lbl.setAttribute('font-family',"'Barlow Condensed'");
+      lbl.setAttribute('font-size','9'); lbl.setAttribute('font-weight','700');
+      lbl.textContent = 'AT&T STADIUM';
+      g.appendChild(lbl);
+    }
+
+    // Pin circle
     const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
     circle.setAttribute('cx', p.x); circle.setAttribute('cy', p.y);
     circle.setAttribute('r', p.r); circle.setAttribute('fill', p.color);
-    circle.setAttribute('stroke','rgba(255,255,255,0.25)'); circle.setAttribute('stroke-width','1.5');
+    circle.setAttribute('stroke', 'white'); circle.setAttribute('stroke-width', '1.5');
     circle.style.cursor = 'pointer';
+    circle.style.transition = 'r .15s';
+    circle.dataset.id = p.id;
+
+    // Pulse ring for stadium
     if (p.cat === 'stadium') {
-      const lbl = document.createElementNS('http://www.w3.org/2000/svg','text');
-      lbl.setAttribute('x',p.x); lbl.setAttribute('y',p.y-15);
-      lbl.setAttribute('text-anchor','middle'); lbl.setAttribute('fill','#BF0A30');
-      lbl.setAttribute('font-family',"'Barlow Condensed'"); lbl.setAttribute('font-size','8');
-      lbl.setAttribute('font-weight','700'); lbl.textContent = 'AT&T STADIUM';
-      g.appendChild(lbl);
+      const pulse = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      pulse.setAttribute('cx', p.x); pulse.setAttribute('cy', p.y);
+      pulse.setAttribute('r', p.r + 4); pulse.setAttribute('fill','none');
+      pulse.setAttribute('stroke', p.color); pulse.setAttribute('stroke-width','1.5');
+      pulse.setAttribute('opacity','0.4');
+      g.appendChild(pulse);
     }
-    circle.addEventListener('mouseenter', e => {
-      circle.setAttribute('r', p.r + 4);
-      const tt = document.getElementById('tooltip');
-      document.getElementById('tt-name').textContent = p.name;
-      document.getElementById('tt-desc').textContent = p.desc;
-      document.getElementById('tt-link').textContent = 'View on Google Maps →';
-      document.getElementById('tt-link').onclick = () => window.open(p.link,'_blank');
-      const canvas = document.getElementById('map-canvas');
-      const svg = document.getElementById('map-svg');
-      const vb = svg.viewBox.baseVal;
-      const sx = canvas.offsetWidth / vb.width, sy = canvas.offsetHeight / vb.height;
-      tt.style.left = Math.min(p.x * sx + 12, canvas.offsetWidth - 215) + 'px';
-      tt.style.top = Math.max(p.y * sy - 55, 5) + 'px';
-      tt.style.opacity = '1';
-    });
+
+    circle.addEventListener('mouseenter', () => circle.setAttribute('r', p.r + 3));
     circle.addEventListener('mouseleave', () => {
-      circle.setAttribute('r', p.r);
-      document.getElementById('tooltip').style.opacity = '0';
+      if (selectedId !== p.id) circle.setAttribute('r', p.r);
     });
-    circle.addEventListener('click', () => {
-      if (p.href) window.location.href = p.href;
-      else window.open(p.link, '_blank');
+    circle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      selectPlace(p);
+      // highlight pin
+      document.querySelectorAll('#map-markers circle').forEach(c => {
+        const pid = +c.dataset.id;
+        const place = PLACES.find(pl => pl.id === pid);
+        if (place) c.setAttribute('r', pid === p.id ? place.r + 4 : place.r);
+      });
     });
     g.appendChild(circle);
+
     // Sidebar item
-    const href = p.href || p.link;
-    const isExternal = !p.href;
-    const div = document.createElement('a');
-    div.className = 'place-item';
-    div.href = href;
-    if (isExternal) { div.target = '_blank'; div.rel = 'noopener'; }
-    div.innerHTML = `<div class="pi-name">${p.name}</div><div class="pi-type">${p.cat}</div><div class="pi-action">${isExternal ? 'Google Maps ↗' : 'View Details →'}</div>`;
+    const div = document.createElement('div');
+    div.className = 'place-item' + (selectedId === p.id ? ' sel' : '');
+    div.dataset.id = p.id;
+    div.innerHTML = `<div class="pi-name">${p.name}</div><div class="pi-type">${CAT_LABELS[p.cat] || p.cat}</div>`;
+    div.addEventListener('click', () => selectPlace(p));
     list.appendChild(div);
+  });
+
+  updateMarkerTransform();
+}
+
+function selectPlace(p) {
+  selectedId = p.id;
+
+  // Update sidebar highlight
+  document.querySelectorAll('.place-item').forEach(el => {
+    el.classList.toggle('sel', +el.dataset.id === p.id);
+  });
+
+  // Build info panel
+  document.getElementById('ip-cat').textContent = CAT_LABELS[p.cat] || p.cat;
+  document.getElementById('ip-name').textContent = p.name;
+  document.getElementById('ip-desc').innerHTML = p.desc +
+    (p.tips ? `<br><br><strong style="color:var(--white);font-size:.75rem">💡 Tip:</strong> <span style="font-size:.78rem">${p.tips}</span>` : '');
+
+  const actions = document.getElementById('ip-actions');
+  actions.innerHTML = '';
+
+  if (p.href) {
+    const btn = document.createElement('a');
+    btn.href = p.href; btn.className = 'btn-prim';
+    btn.style.cssText = 'font-size:.72rem;padding:8px 18px';
+    btn.textContent = 'View Details →';
+    actions.appendChild(btn);
+  }
+
+  const mapBtn = document.createElement('a');
+  mapBtn.href = p.link; mapBtn.target = '_blank'; mapBtn.rel = 'noopener';
+  mapBtn.className = 'btn-ghost';
+  mapBtn.style.cssText = 'font-size:.72rem;padding:8px 18px';
+  mapBtn.textContent = 'Google Maps ↗';
+  actions.appendChild(mapBtn);
+
+  document.getElementById('info-panel').classList.add('open');
+}
+
+function closePanel() {
+  document.getElementById('info-panel').classList.remove('open');
+  selectedId = null;
+  document.querySelectorAll('.place-item').forEach(el => el.classList.remove('sel'));
+  document.querySelectorAll('#map-markers circle').forEach(c => {
+    const p = PLACES.find(pl => pl.id === +c.dataset.id);
+    if (p) c.setAttribute('r', p.r);
   });
 }
 
+document.getElementById('ip-close').addEventListener('click', closePanel);
+document.getElementById('map-area').addEventListener('click', (e) => {
+  if (!e.target.closest('#info-panel') && !e.target.closest('#map-markers')) closePanel();
+});
+
+// ── CATEGORY FILTER ──────────────────────────────────────────
 document.querySelectorAll('.cat-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     activeCat = btn.dataset.cat;
     document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+    closePanel();
     renderMap();
+  });
+});
 
+// ── ZOOM CONTROLS ────────────────────────────────────────────
+const svgEl = document.getElementById('map-svg');
+document.getElementById('zoom-in').addEventListener('click', () => {
+  const r = svgEl.getBoundingClientRect();
+  zoom(1.4, r.width/2, r.height/2);
+});
+document.getElementById('zoom-out').addEventListener('click', () => {
+  const r = svgEl.getBoundingClientRect();
+  zoom(1/1.4, r.width/2, r.height/2);
+});
+document.getElementById('zoom-reset').addEventListener('click', resetView);
+
+// Mouse wheel zoom
+svgEl.addEventListener('wheel', e => {
+  e.preventDefault();
+  const r = svgEl.getBoundingClientRect();
+  zoom(e.deltaY < 0 ? 1.15 : 1/1.15, e.clientX - r.left, e.clientY - r.top);
+}, { passive: false });
+
+// Pan (drag)
+let dragging = false, dragStartX, dragStartY, dragTx, dragTy;
+svgEl.addEventListener('mousedown', e => {
+  if (e.target.closest('#map-markers circle')) return;
+  dragging = true; dragStartX = e.clientX; dragStartY = e.clientY;
+  dragTx = tx; dragTy = ty;
+});
+window.addEventListener('mousemove', e => {
+  if (!dragging) return;
+  tx = dragTx + (e.clientX - dragStartX);
+  ty = dragTy + (e.clientY - dragStartY);
+  clampTranslation();
+  updateMarkerTransform();
+});
+window.addEventListener('mouseup', () => dragging = false);
+
+// Touch pinch + pan
+let lastTouchDist = null, lastTouchX, lastTouchY;
+svgEl.addEventListener('touchstart', e => {
+  if (e.touches.length === 2) {
+    lastTouchDist = Math.hypot(
+      e.touches[0].clientX - e.touches[1].clientX,
+      e.touches[0].clientY - e.touches[1].clientY);
+  } else if (e.touches.length === 1) {
+    dragStartX = e.touches[0].clientX; dragStartY = e.touches[0].clientY;
+    dragTx = tx; dragTy = ty;
+  }
+}, { passive: true });
+svgEl.addEventListener('touchmove', e => {
+  if (e.touches.length === 2) {
+    e.preventDefault();
+    const dist = Math.hypot(
+      e.touches[0].clientX - e.touches[1].clientX,
+      e.touches[0].clientY - e.touches[1].clientY);
+    if (lastTouchDist) {
+      const r = svgEl.getBoundingClientRect();
+      const cx = (e.touches[0].clientX + e.touches[1].clientX)/2 - r.left;
+      const cy = (e.touches[0].clientY + e.touches[1].clientY)/2 - r.top;
+      zoom(dist / lastTouchDist, cx, cy);
+    }
+    lastTouchDist = dist;
+  } else if (e.touches.length === 1) {
+    tx = dragTx + (e.touches[0].clientX - dragStartX);
+    ty = dragTy + (e.touches[0].clientY - dragStartY);
+    clampTranslation();
+    updateMarkerTransform();
+  }
+}, { passive: false });
+svgEl.addEventListener('touchend', () => { lastTouchDist = null; });
+
+// ── THEME SYNC ───────────────────────────────────────────────
+function applyTheme() {
+  const light = document.documentElement.classList.contains('light');
+  const bg = document.getElementById('map-bg');
+  if (bg) bg.setAttribute('fill', light ? '#f0ede5' : '#0e1420');
+  // Road fills
+  document.querySelectorAll('#map-svg rect:not(#map-bg)').forEach(r => {
+    r.setAttribute('fill', light ? '#d4cfc4' : '#1e2d45');
+  });
+  // Road lines
+  document.querySelectorAll('#map-svg line').forEach(l => {
+    const s = l.getAttribute('stroke');
+    if (s === '#e0dbd0' || s === '#c8c2b8') l.setAttribute('stroke', light ? '#e0dbd0' : '#162238');
+  });
+  // Text
+  document.querySelectorAll('#map-svg text').forEach(el => {
+    const fill = el.getAttribute('fill');
+    if (fill === '#8a8070' || fill === '#aaa090') {
+      el.setAttribute('fill', light ? '#8a8070' : '#4a6088');
+    }
+    if (fill === '#253060') el.setAttribute('fill', light ? '#8a8070' : '#4a6088');
+  });
+}
+
+const themeObserver = new MutationObserver(applyTheme);
+themeObserver.observe(document.documentElement, {attributes:true, attributeFilter:['class']});
+applyTheme(); // run immediately
+
+// ── LANG ─────────────────────────────────────────────────────
 function updateMapLang() {
   const ids = {
     'map-label':'map_label','map-title':'map_title',
@@ -193,56 +504,9 @@ function updateMapLang() {
   Object.entries(ids).forEach(([id,key])=>{const el=document.getElementById(id);if(el)el.textContent=t(key);});
 }
 document.addEventListener('langchange', updateMapLang);
+if (currentLang !== 'en') updateMapLang();
 
-// Update SVG background on theme toggle
-const mapObserver = new MutationObserver(() => {
-  const isLight = document.documentElement.classList.contains('light');
-  const bg = document.getElementById('map-bg-rect');
-  if (bg) bg.setAttribute('fill', isLight ? '#E8E4DC' : '#081422');
-  // Recolor road lines
-  document.querySelectorAll('#map-svg line').forEach(l => {
-    if (l.getAttribute('stroke') === '#1C2540' || l.getAttribute('stroke') === '#161D33') {
-      l.setAttribute('stroke', isLight ? '#D0C8BC' : '#1C2540');
-    }
-  });
-});
-mapObserver.observe(document.documentElement, {attributes:true, attributeFilter:['class']});
-// Apply immediately
-const isLightNow = document.documentElement.classList.contains('light');
-const bgRect = document.getElementById('map-bg-rect');
-if (bgRect && isLightNow) bgRect.setAttribute('fill', '#E8E4DC');
-  });
-});
 renderMap();
-
-function updateMapLang() {
-  const ids = {
-    'map-label':'map_label','map-title':'map_title',
-    'map-cat-all':'map_all','map-cat-stadium':'map_stadium',
-    'map-cat-transit':'map_transit','map-cat-food':'map_food',
-    'map-cat-hotels':'map_hotels','map-cat-fanzones':'map_fanzones',
-  };
-  Object.entries(ids).forEach(([id,key])=>{const el=document.getElementById(id);if(el)el.textContent=t(key);});
-}
-document.addEventListener('langchange', updateMapLang);
-
-// Update SVG background on theme toggle
-const mapObserver = new MutationObserver(() => {
-  const isLight = document.documentElement.classList.contains('light');
-  const bg = document.getElementById('map-bg-rect');
-  if (bg) bg.setAttribute('fill', isLight ? '#E8E4DC' : '#081422');
-  // Recolor road lines
-  document.querySelectorAll('#map-svg line').forEach(l => {
-    if (l.getAttribute('stroke') === '#1C2540' || l.getAttribute('stroke') === '#161D33') {
-      l.setAttribute('stroke', isLight ? '#D0C8BC' : '#1C2540');
-    }
-  });
-});
-mapObserver.observe(document.documentElement, {attributes:true, attributeFilter:['class']});
-// Apply immediately
-const isLightNow = document.documentElement.classList.contains('light');
-const bgRect = document.getElementById('map-bg-rect');
-if (bgRect && isLightNow) bgRect.setAttribute('fill', '#E8E4DC');
 </script>
 </body>
 </html>

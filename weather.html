@@ -520,6 +520,7 @@ function updateWeatherLang() {
   if (weatherData) renderAll();
 }
 document.addEventListener('langchange', updateWeatherLang);
+if (currentLang !== 'en') updateWeatherLang();
 
 // Refresh every 15 minutes
 setInterval(fetchWeather, 15 * 60 * 1000);

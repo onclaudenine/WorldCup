@@ -156,6 +156,7 @@ function updateExploreLang() {
   renderRestaurants();
 }
 document.addEventListener('langchange', updateExploreLang);
+if (currentLang !== 'en') updateExploreLang();
 
 // Scroll to restaurants if hash
 if (window.location.hash === '#restaurants') {

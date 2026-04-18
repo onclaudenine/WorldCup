@@ -29,6 +29,7 @@
 .section-note{font-size:.82rem;color:var(--muted);line-height:1.65;font-weight:300;
   max-width:600px;margin-bottom:2rem;padding:1rem 1.25rem;background:var(--card);border-left:3px solid var(--white)}
 </style>
+
 </head>
 <body>
 <div id="affiliate-disclosure"></div>
@@ -110,41 +111,45 @@ async function loadAndRenderMatches() {
   renderMatches(matches);
 }
 
-// ── TEAM FLAG LOOKUP ──────────────────────────────────────────
-// Maps team names to emoji flags so the schedule always shows flags.
-const FLAG_MAP = {
-  // Group stage confirmed
-  'Netherlands':'🇳🇱','Japan':'🇯🇵','England':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Croatia':'🇭🇷',
-  'Argentina':'🇦🇷','Austria':'🇦🇹','Jordan':'🇯🇴','Sweden':'🇸🇪',
-  // All 48 WC nations — ready for knockout rounds
-  'USA':'🇺🇸','United States':'🇺🇸','France':'🇫🇷','Brazil':'🇧🇷',
-  'Germany':'🇩🇪','Spain':'🇪🇸','Portugal':'🇵🇹','Belgium':'🇧🇪',
-  'Uruguay':'🇺🇾','Switzerland':'🇨🇭','Denmark':'🇩🇰','Mexico':'🇲🇽',
-  'Morocco':'🇲🇦','Senegal':'🇸🇳','Ecuador':'🇪🇨','South Korea':'🇰🇷',
-  'Canada':'🇨🇦','Serbia':'🇷🇸','Poland':'🇵🇱','Australia':'🇦🇺',
-  'Colombia':'🇨🇴','Ghana':'🇬🇭','Tunisia':'🇹🇳','Cameroon':'🇨🇲',
-  'Norway':'🇳🇴','Scotland':'🏴󠁧󠁢󠁳󠁣󠁴󠁿','Iran':'🇮🇷','Saudi Arabia':'🇸🇦',
-  'Ukraine':'🇺🇦','Turkey':'🇹🇷','Türkiye':'🇹🇷','Czech Republic':'🇨🇿',
-  'Czechia':'🇨🇿','Bosnia and Herzegovina':'🇧🇦','Indonesia':'🇮🇩',
-  'Iraq':'🇮🇶','Paraguay':'🇵🇾','New Zealand':'🇳🇿','South Africa':'🇿🇦',
-  'Qatar':'🇶🇦','Algeria':'🇩🇿','Egypt':'🇪🇬','Ivory Coast':'🇨🇮',
-  "Côte d'Ivoire":"🇨🇮","Cote d'Ivoire":"🇨🇮",'Cape Verde':'🇨🇻',
-  'Cabo Verde':'🇨🇻','Panama':'🇵🇦','Haiti':'🇭🇹','Jamaica':'🇯🇲',
-  'Curaçao':'🇨🇼','Suriname':'🇸🇷','Bolivia':'🇧🇴','DR Congo':'🇨🇩',
-  'New Caledonia':'🇳🇨','Uzbekistan':'🇺🇿','Senegal':'🇸🇳',
-  // Fallback
-  'TBD':'🏆','TBD (TBD)':'🏆',
+// ── TEAM → ISO 2-LETTER CODE MAP ────────────────────────────
+// Used with flagcdn.com which serves real flag images — no emoji needed.
+const ISO = {
+  'Netherlands':'nl','Japan':'jp','England':'gb-eng','Croatia':'hr',
+  'Argentina':'ar','Austria':'at','Jordan':'jo','Sweden':'se',
+  'USA':'us','United States':'us','France':'fr','Brazil':'br',
+  'Germany':'de','Spain':'es','Portugal':'pt','Belgium':'be',
+  'Uruguay':'uy','Switzerland':'ch','Denmark':'dk','Mexico':'mx',
+  'Morocco':'ma','Senegal':'sn','Ecuador':'ec','South Korea':'kr',
+  'Canada':'ca','Serbia':'rs','Poland':'pl','Australia':'au',
+  'Colombia':'co','Ghana':'gh','Tunisia':'tn','Cameroon':'cm',
+  'Norway':'no','Scotland':'gb-sct','Iran':'ir','Saudi Arabia':'sa',
+  'Ukraine':'ua','Turkey':'tr','Türkiye':'tr','Czech Republic':'cz',
+  'Czechia':'cz','Bosnia and Herzegovina':'ba','Indonesia':'id',
+  'Iraq':'iq','Paraguay':'py','New Zealand':'nz','South Africa':'za',
+  'Qatar':'qa','Algeria':'dz','Egypt':'eg','Ivory Coast':'ci',
+  "Côte d'Ivoire":'ci',"Cote d'Ivoire":'ci','Cape Verde':'cv',
+  'Cabo Verde':'cv','Panama':'pa','Haiti':'ht','Jamaica':'jm',
+  'Wales':'gb-wls','Scotland':'gb-sct','Northern Ireland':'gb-nir',
+  'DR Congo':'cd','New Caledonia':'nc','Uzbekistan':'uz',
+  'Bolivia':'bo','Suriname':'sr','Curaçao':'cw',
 };
 
 function resolveFlag(flag, teamName) {
-  // If already a real country flag (not trophy), use it
-  if (flag && flag !== '🏆' && flag !== '⚽' && flag !== '🌍' && flag !== '🌎' && flag !== '🌏') return flag;
-  // Try to look up from team name
-  if (teamName && FLAG_MAP[teamName]) return FLAG_MAP[teamName];
-  // Partial match for "Group X Runner-up" style
-  if (teamName && teamName.includes('TBD')) return '🏆';
-  if (teamName && (teamName.includes('Runner-up') || teamName.includes('Winner') || teamName.includes('Round'))) return '🏆';
-  return flag || '🏆';
+  // Look up ISO code — returns an <img> tag from flagcdn.com
+  const iso = ISO[teamName];
+  if (iso) {
+    return `<img src="https://flagcdn.com/w40/${iso}.png"
+               srcset="https://flagcdn.com/w80/${iso}.png 2x"
+               width="28" height="21"
+               class="flag-img"
+               alt="${teamName} flag"
+               onerror="this.style.display='none'">`;
+  }
+  // Fallback for unknowns
+  if (!teamName || teamName === 'TBD' || teamName.includes('Runner-up') || teamName.includes('Group')) {
+    return '<span style="font-size:1.4rem">🏆</span>';
+  }
+  return '<span style="font-size:1.4rem">🏳️</span>';
 }
 
 function renderMatches(MATCHES) {
@@ -197,6 +202,7 @@ function updateMatchesLang() {
   loadAndRenderMatches();
 }
 document.addEventListener('langchange', updateMatchesLang);
+if (currentLang !== 'en') updateMatchesLang();
 
 renderBookingSection('matches-booking', {
   title: 'Hotels Near the Stadium',

@@ -227,6 +227,7 @@ function updateFamiliesLang() {
   renderActivities();
 }
 document.addEventListener('langchange', updateFamiliesLang);
+if (currentLang !== 'en') updateFamiliesLang();
 
 renderBookingSection('families-booking', {
   title: 'Plan Your Family Stay',
