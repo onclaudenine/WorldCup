@@ -61,7 +61,7 @@
     </svg>
   </div>
   <div class="page-hero-content">
-    <div class="sec-label">Beyond the Stadium</div>
+    <div class="sec-label" data-i18n="explore_beyond">Beyond the Stadium</div>
     <h1 style="font-family:var(--fh);font-weight:900;font-size:clamp(2.5rem,7vw,5rem);line-height:.9;text-transform:uppercase;margin-bottom:1rem">Explore <em style="color:var(--white);font-style:normal">Dallas</em></h1>
     <p style="font-size:1rem;color:var(--muted);line-height:1.75;max-width:560px;font-weight:300">Dallas is a city of neighborhoods, each with its own personality. Here's how to find the real city — not just the stadium.</p>
   </div>
@@ -80,7 +80,7 @@
 </section>
 
 <section style="background:var(--mid)" id="restaurants">
-  <div class="sec-label">Local Favorites</div>
+  <div class="sec-label" data-i18n="local_favorites">Local Favorites</div>
   <div class="sec-title">Where to <em>Eat</em></div>
   <div class="tab-bar" id="rest-tabs">
     <button class="tab active" onclick="filterRest(event,'all')">All</button>
@@ -97,7 +97,7 @@
 <script src="js/site.js"></script>
 <script src="js/affiliate.js"></script>
 <script>
-renderNav(); renderFooter(); renderDisclosure();
+renderNav(); renderFooter(); renderDisclosure(); initLang();
 
 // Neighborhoods
 function filterNbh(e, cat) {

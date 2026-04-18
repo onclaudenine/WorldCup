@@ -99,26 +99,37 @@
       opacity:0.4"></div>
   </div>
   <div class="hero-content fade-up" style="position:relative;z-index:2">
-    <div class="hero-eyebrow">FIFA World Cup 2026 · Dallas, Texas</div>
+    <div class="hero-eyebrow" data-i18n="home_eyebrow">FIFA World Cup 2026 · Dallas, Texas</div>
     <h1>Big<span class="l2">D</span><span class="l3">Host City Guide</span></h1>
-    <p class="hero-sub">Everything you need to experience Dallas during the world's biggest sporting event — matches, food, transit, neighborhoods, hotels, and flights.</p>
+    <p class="hero-sub" data-i18n="home_sub">Everything you need to experience Dallas during the world's biggest sporting event — matches, food, transit, neighborhoods, hotels, and flights.</p>
     <div class="hero-btns">
-      <a href="matches.html" class="btn-prim">View Matches</a>
-      <a href="explore.html" class="btn-sec">Explore Dallas</a>
+      <a href="matches.html" class="btn-prim" data-i18n="home_btn_matches">View Matches</a>
+      <a href="explore.html" class="btn-sec" data-i18n="home_btn_explore">Explore Dallas</a>
     </div>
   </div>
   <div class="hero-aside" style="position:relative;z-index:2">
     <div class="hero-badge">
       <span class="badge-num" id="days-hero">—</span>
-      <span class="badge-lbl">Days Away</span>
+      <span class="badge-lbl" data-i18n="home_days_away">Days Away</span>
     </div>
-    <div class="weather-card">
-      <div class="weather-temp" id="w-temp">—°</div>
+    <div class="weather-card" style="position:relative">
+      <!-- °F / °C toggle in top-right corner -->
+      <div style="position:absolute;top:8px;right:8px;display:flex;border:1px solid rgba(240,237,232,.25);overflow:hidden;border-radius:2px">
+        <button id="hw-f" onclick="heroWeatherUnit('F')"
+          style="font-family:var(--fh);font-size:.6rem;font-weight:700;padding:3px 7px;border:none;
+                 cursor:pointer;transition:all .15s;background:rgba(240,237,232,.9);color:var(--navy)"
+          title="Switch to Fahrenheit">°F</button>
+        <button id="hw-c" onclick="heroWeatherUnit('C')"
+          style="font-family:var(--fh);font-size:.6rem;font-weight:700;padding:3px 7px;border:none;
+                 cursor:pointer;transition:all .15s;background:transparent;color:rgba(240,237,232,.5)"
+          title="Switch to Celsius">°C</button>
+      </div>
+      <div class="weather-temp" id="w-temp" style="margin-top:.25rem">—°</div>
       <div class="weather-desc" id="w-desc">Loading…</div>
       <div class="weather-loc">Dallas, TX · Live</div>
       <div class="weather-detail">
         <div class="wd"><span id="w-hum">—</span>% humidity</div>
-        <div class="wd"><span id="w-wind">—</span> mph wind</div>
+        <div class="wd"><span id="w-wind">—</span> <span id="w-wind-unit">mph</span> wind</div>
       </div>
     </div>
   </div>
@@ -126,16 +137,16 @@
 
 <div class="cd-bar">
   <div>
-    <div class="cd-label"><span class="live-dot"></span>Next Dallas Match</div>
-    <div class="cd-game">Netherlands vs Japan — Group Stage · Jun 14, 2026</div>
+    <div class="cd-label"><span class="live-dot"></span><span data-i18n="home_cd_label">Next Dallas Match</span></div>
+    <div class="cd-game" id="cd-next-game" data-i18n="home_cd_game">Netherlands vs Japan — Group Stage · Jun 14, 3:00 PM CDT</div>
   </div>
   <div>
     <div class="cd-label">Countdown to Kickoff</div>
     <div class="cd-units">
-      <div class="cu"><span class="cu-n" id="cd-d">—</span><span class="cu-l">days</span></div>
-      <div class="cu"><span class="cu-n" id="cd-h">—</span><span class="cu-l">hrs</span></div>
-      <div class="cu"><span class="cu-n" id="cd-m">—</span><span class="cu-l">min</span></div>
-      <div class="cu"><span class="cu-n" id="cd-s">—</span><span class="cu-l">sec</span></div>
+      <div class="cu"><span class="cu-n" id="cd-d">—</span><span class="cu-l" data-i18n="days">days</span></div>
+      <div class="cu"><span class="cu-n" id="cd-h">—</span><span class="cu-l" data-i18n="hrs">hrs</span></div>
+      <div class="cu"><span class="cu-n" id="cd-m">—</span><span class="cu-l" data-i18n="min">min</span></div>
+      <div class="cu"><span class="cu-n" id="cd-s">—</span><span class="cu-l" data-i18n="sec">sec</span></div>
     </div>
   </div>
   <div style="margin-left:auto">
@@ -149,8 +160,8 @@
 </section>
 
 <section>
-  <div class="sec-label">Everything You Need</div>
-  <div class="sec-title">Quick <em>Links</em></div>
+  <div class="sec-label" data-i18n="home_quick_title">Everything You Need</div>
+  <div class="sec-title"><span data-i18n="home_quick_sub">Quick Links</span></div>
   <div class="quick-links">
     <a href="matches.html" class="ql-card"><span class="ql-icon">📅</span><div class="ql-title">Match Schedule</div><div class="ql-sub">All Dallas fixtures with dates & times</div></a>
     <a href="map.html" class="ql-card"><span class="ql-icon">🗺️</span><div class="ql-title">Interactive Map</div><div class="ql-sub">Stadium, transit, hotels, fan zones</div></a>
@@ -175,7 +186,7 @@
 <script src="js/site.js"></script>
 <script src="js/affiliate.js"></script>
 <script>
-  renderNav(); renderFooter(); renderDisclosure();
+  renderNav(); renderFooter(); renderDisclosure(); initLang();
   renderWeatherWidget('home-weather-widget');
   initCountdown('cd-d','cd-h','cd-m','cd-s');
   initWeather();

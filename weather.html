@@ -114,9 +114,9 @@
 <div class="w-hero">
   <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.25rem">
     <div>
-      <div class="sec-label">Live from Dallas, TX</div>
-      <div style="font-family:var(--fh);font-weight:900;font-size:clamp(1.8rem,4vw,2.6rem);text-transform:uppercase;line-height:.92">
-        Dallas <span style="color:var(--red)">Weather</span>
+      <div class="sec-label" data-i18n="live_weather">Live from Dallas, TX</div>
+      <div style="font-family:var(--fh);font-weight:900;font-size:clamp(1.8rem,4vw,2.6rem);text-transform:uppercase;line-height:.92" data-i18n="weather_title">
+        Dallas Weather
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
@@ -132,7 +132,7 @@
 
 <!-- HOURLY -->
 <section style="padding:2rem;background:var(--dark)">
-  <div class="sec-label" style="margin-bottom:.75rem">Next 24 Hours</div>
+  <div class="sec-label" style="margin-bottom:.75rem" data-i18n="next_24h">Next 24 Hours</div>
   <div id="heat-warning"></div>
   <div class="hourly-scroll">
     <div class="hourly-track" id="hourly-track">
@@ -155,7 +155,7 @@
 
 <!-- EXTRAS: UV, Wind, Humidity -->
 <section style="padding:2rem;background:var(--dark)">
-  <div class="sec-label" style="margin-bottom:1rem">Conditions at a Glance</div>
+  <div class="sec-label" style="margin-bottom:1rem" data-i18n="conditions_glance">Conditions at a Glance</div>
   <div class="extras-grid" id="extras-grid">
     <div class="w-loading">Loading…</div>
   </div>
@@ -163,7 +163,7 @@
 
 <!-- FIFA MATCH WEATHER TIP -->
 <section style="padding:2rem;background:var(--mid)">
-  <div class="sec-label">Match Day Advice</div>
+  <div class="sec-label" data-i18n="match_day_advice">Match Day Advice</div>
   <div class="sec-title" style="margin-bottom:1.25rem">Stadium <em>Weather Tips</em></div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px">
     <div style="background:var(--card);border:1px solid var(--border);padding:1.3rem">
@@ -194,7 +194,7 @@
 <script src="js/site.js"></script>
 <script src="js/affiliate.js"></script>
 <script>
-renderNav(); renderFooter(); renderDisclosure();
+renderNav(); renderFooter(); renderDisclosure(); initLang();
 
 // ── STATE ──────────────────────────────────────────────────────
 let unit = localStorage.getItem('dallas2026-unit') || 'F';

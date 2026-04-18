@@ -154,7 +154,9 @@ function renderNav(activePage) {
         const href = base + n.href.replace(/^\//, '');
         const fileName = n.href.replace(/^\//, '');
         const isActive = currentPath === fileName || (currentPath === 'index.html' && n.href === '/matches.html' && activePage === 'matches');
-        return `<li><a href="${href}" class="${isActive ? 'active' : ''}">${n.label}</a></li>`;
+        const navKey = 'nav_' + n.href.replace(/^\//, '').replace('.html','').replace('-','_');
+        const label = t(navKey) || n.label;
+        return `<li><a href="${href}" class="${isActive ? 'active' : ''}" data-navkey="${navKey}">${label}</a></li>`;
       }).join('')}
     </ul>
     <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
@@ -188,7 +190,9 @@ function renderNav(activePage) {
           const href = base + n.href.replace(/^\//, '');
           const fileName = n.href.replace(/^\//, '');
           const isActive = currentPath === fileName;
-          return `<a href="${href}" class="mobile-nav-link${isActive ? ' active' : ''}" onclick="closeMobileNav()">${n.label}</a>`;
+          const navKey2 = 'nav_' + n.href.replace(/^\//, '').replace('.html','').replace('-','_');
+          const label2 = t(navKey2) || n.label;
+          return `<a href="${href}" class="mobile-nav-link${isActive ? ' active' : ''}" onclick="closeMobileNav()" data-navkey="${navKey2}">${label2}</a>`;
         }).join('')}
       </div>
       <div style="padding:1rem 1.25rem">
@@ -269,10 +273,30 @@ function updateHeroForTheme(isLight) {
 initTheme();
 
 function getBase() {
-  // Works for both local file and deployed subdirectory
-  const depth = window.location.pathname.split('/').filter(Boolean).length;
-  const isSubDir = window.location.pathname.includes('/neighborhoods/') || window.location.pathname.includes('/restaurants/') || window.location.pathname.includes('/activities/');
-  return isSubDir ? '../../' : './';
+  // Robustly calculates the relative path back to the site root,
+  // regardless of whether the site is deployed at the domain root
+  // (yourusername.github.io/) or a subdirectory (yourusername.github.io/dallas2026/).
+  // Uses absolute paths anchored to the actual URL — never breaks on subdirectory deploys.
+  const path = window.location.pathname;
+  const isSubDir = path.includes('/neighborhoods/') ||
+                   path.includes('/restaurants/')   ||
+                   path.includes('/activities/');
+
+  // Split into parts, drop empty strings
+  const parts = path.split('/').filter(Boolean);
+
+  if (!isSubDir) {
+    // Top-level page: e.g. /dallas2026/matches.html
+    // Drop the filename, return the directory with leading slash
+    parts.pop();
+    return (parts.length ? '/' + parts.join('/') + '/' : '/');
+  } else {
+    // Subdir page: e.g. /dallas2026/activities/perot-museum.html
+    // Drop the filename AND the subdir folder
+    parts.pop(); // filename
+    parts.pop(); // 'activities' | 'neighborhoods' | 'restaurants'
+    return (parts.length ? '/' + parts.join('/') + '/' : '/');
+  }
 }
 
 // ── FOOTER RENDER ─────────────────────────────────────────────
@@ -315,40 +339,127 @@ function renderFooter() {
 }
 
 // ── COUNTDOWN ─────────────────────────────────────────────────
+// All confirmed Dallas match datetimes in ISO format (CDT = UTC-5)
+const DALLAS_MATCH_TIMES = [
+  new Date('2026-06-14T15:00:00-05:00'), // Netherlands vs Japan
+  new Date('2026-06-17T15:00:00-05:00'), // England vs Croatia
+  new Date('2026-06-22T12:00:00-05:00'), // Argentina vs Austria
+  new Date('2026-06-25T18:00:00-05:00'), // Japan vs Sweden
+  new Date('2026-06-27T21:00:00-05:00'), // Jordan vs Argentina
+  new Date('2026-06-30T12:00:00-05:00'), // Round of 32
+  new Date('2026-07-03T13:00:00-05:00'), // Round of 32
+  new Date('2026-07-06T14:00:00-05:00'), // Round of 16
+  new Date('2026-07-14T14:00:00-05:00'), // Semifinal
+];
+
+function getNextMatch() {
+  const now = new Date();
+  // Find the next match that hasn't kicked off yet (allow 2hr grace after start)
+  return DALLAS_MATCH_TIMES.find(d => d - now > -2 * 36e5) || null;
+}
+
 function initCountdown(dayId, hId, mId, sId) {
   function tick() {
-    const t = new Date('2026-06-15T19:00:00-05:00') - new Date();
-    if (t <= 0) return;
-    const d = Math.floor(t / 864e5), h = Math.floor(t % 864e5 / 36e5),
-          m = Math.floor(t % 36e5 / 6e4), s = Math.floor(t % 6e4 / 1e3);
+    const target = getNextMatch();
+    if (!target) {
+      // All matches done — show zeros
+      [dayId, hId, mId, sId].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = '0';
+      });
+      return;
+    }
+    const t = target - new Date();
+    if (t <= 0) {
+      // Kickoff! Show live indicator
+      [dayId, hId, mId, sId].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = '0';
+      });
+      return;
+    }
+    const d = Math.floor(t / 864e5),
+          h = Math.floor(t % 864e5 / 36e5),
+          m = Math.floor(t % 36e5 / 6e4),
+          s = Math.floor(t % 6e4 / 1e3);
     if (dayId && document.getElementById(dayId)) document.getElementById(dayId).textContent = d;
-    if (hId && document.getElementById(hId)) document.getElementById(hId).textContent = String(h).padStart(2,'0');
-    if (mId && document.getElementById(mId)) document.getElementById(mId).textContent = String(m).padStart(2,'0');
-    if (sId && document.getElementById(sId)) document.getElementById(sId).textContent = String(s).padStart(2,'0');
+    if (hId   && document.getElementById(hId))   document.getElementById(hId).textContent   = String(h).padStart(2,'0');
+    if (mId   && document.getElementById(mId))   document.getElementById(mId).textContent   = String(m).padStart(2,'0');
+    if (sId   && document.getElementById(sId))   document.getElementById(sId).textContent   = String(s).padStart(2,'0');
     const dh = document.getElementById('days-hero');
     if (dh) dh.textContent = d;
   }
   tick(); setInterval(tick, 1000);
 }
 
-// ── WEATHER ───────────────────────────────────────────────────
+// ── HERO WEATHER ──────────────────────────────────────────────
+// Fetches in Celsius + m/s so we can convert to either unit on the fly.
+let _heroWeatherData = null;
+let _heroWeatherUnit = localStorage.getItem('dallas2026-unit') || 'F';
+
 async function initWeather() {
   try {
-    const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.78&longitude=-96.81&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FChicago');
-    const d = await r.json(); const c = d.current;
-    const codes = {0:'Clear skies',1:'Mostly clear',2:'Partly cloudy',3:'Overcast',45:'Foggy',51:'Light drizzle',61:'Light rain',63:'Moderate rain',80:'Rain showers',95:'Thunderstorms'};
-    const tempEl = document.getElementById('w-temp');
-    const descEl = document.getElementById('w-desc');
-    const humEl  = document.getElementById('w-hum');
-    const windEl = document.getElementById('w-wind');
-    if (tempEl) tempEl.textContent = Math.round(c.temperature_2m) + '°F';
-    if (descEl) descEl.textContent = codes[c.weather_code] || 'Conditions vary';
-    if (humEl)  humEl.textContent  = Math.round(c.relative_humidity_2m);
-    if (windEl) windEl.textContent = Math.round(c.wind_speed_10m);
+    const r = await fetch(
+      'https://api.open-meteo.com/v1/forecast?latitude=32.78&longitude=-96.81' +
+      '&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m' +
+      '&temperature_unit=celsius&wind_speed_unit=ms&timezone=America%2FChicago'
+    );
+    const d = await r.json();
+    _heroWeatherData = d.current;
+    renderHeroWeather();
   } catch(e) {
     const descEl = document.getElementById('w-desc');
     if (descEl) descEl.textContent = 'Weather unavailable';
   }
+}
+
+function renderHeroWeather() {
+  if (!_heroWeatherData) return;
+  const c = _heroWeatherData;
+  const isCelsius = _heroWeatherUnit === 'C';
+  const codes = {0:'Clear skies',1:'Mostly clear',2:'Partly cloudy',3:'Overcast',
+    45:'Foggy',51:'Light drizzle',61:'Light rain',63:'Moderate rain',
+    80:'Rain showers',95:'Thunderstorms'};
+
+  const tempC = c.temperature_2m;
+  const temp  = isCelsius ? Math.round(tempC) : Math.round(tempC * 9/5 + 32);
+  const unit  = isCelsius ? '°C' : '°F';
+  const windMs = c.wind_speed_10m;
+  const wind  = isCelsius ? Math.round(windMs * 3.6) : Math.round(windMs * 2.237);
+  const wUnit = isCelsius ? 'km/h' : 'mph';
+
+  const tempEl     = document.getElementById('w-temp');
+  const descEl     = document.getElementById('w-desc');
+  const humEl      = document.getElementById('w-hum');
+  const windEl     = document.getElementById('w-wind');
+  const windUnitEl = document.getElementById('w-wind-unit');
+
+  if (tempEl)     tempEl.textContent = temp + unit;
+  if (descEl)     descEl.textContent = codes[c.weather_code] || 'Conditions vary';
+  if (humEl)      humEl.textContent  = Math.round(c.relative_humidity_2m);
+  if (windEl)     windEl.textContent = wind;
+  if (windUnitEl) windUnitEl.textContent = wUnit;
+
+  // Update toggle button active states
+  const btnF = document.getElementById('hw-f');
+  const btnC = document.getElementById('hw-c');
+  if (btnF) {
+    btnF.style.background = isCelsius ? 'transparent' : 'rgba(240,237,232,.9)';
+    btnF.style.color      = isCelsius ? 'rgba(240,237,232,.5)' : 'var(--navy)';
+  }
+  if (btnC) {
+    btnC.style.background = isCelsius ? 'rgba(240,237,232,.9)' : 'transparent';
+    btnC.style.color      = isCelsius ? 'var(--navy)' : 'rgba(240,237,232,.5)';
+  }
+}
+
+function heroWeatherUnit(u) {
+  _heroWeatherUnit = u;
+  // Keep in sync with the site-wide unit preference
+  localStorage.setItem('dallas2026-unit', u);
+  // Also sync the full weather page toggle if open
+  if (typeof ww_setUnit === 'function') ww_setUnit(u);
+  renderHeroWeather();
 }
 
 // ── EXTERNAL LINK HELPER ──────────────────────────────────────
@@ -723,4 +834,483 @@ async function renderWeatherWidget(containerId) {
   };
 
   load();
+}
+
+// ══════════════════════════════════════════════════════════════
+// LANGUAGE / TRANSLATION SYSTEM
+// ══════════════════════════════════════════════════════════════
+
+let currentLang = localStorage.getItem('dallas2026-lang') || 'en';
+
+const TRANSLATIONS = {
+  en: {
+    // NAV
+    nav_matches:'Matches', nav_map:'Map', nav_explore:'Explore',
+    nav_logistics:'Get There', nav_checklist:'Checklist',
+    nav_survival:'Survival', nav_families:'Families', nav_weather:'Weather',
+
+    // HOMEPAGE
+    home_eyebrow:'FIFA World Cup 2026 · Dallas, Texas',
+    home_h1_line1:'Big', home_h1_line2:'D', home_h1_line3:'Host City Guide',
+    home_sub:'Everything you need to experience Dallas during the world\'s biggest sporting event — matches, food, transit, neighborhoods, hotels, and flights.',
+    home_btn_matches:'View Matches', home_btn_explore:'Explore Dallas',
+    home_days_away:'Days Away',
+    home_cd_label:'Next Dallas Match',
+    home_cd_game:'Netherlands vs Japan — Group Stage · Jun 14, 2026',
+    home_cd_countdown:'Countdown to Kickoff',
+    home_quick_title:'Everything You Need',
+    home_quick_sub:'Quick Links',
+
+    // SHARED UI
+    days:'days', hrs:'hrs', min:'min', sec:'sec',
+    book_your_trip:'Book Your Trip',
+    search_hotels:'Search Hotels', search_flights:'Search Flights',
+    compare_cars:'Compare Cars', find_bus:'Find Bus Routes',
+    browse_turo:'Browse Turo', browse_activities:'Browse Activities',
+    via:'via', affiliate_note:'Affiliate links — we earn a small commission at no cost to you.',
+    add_to_calendar:'+ Add to Calendar',
+    view_on_maps:'Open in Google Maps ↗',
+    official_website:'Official Website ↗',
+    call_to_reserve:'Call to Reserve ↗',
+    full_schedule:'Full Schedule →',
+    all_neighborhoods:'All Neighborhoods →',
+    all_restaurants:'All Restaurants →',
+    all_activities:'All Family Activities →',
+    explore_label:'Explore',
+    see_details:'See Details →',
+    read_more:'Read more →',
+
+    // MATCHES PAGE
+    matches_venue:'AT&T Stadium · Arlington, TX',
+    matches_title:'Dallas Fixtures',
+    matches_note:'Dallas Stadium (AT&T Stadium) hosts 9 matches — the most of any venue in the tournament. All times are CDT (Central Daylight Time). Click any match to find flights and hotels.',
+    next_match:'Next Dallas Match',
+    countdown_label:'Countdown to Kickoff',
+    group_stage:'Group Stage',
+    round_of_32:'Round of 32',
+    round_of_16:'Round of 16',
+    semifinal:'Semifinal',
+    known_after:'Known after',
+    flying_in:'Flying in for this match?',
+    flights_on_skyscanner:'Flights on Skyscanner ↗',
+    hotels_near_stadium:'Hotels near Stadium ↗',
+    stay_near_action:'Stay Near the Action',
+    venue_info:'Venue Info',
+    address:'Address', capacity:'Capacity', getting_there:'Getting There',
+    bag_policy:'Bag Policy',
+
+    // EXPLORE PAGE
+    explore_beyond:'Beyond the Stadium',
+    explore_title:'Explore Dallas',
+    all_areas:'All Areas', food_drink:'Food & Drink',
+    nightlife:'Nightlife', culture:'Culture',
+    local_favorites:'Local Favorites',
+    where_to_eat:'Where to Eat',
+    all_tab:'All', bbq_tab:'BBQ', texmex_tab:'Tex-Mex',
+    international_tab:'International', bars_tab:'Bars',
+
+    // LOGISTICS PAGE
+    logistics_title:'Getting There',
+    recommended_route:'Recommended Route',
+    step_by_step:'Step by Step',
+    all_options:'All Options',
+    getting_around:'Getting Around',
+    important:'Important:',
+    arlington_alert:'Arlington has no light rail or subway. Every visitor needs to plan transport carefully — match-day traffic on I-30 can add 60–90 min each way.',
+
+    // CHECKLIST PAGE
+    checklist_label:'Interactive Tool',
+    checklist_title:'Match Day Checklist',
+    your_progress:'Your Progress',
+    done:'done',
+
+    // SURVIVAL PAGE
+    survival_label:'For International Visitors',
+    survival_title:'Survival Guide',
+    know_before:'Know Before You Go',
+
+    // FAMILIES PAGE
+    families_title:'Family Dallas',
+    activities_title:'Things to Do',
+    heat_warning:'Summer heat warning:',
+    heat_warning_text:'Dallas in June and July regularly hits 100–105°F (38–40°C). Schedule outdoor activities for early morning (9–11am) or late afternoon (after 5pm). Water parks, museums, and air-conditioned venues are the best midday choices for families.',
+    dart_only:'DART Only',
+    getting_around_kids:'Getting Around with Kids',
+    family_transit:'Family Transit Guide',
+    plan_stay:'Plan Your Family Stay',
+    dart_accessible:'DART Accessible',
+    car_recommended:'Car Recommended',
+
+    // WEATHER PAGE
+    live_weather:'Live from Dallas, TX',
+    weather_title:'Dallas Weather',
+    next_24h:'Next 24 Hours',
+    day_forecast:'7-Day Forecast',
+    conditions_glance:'Conditions at a Glance',
+    match_day_advice:'Match Day Advice',
+    stadium_weather:'Stadium Weather Tips',
+    humidity:'Humidity', wind:'Wind Speed', uv_index:'UV Index',
+    sunrise:'Sunrise', sunset:'Sunset', wind_dir:'Wind Dir',
+    updated:'Updated',
+
+    // FOOTER
+    footer_note:'Fan-made visitor guide for FIFA World Cup 2026 · Not affiliated with FIFA or the City of Dallas',
+    pages:'Pages', official_links:'Official Links', emergency:'Emergency',
+  },
+
+  es: {
+    nav_matches:'Partidos', nav_map:'Mapa', nav_explore:'Explorar',
+    nav_logistics:'Cómo Llegar', nav_checklist:'Lista',
+    nav_survival:'Guía', nav_families:'Familias', nav_weather:'Clima',
+
+    home_eyebrow:'Copa Mundial FIFA 2026 · Dallas, Texas',
+    home_h1_line1:'Big', home_h1_line2:'D', home_h1_line3:'Guía Ciudad Sede',
+    home_sub:'Todo lo que necesitas para vivir Dallas durante el evento deportivo más grande del mundo — partidos, comida, transporte, barrios, hoteles y vuelos.',
+    home_btn_matches:'Ver Partidos', home_btn_explore:'Explorar Dallas',
+    home_days_away:'Días Restantes',
+    home_cd_label:'Próximo Partido en Dallas',
+    home_cd_game:'Países Bajos vs Japón — Fase de Grupos · 14 Jun 2026',
+    home_cd_countdown:'Cuenta Regresiva',
+    home_quick_title:'Todo lo que Necesitas',
+    home_quick_sub:'Accesos Rápidos',
+
+    days:'días', hrs:'hrs', min:'min', sec:'seg',
+    book_your_trip:'Reserva tu Viaje',
+    search_hotels:'Buscar Hoteles', search_flights:'Buscar Vuelos',
+    compare_cars:'Comparar Autos', find_bus:'Buscar Autobuses',
+    browse_turo:'Ver Turo', browse_activities:'Ver Actividades',
+    via:'con', affiliate_note:'Enlaces afiliados — ganamos una pequeña comisión sin costo para ti.',
+    add_to_calendar:'+ Agregar al Calendario',
+    view_on_maps:'Abrir en Google Maps ↗',
+    official_website:'Sitio Oficial ↗',
+    call_to_reserve:'Llamar para Reservar ↗',
+    full_schedule:'Horario Completo →',
+    all_neighborhoods:'Todos los Barrios →',
+    all_restaurants:'Todos los Restaurantes →',
+    all_activities:'Todas las Actividades →',
+    explore_label:'Explorar',
+    see_details:'Ver Detalles →',
+    read_more:'Leer más →',
+
+    matches_venue:'Estadio Dallas · Arlington, TX',
+    matches_title:'Partidos en Dallas',
+    matches_note:'El Estadio Dallas alberga 9 partidos, más que cualquier otro estadio del torneo. Todos los horarios en CDT. Haz clic en un partido para buscar vuelos y hoteles.',
+    next_match:'Próximo Partido en Dallas',
+    countdown_label:'Cuenta Regresiva',
+    group_stage:'Fase de Grupos',
+    round_of_32:'Ronda de 32',
+    round_of_16:'Ronda de 16',
+    semifinal:'Semifinal',
+    known_after:'Se confirma después del',
+    flying_in:'¿Viajando para este partido?',
+    flights_on_skyscanner:'Vuelos en Skyscanner ↗',
+    hotels_near_stadium:'Hoteles cerca del Estadio ↗',
+    stay_near_action:'Alójate Cerca de la Acción',
+    venue_info:'Info del Estadio',
+    address:'Dirección', capacity:'Capacidad', getting_there:'Cómo Llegar',
+    bag_policy:'Política de Bolsas',
+
+    explore_beyond:'Más Allá del Estadio',
+    explore_title:'Explorar Dallas',
+    all_areas:'Todas las Zonas', food_drink:'Comida y Bebida',
+    nightlife:'Nocturno', culture:'Cultura',
+    local_favorites:'Favoritos Locales',
+    where_to_eat:'Dónde Comer',
+    all_tab:'Todo', bbq_tab:'BBQ', texmex_tab:'Tex-Mex',
+    international_tab:'Internacional', bars_tab:'Bares',
+
+    logistics_title:'Cómo Llegar',
+    recommended_route:'Ruta Recomendada',
+    step_by_step:'Paso a Paso',
+    all_options:'Todas las Opciones',
+    getting_around:'Moverse por Dallas',
+    important:'Importante:',
+    arlington_alert:'Arlington no tiene metro ni tren ligero. Planifica tu transporte con anticipación — el tráfico en días de partido puede añadir 60–90 min por trayecto.',
+
+    checklist_label:'Herramienta Interactiva',
+    checklist_title:'Lista del Día del Partido',
+    your_progress:'Tu Progreso',
+    done:'completados',
+
+    survival_label:'Para Visitantes Internacionales',
+    survival_title:'Guía de Supervivencia',
+    know_before:'Qué Saber Antes de Llegar',
+
+    families_title:'Dallas en Familia',
+    activities_title:'Qué Hacer',
+    heat_warning:'Advertencia de calor extremo:',
+    heat_warning_text:'Dallas en junio y julio alcanza regularmente 38–40°C. Programa actividades al aire libre por la mañana (9–11h) o por la tarde (después de las 17h). Los parques acuáticos, museos y recintos climatizados son las mejores opciones al mediodía.',
+    dart_only:'Solo DART',
+    getting_around_kids:'Moverse con Niños',
+    family_transit:'Guía de Transporte Familiar',
+    plan_stay:'Planifica tu Estancia Familiar',
+    dart_accessible:'Accesible en DART',
+    car_recommended:'Se Recomienda Auto',
+
+    live_weather:'En Vivo desde Dallas, TX',
+    weather_title:'Clima en Dallas',
+    next_24h:'Próximas 24 Horas',
+    day_forecast:'Pronóstico de 7 Días',
+    conditions_glance:'Condiciones de un Vistazo',
+    match_day_advice:'Consejos para el Día del Partido',
+    stadium_weather:'Clima en el Estadio',
+    humidity:'Humedad', wind:'Viento', uv_index:'Índice UV',
+    sunrise:'Amanecer', sunset:'Atardecer', wind_dir:'Dirección Viento',
+    updated:'Actualizado',
+
+    footer_note:'Guía de visitantes creada por fanáticos para la Copa Mundial FIFA 2026 · No afiliada con FIFA ni la Ciudad de Dallas',
+    pages:'Páginas', official_links:'Enlaces Oficiales', emergency:'Emergencias',
+  },
+
+  fr: {
+    nav_matches:'Matchs', nav_map:'Carte', nav_explore:'Explorer',
+    nav_logistics:'Y Aller', nav_checklist:'Liste',
+    nav_survival:'Guide', nav_families:'Familles', nav_weather:'Météo',
+
+    home_eyebrow:'Coupe du Monde FIFA 2026 · Dallas, Texas',
+    home_h1_line1:'Big', home_h1_line2:'D', home_h1_line3:'Guide Ville Hôte',
+    home_sub:'Tout ce qu\'il faut pour vivre Dallas lors du plus grand événement sportif au monde — matchs, nourriture, transports, quartiers, hôtels et vols.',
+    home_btn_matches:'Voir les Matchs', home_btn_explore:'Explorer Dallas',
+    home_days_away:'Jours Restants',
+    home_cd_label:'Prochain Match à Dallas',
+    home_cd_game:'Pays-Bas vs Japon — Phase de Groupes · 14 Jun 2026',
+    home_cd_countdown:'Compte à Rebours',
+    home_quick_title:'Tout ce qu\'il Vous Faut',
+    home_quick_sub:'Liens Rapides',
+
+    days:'jours', hrs:'hrs', min:'min', sec:'sec',
+    book_your_trip:'Réservez Votre Voyage',
+    search_hotels:'Chercher Hôtels', search_flights:'Chercher Vols',
+    compare_cars:'Comparer Voitures', find_bus:'Trouver Bus',
+    browse_turo:'Voir Turo', browse_activities:'Voir Activités',
+    via:'via', affiliate_note:'Liens affiliés — nous touchons une petite commission sans frais pour vous.',
+    add_to_calendar:'+ Ajouter au Calendrier',
+    view_on_maps:'Ouvrir dans Google Maps ↗',
+    official_website:'Site Officiel ↗',
+    call_to_reserve:'Appeler pour Réserver ↗',
+    full_schedule:'Programme Complet →',
+    all_neighborhoods:'Tous les Quartiers →',
+    all_restaurants:'Tous les Restaurants →',
+    all_activities:'Toutes les Activités →',
+    explore_label:'Explorer',
+    see_details:'Voir les Détails →',
+    read_more:'En savoir plus →',
+
+    matches_venue:'Stade Dallas · Arlington, TX',
+    matches_title:'Matchs à Dallas',
+    matches_note:'Le Stade Dallas accueille 9 matchs — le plus grand nombre de tous les stades. Horaires en CDT. Cliquez sur un match pour trouver vols et hôtels.',
+    next_match:'Prochain Match à Dallas',
+    countdown_label:'Compte à Rebours',
+    group_stage:'Phase de Groupes',
+    round_of_32:'Tour de 32',
+    round_of_16:'Tour de 16',
+    semifinal:'Demi-finale',
+    known_after:'Connu après le',
+    flying_in:'Vous venez pour ce match ?',
+    flights_on_skyscanner:'Vols sur Skyscanner ↗',
+    hotels_near_stadium:'Hôtels près du Stade ↗',
+    stay_near_action:'Séjournez près de l\'Action',
+    venue_info:'Infos Stade',
+    address:'Adresse', capacity:'Capacité', getting_there:'Comment Venir',
+    bag_policy:'Politique Bagages',
+
+    explore_beyond:'Au-delà du Stade',
+    explore_title:'Explorer Dallas',
+    all_areas:'Toutes les Zones', food_drink:'Nourriture & Boissons',
+    nightlife:'Soirée', culture:'Culture',
+    local_favorites:'Favoris Locaux',
+    where_to_eat:'Où Manger',
+    all_tab:'Tout', bbq_tab:'BBQ', texmex_tab:'Tex-Mex',
+    international_tab:'International', bars_tab:'Bars',
+
+    logistics_title:'Comment Y Aller',
+    recommended_route:'Itinéraire Recommandé',
+    step_by_step:'Étape par Étape',
+    all_options:'Toutes les Options',
+    getting_around:'Se Déplacer à Dallas',
+    important:'Important :',
+    arlington_alert:'Arlington n\'a pas de métro ni de tramway. Planifiez votre transport à l\'avance — la circulation les jours de match peut ajouter 60–90 min par trajet.',
+
+    checklist_label:'Outil Interactif',
+    checklist_title:'Liste Jour de Match',
+    your_progress:'Votre Progression',
+    done:'fait',
+
+    survival_label:'Pour les Visiteurs Internationaux',
+    survival_title:'Guide de Survie',
+    know_before:'Ce qu\'il Faut Savoir',
+
+    families_title:'Dallas en Famille',
+    activities_title:'Que Faire',
+    heat_warning:'Avertissement chaleur :',
+    heat_warning_text:'Dallas en juin et juillet atteint régulièrement 38–40°C. Planifiez les activités en plein air le matin (9–11h) ou l\'après-midi tard (après 17h). Les parcs aquatiques, musées et lieux climatisés sont idéaux en milieu de journée.',
+    dart_only:'DART Uniquement',
+    getting_around_kids:'Se Déplacer avec des Enfants',
+    family_transit:'Guide Transport Famille',
+    plan_stay:'Planifiez votre Séjour Famille',
+    dart_accessible:'Accessible en DART',
+    car_recommended:'Voiture Recommandée',
+
+    live_weather:'En Direct de Dallas, TX',
+    weather_title:'Météo Dallas',
+    next_24h:'24 Prochaines Heures',
+    day_forecast:'Prévisions 7 Jours',
+    conditions_glance:'Conditions en un Coup d\'Œil',
+    match_day_advice:'Conseils Jour de Match',
+    stadium_weather:'Météo au Stade',
+    humidity:'Humidité', wind:'Vent', uv_index:'Indice UV',
+    sunrise:'Lever du soleil', sunset:'Coucher du soleil', wind_dir:'Direction Vent',
+    updated:'Mis à jour',
+
+    footer_note:'Guide de visiteurs créé par des fans pour la Coupe du Monde FIFA 2026 · Non affilié à la FIFA ni à la ville de Dallas',
+    pages:'Pages', official_links:'Liens Officiels', emergency:'Urgences',
+  },
+
+  pt: {
+    nav_matches:'Jogos', nav_map:'Mapa', nav_explore:'Explorar',
+    nav_logistics:'Como Chegar', nav_checklist:'Lista',
+    nav_survival:'Guia', nav_families:'Famílias', nav_weather:'Clima',
+
+    home_eyebrow:'Copa do Mundo FIFA 2026 · Dallas, Texas',
+    home_h1_line1:'Big', home_h1_line2:'D', home_h1_line3:'Guia da Cidade Sede',
+    home_sub:'Tudo que você precisa para viver Dallas durante o maior evento esportivo do mundo — jogos, comida, transporte, bairros, hotéis e voos.',
+    home_btn_matches:'Ver Jogos', home_btn_explore:'Explorar Dallas',
+    home_days_away:'Dias Restantes',
+    home_cd_label:'Próximo Jogo em Dallas',
+    home_cd_game:'Holanda vs Japão — Fase de Grupos · 14 Jun 2026',
+    home_cd_countdown:'Contagem Regressiva',
+    home_quick_title:'Tudo que Você Precisa',
+    home_quick_sub:'Links Rápidos',
+
+    days:'dias', hrs:'hrs', min:'min', sec:'seg',
+    book_your_trip:'Reserve sua Viagem',
+    search_hotels:'Buscar Hotéis', search_flights:'Buscar Voos',
+    compare_cars:'Comparar Carros', find_bus:'Buscar Ônibus',
+    browse_turo:'Ver Turo', browse_activities:'Ver Atividades',
+    via:'via', affiliate_note:'Links afiliados — ganhamos uma pequena comissão sem custo para você.',
+    add_to_calendar:'+ Adicionar ao Calendário',
+    view_on_maps:'Abrir no Google Maps ↗',
+    official_website:'Site Oficial ↗',
+    call_to_reserve:'Ligar para Reservar ↗',
+    full_schedule:'Calendário Completo →',
+    all_neighborhoods:'Todos os Bairros →',
+    all_restaurants:'Todos os Restaurantes →',
+    all_activities:'Todas as Atividades →',
+    explore_label:'Explorar',
+    see_details:'Ver Detalhes →',
+    read_more:'Saiba mais →',
+
+    matches_venue:'Estádio Dallas · Arlington, TX',
+    matches_title:'Jogos em Dallas',
+    matches_note:'O Estádio Dallas sedia 9 jogos — mais do que qualquer outro estádio. Horários em CDT. Clique em um jogo para buscar voos e hotéis.',
+    next_match:'Próximo Jogo em Dallas',
+    countdown_label:'Contagem Regressiva',
+    group_stage:'Fase de Grupos',
+    round_of_32:'Rodada de 32',
+    round_of_16:'Rodada de 16',
+    semifinal:'Semifinal',
+    known_after:'Confirmado após',
+    flying_in:'Viajando para este jogo?',
+    flights_on_skyscanner:'Voos no Skyscanner ↗',
+    hotels_near_stadium:'Hotéis perto do Estádio ↗',
+    stay_near_action:'Fique Perto da Ação',
+    venue_info:'Info do Estádio',
+    address:'Endereço', capacity:'Capacidade', getting_there:'Como Chegar',
+    bag_policy:'Política de Bolsas',
+
+    explore_beyond:'Além do Estádio',
+    explore_title:'Explorar Dallas',
+    all_areas:'Todas as Áreas', food_drink:'Comida e Bebida',
+    nightlife:'Noite', culture:'Cultura',
+    local_favorites:'Favoritos Locais',
+    where_to_eat:'Onde Comer',
+    all_tab:'Tudo', bbq_tab:'BBQ', texmex_tab:'Tex-Mex',
+    international_tab:'Internacional', bars_tab:'Bares',
+
+    logistics_title:'Como Chegar',
+    recommended_route:'Rota Recomendada',
+    step_by_step:'Passo a Passo',
+    all_options:'Todas as Opções',
+    getting_around:'Como se Locomover',
+    important:'Importante:',
+    arlington_alert:'Arlington não tem metrô nem VLT. Planeje seu transporte com antecedência — o trânsito nos dias de jogo pode adicionar 60–90 min por trajeto.',
+
+    checklist_label:'Ferramenta Interativa',
+    checklist_title:'Lista do Dia do Jogo',
+    your_progress:'Seu Progresso',
+    done:'feitos',
+
+    survival_label:'Para Visitantes Internacionais',
+    survival_title:'Guia de Sobrevivência',
+    know_before:'O que Saber Antes de Chegar',
+
+    families_title:'Dallas em Família',
+    activities_title:'O que Fazer',
+    heat_warning:'Aviso de calor extremo:',
+    heat_warning_text:'Dallas em junho e julho atinge regularmente 38–40°C. Programe atividades ao ar livre pela manhã (9–11h) ou à tarde (depois das 17h). Parques aquáticos, museus e locais climatizados são as melhores opções ao meio-dia.',
+    dart_only:'Somente DART',
+    getting_around_kids:'Locomover-se com Crianças',
+    family_transit:'Guia de Transporte Familiar',
+    plan_stay:'Planeje sua Estadia em Família',
+    dart_accessible:'Acessível pelo DART',
+    car_recommended:'Carro Recomendado',
+
+    live_weather:'Ao Vivo de Dallas, TX',
+    weather_title:'Clima em Dallas',
+    next_24h:'Próximas 24 Horas',
+    day_forecast:'Previsão de 7 Dias',
+    conditions_glance:'Condições em um Relance',
+    match_day_advice:'Dicas para o Dia do Jogo',
+    stadium_weather:'Clima no Estádio',
+    humidity:'Umidade', wind:'Vento', uv_index:'Índice UV',
+    sunrise:'Nascer do sol', sunset:'Pôr do sol', wind_dir:'Direção Vento',
+    updated:'Atualizado',
+
+    footer_note:'Guia de visitantes criado por fãs para a Copa do Mundo FIFA 2026 · Não afiliado à FIFA nem à Cidade de Dallas',
+    pages:'Páginas', official_links:'Links Oficiais', emergency:'Emergências',
+  }
+};
+
+// ── TRANSLATION HELPERS ───────────────────────────────────────
+function t(key) {
+  const lang = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+  return lang[key] || TRANSLATIONS.en[key] || key;
+}
+
+function setLang(lang) {
+  if (!TRANSLATIONS[lang]) return;
+  currentLang = lang;
+  localStorage.setItem('dallas2026-lang', lang);
+
+  // Update all lang buttons in nav and drawer
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    const btnLang = btn.getAttribute('onclick')?.match(/setLang\('(\w+)'\)/)?.[1];
+    btn.classList.toggle('active', btnLang === lang);
+  });
+
+  // Translate all elements with data-i18n attribute
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const attr = el.getAttribute('data-i18n-attr');
+    if (attr) {
+      el.setAttribute(attr, t(key));
+    } else {
+      el.textContent = t(key);
+    }
+  });
+
+  // Re-translate nav links
+  document.querySelectorAll('[data-navkey]').forEach(el => {
+    const key = el.getAttribute('data-navkey');
+    el.textContent = t(key) || el.textContent;
+  });
+
+  // Fire a custom event so pages can react
+  document.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
+}
+
+// Apply saved language on page load
+function initLang() {
+  const saved = localStorage.getItem('dallas2026-lang') || 'en';
+  if (saved !== 'en') setLang(saved);
 }

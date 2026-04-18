@@ -37,10 +37,10 @@
 <div class="cd-strip">
   <div>
     <div class="cd-label"><span class="live-dot"></span>Next Dallas Match</div>
-    <div class="cd-game">Netherlands vs Japan — Group Stage · Jun 14, 2026</div>
+    <div class="cd-game">Netherlands vs Japan — Group Stage · Jun 14, 3:00 PM CDT</div>
   </div>
   <div>
-    <div class="cd-label">Countdown to Kickoff</div>
+    <div class="cd-label" data-i18n="countdown_label">Countdown to Kickoff</div>
     <div class="cd-units">
       <div class="cu"><span class="cu-n" id="cd-d">—</span><span class="cu-l">days</span></div>
       <div class="cu"><span class="cu-n" id="cd-h">—</span><span class="cu-l">hrs</span></div>
@@ -52,7 +52,7 @@
 
 <section>
   <div class="sec-label">AT&T Stadium · Arlington, TX</div>
-  <div class="sec-title">Dallas <em>Fixtures</em></div>
+  <div class="sec-title" data-i18n="matches_title">Dallas Fixtures</div>
   <div class="section-note">
     Dallas Stadium (AT&T Stadium) hosts 9 matches — the most of any venue in the tournament. The full schedule was confirmed in December 2025. All times are CDT (Central Daylight Time). Click any match to find flights and hotels.
   </div>
@@ -92,7 +92,7 @@
 <script src="js/site.js"></script>
 <script src="js/affiliate.js"></script>
 <script>
-renderNav(); renderFooter(); renderDisclosure();
+renderNav(); renderFooter(); renderDisclosure(); initLang();
 initCountdown('cd-d','cd-h','cd-m','cd-s');
 
 // ── LOAD MATCHES FROM DATA FILE ─────────────────────────────

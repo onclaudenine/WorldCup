@@ -68,7 +68,7 @@
   </div>
   <div class="page-hero-content">
     <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span style="color:var(--text)">Family Activities</span></div>
-    <h1>Family <em>Dallas</em></h1>
+    <h1><span data-i18n="families_title">Family Dallas</span></h1>
     <p class="page-hero-sub">The best things to do with kids in and around Dallas during the World Cup — museums, theme parks, water parks, zoos, and Texas experiences they'll never forget.</p>
     <div class="page-hero-tags">
       <span class="tag tag-gold">10 Attractions</span>
@@ -89,7 +89,7 @@
   </div>
 
   <div class="sec-label">10 Attractions for Families</div>
-  <div class="sec-title">Things to <em>Do</em></div>
+  <div class="sec-title" data-i18n="activities_title">Things to Do</div>
 
   <div class="transit-legend">
     <div class="tl-item"><div class="tl-dot" style="background:#4CAF50"></div>DART/TRE rail accessible</div>
@@ -117,7 +117,7 @@
 
 <!-- TRANSIT GUIDE -->
 <section style="background:var(--dark)">
-  <div class="sec-label">Getting Around with Kids</div>
+  <div class="sec-label" data-i18n="getting_around_kids">Getting Around with Kids</div>
   <div class="sec-title">Family <em>Transit Guide</em></div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px">
 
@@ -167,7 +167,7 @@
 <script src="js/site.js"></script>
 <script src="js/affiliate.js"></script>
 <script>
-renderNav(); renderFooter(); renderDisclosure(); renderWeatherWidget("fam-weather");
+renderNav(); renderFooter(); renderDisclosure(); initLang(); renderWeatherWidget("fam-weather");
 
 let activeCat = 'all';
 
