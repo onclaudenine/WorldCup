@@ -70,7 +70,7 @@
   <div class="page-hero-content">
     <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span style="color:var(--text)">Family Activities</span></div>
     <h1><span data-i18n="families_title">Family Dallas</span></h1>
-    <p class="page-hero-sub">The best things to do with kids in and around Dallas during the World Cup — museums, theme parks, water parks, zoos, and Texas experiences they'll never forget.</p>
+    <p class="page-hero-sub" id="fam-hero-sub">The best things to do with kids in and around Dallas during the World Cup — museums, theme parks, water parks, zoos, and Texas experiences they'll never forget.</p>
     <div class="page-hero-tags">
       <span class="tag tag-gold">10 Attractions</span>
       <span class="tag tag-blue">All Ages</span>
@@ -89,12 +89,12 @@
     </div>
   </div>
 
-  <div class="sec-label">10 Attractions for Families</div>
+  <div class="sec-label" id="fam-acts-label">10 Attractions for Families</div>
   <div class="sec-title" data-i18n="activities_title">Things to Do</div>
 
   <div class="transit-legend">
-    <div class="tl-item"><div class="tl-dot" style="background:#4CAF50"></div>DART/TRE rail accessible</div>
-    <div class="tl-item"><div class="tl-dot" style="background:#BF0A30"></div>Car or rideshare required</div>
+    <div class="tl-item"><div class="tl-dot" style="background:#4CAF50"></div><span id="fam-legend-dart">DART/TRE rail accessible</span></div>
+    <div class="tl-item"><div class="tl-dot" style="background:#BF0A30"></div><span id="fam-legend-car">Car or rideshare required</span></div>
   </div>
 
   <div class="tab-bar" id="fam-tabs">
@@ -119,14 +119,14 @@
 <!-- TRANSIT GUIDE -->
 <section style="background:var(--dark)">
   <div class="sec-label" data-i18n="getting_around_kids">Getting Around with Kids</div>
-  <div class="sec-title">Family <em>Transit Guide</em></div>
+  <div class="sec-title" id="fam-transit-title">Family Transit Guide</div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px">
 
     <div style="background:var(--card);border:1px solid var(--border);padding:1.4rem">
       <div style="font-size:1.3rem;margin-bottom:.65rem">🚆</div>
-      <div style="font-family:var(--fh);font-weight:700;font-size:.95rem;text-transform:uppercase;margin-bottom:.4rem">DART Light Rail</div>
-      <div style="font-size:.7rem;color:var(--white);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5rem">Best for: Zoo, Perot Museum, Reunion Tower</div>
-      <div style="font-size:.78rem;color:var(--muted);line-height:1.65;font-weight:300;margin-bottom:.85rem">The easiest transit for families. Kids under 5 ride free with a paying adult. Download the GoPass app before you arrive and load transit credit.</div>
+      <div style="font-family:var(--fh);font-weight:700;font-size:.95rem;text-transform:uppercase;margin-bottom:.4rem" id="fam-dart-title">DART Light Rail</div>
+      <div style="font-size:.7rem;color:var(--white);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5rem" id="fam-dart-best">Best for: Zoo, Perot Museum, Reunion Tower</div>
+      <div style="font-size:.78rem;color:var(--muted);line-height:1.65;font-weight:300;margin-bottom:.85rem" id="fam-dart-desc">The easiest transit for families. Kids under 5 ride free with a paying adult. Download the GoPass app before you arrive and load transit credit.</div>
       <a href="https://www.dart.org" target="_blank" rel="noopener" class="ext-link" style="font-size:.65rem">DART Trip Planner ↗</a>
     </div>
 
@@ -159,8 +159,8 @@
 
 
 <section style="background:var(--mid)">
-  <div class="sec-label">Plan Around the Heat</div>
-  <div class="sec-title" style="margin-bottom:1rem">Dallas <em>Weather</em></div>
+  <div class="sec-label" id="fam-weather-label">Plan Around the Heat</div>
+  <div class="sec-title" style="margin-bottom:1rem" id="fam-weather-title">Dallas Weather</div>
   <p style="font-size:.82rem;color:var(--muted);font-weight:300;max-width:540px;line-height:1.65;margin-bottom:1.25rem">Check conditions before heading out — especially important for outdoor activities like the Zoo, Arboretum, and Six Flags.</p>
   <div id="fam-weather" style="max-width:700px"></div>
 </section>
@@ -215,10 +215,28 @@ function renderActivities() {
 renderActivities();
 
 function updateFamiliesLang() {
+  // Translate all static text elements
   const ids = {
-    'fam-heat-warn': 'fam_heat_warning',
+    'fam-hero-sub':     'fam_sub',
+    'fam-acts-label':   'fam_acts_label',
+    'fam-heat-warn':    'fam_heat_warning',
+    'fam-legend-dart':  'fam_transit_dart',
+    'fam-legend-car':   'fam_transit_car',
+    'fam-transit-title':'fam_transit_title',
+    'fam-weather-label':'fam_weather_label',
+    'fam-weather-title':'fam_weather_title',
+    'fam-dart-title':   'fam_dart_title',
+    'fam-dart-best':    'fam_dart_best',
+    'fam-dart-desc':    'fam_dart_desc',
+    'getting_around_kids': 'fam_transit_label',
   };
   Object.entries(ids).forEach(([id,key])=>{const el=document.getElementById(id);if(el)el.textContent=t(key);});
+  // Also handle data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const val = t(key);
+    if (val) el.textContent = val;
+  });
   // Update tab buttons
   const tabs = {
     0:'fam_tab_all',1:'fam_tab_museum',2:'fam_tab_outdoors',3:'fam_tab_indoor',

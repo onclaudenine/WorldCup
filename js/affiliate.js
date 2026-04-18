@@ -141,21 +141,23 @@ function renderUberEatsCard(containerId, restaurantName, restaurantQuery) {
   if (!el) return;
   const url = `https://www.ubereats.com/search?q=${encodeURIComponent(restaurantQuery)}&affiliate_id=${AFF.ubereats.id}`;
   el.innerHTML = `
-    <div style="margin-top:1rem;padding:1rem 1.25rem;background:var(--card);border:1px solid var(--border);
-      display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
-      <div style="font-size:1.6rem">🛵</div>
-      <div style="flex:1;min-width:140px">
-        <div style="font-family:var(--fh);font-size:.78rem;font-weight:700;text-transform:uppercase;
-          letter-spacing:.04em;color:var(--text);margin-bottom:2px">${restaurantName} on Uber Eats</div>
-        <div style="font-size:.72rem;color:var(--muted);font-weight:300">Too hot to go out? Order delivery to your hotel.</div>
+    <div style="padding:.85rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+      border-left:4px solid var(--red)">
+      <div style="font-size:1.3rem;flex-shrink:0">🛵</div>
+      <div style="flex:1;min-width:160px">
+        <div style="font-family:var(--fh);font-size:.82rem;font-weight:700;text-transform:uppercase;
+          letter-spacing:.04em;color:var(--text)">Order ${restaurantName} for delivery</div>
+        <div style="font-size:.72rem;color:var(--muted);font-weight:300;margin-top:1px">
+          Available on Uber Eats — delivered to your hotel
+        </div>
       </div>
       <a href="${url}" target="_blank" rel="noopener sponsored"
         style="font-family:var(--fh);font-size:.68rem;font-weight:700;letter-spacing:.08em;
-          text-transform:uppercase;background:var(--red);color:#fff;padding:8px 16px;
-          text-decoration:none;white-space:nowrap;transition:background .15s"
+          text-transform:uppercase;background:var(--red);color:#fff;padding:8px 18px;
+          text-decoration:none;white-space:nowrap;flex-shrink:0;transition:background .15s"
         onmouseover="this.style.background='#960822'"
         onmouseout="this.style.background='var(--red)'">
-        Order Now ↗
+        Order on Uber Eats ↗
       </a>
     </div>`;
 }
@@ -212,20 +214,13 @@ function renderUberCard(containerId) {
 const VIATOR_FOOD_TOURS = [
   {
     name: 'Dallas Food Tour — Deep Ellum',
-    desc: "Walk Deep Ellum's best food stops with a local guide. BBQ, tacos, craft beer, and live music district. 3 hrs.",
+    desc: "Walk Deep Ellum's best food stops with a local guide. BBQ, tacos, street food, and live music district. 3 hrs.",
     url: `https://www.viator.com/tours/Dallas/Deep-Ellum-Food-Tour/d673-3498DEEPELLUM?pid=${AFF.viator.id}&mcid=42383`,
     price: 'From $65',
     duration: '3 hrs',
     icon: '🍖',
   },
-  {
-    name: 'Dallas BBQ & Craft Beer Tour',
-    desc: 'Pit-smoked brisket, ribs, and sausage at three legendary Dallas BBQ spots. Includes drinks.',
-    url: `https://www.viator.com/tours/Dallas/Dallas-BBQ-Tour/d673-3498BBQ?pid=${AFF.viator.id}&mcid=42383`,
-    price: 'From $79',
-    duration: '4 hrs',
-    icon: '🔥',
-  },
+
   {
     name: 'Tex-Mex Food & Culture Walk',
     desc: "Taste authentic Tex-Mex across Dallas's best taquerias. Includes tastings at 4–5 spots in Bishop Arts and Oak Cliff.",
