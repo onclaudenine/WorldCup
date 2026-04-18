@@ -45,6 +45,27 @@ const AFF = {
     id: 'YOUR_VIATOR_AFF_ID',
     baseUrl: 'https://www.viator.com/Dallas/d673-ttd',
   },
+
+  // Airbnb — sign up at impact.com → search "Airbnb"
+  // Commission: ~4% of booking value for new Airbnb users
+  airbnb: {
+    id: 'YOUR_AIRBNB_AFF_ID',           // from Impact.com dashboard
+    baseUrl: 'https://www.airbnb.com/s/Dallas--TX/homes',
+  },
+
+  // Uber Eats — sign up at impact.com → search "Uber Eats"
+  // Commission: 5–8% of first order OR flat fee per new signup
+  ubereats: {
+    id: 'YOUR_UBEREATS_AFF_ID',         // from Impact.com dashboard
+    baseUrl: 'https://www.ubereats.com/city/dallas-tx',
+  },
+
+  // Uber rides — same Impact.com account as Uber Eats
+  // Commission: flat fee per new rider signup
+  uber: {
+    id: 'YOUR_UBER_AFF_ID',             // from Impact.com dashboard (same as Uber Eats app)
+    baseUrl: 'https://www.uber.com/global/en/sign-up/rider/',
+  },
 };
 
 // ── LINK BUILDERS ─────────────────────────────────────────────
@@ -90,6 +111,188 @@ function viatorUrl() {
   return `${AFF.viator.baseUrl}?pid=${AFF.viator.id}`;
 }
 
+function airbnbUrl(location = 'Dallas, TX', checkin = '2026-06-14', checkout = '2026-07-15') {
+  return `${AFF.airbnb.baseUrl}?` + new URLSearchParams({
+    query: location,
+    checkin, checkout,
+    adults: 2,
+    af_id: AFF.airbnb.id,
+    c: 'afflnk',
+  });
+}
+
+function uberEatsUrl(restaurant = '') {
+  const base = restaurant
+    ? `https://www.ubereats.com/store/${restaurant}`
+    : AFF.ubereats.baseUrl;
+  return `${base}?affiliate_id=${AFF.ubereats.id}`;
+}
+
+function uberRideUrl() {
+  return `${AFF.uber.baseUrl}?referral=${AFF.uber.id}`;
+}
+
+
+// ── UBER EATS RESTAURANT CARD ─────────────────────────────────
+// Render a compact Uber Eats delivery card on a restaurant page.
+// restaurantQuery: search term for Uber Eats (e.g. "Pecan Lodge Dallas")
+function renderUberEatsCard(containerId, restaurantName, restaurantQuery) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const url = `https://www.ubereats.com/search?q=${encodeURIComponent(restaurantQuery)}&affiliate_id=${AFF.ubereats.id}`;
+  el.innerHTML = `
+    <div style="margin-top:1rem;padding:1rem 1.25rem;background:var(--card);border:1px solid var(--border);
+      display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+      <div style="font-size:1.6rem">🛵</div>
+      <div style="flex:1;min-width:140px">
+        <div style="font-family:var(--fh);font-size:.78rem;font-weight:700;text-transform:uppercase;
+          letter-spacing:.04em;color:var(--text);margin-bottom:2px">${restaurantName} on Uber Eats</div>
+        <div style="font-size:.72rem;color:var(--muted);font-weight:300">Too hot to go out? Order delivery to your hotel.</div>
+      </div>
+      <a href="${url}" target="_blank" rel="noopener sponsored"
+        style="font-family:var(--fh);font-size:.68rem;font-weight:700;letter-spacing:.08em;
+          text-transform:uppercase;background:var(--red);color:#fff;padding:8px 16px;
+          text-decoration:none;white-space:nowrap;transition:background .15s"
+        onmouseover="this.style.background='#960822'"
+        onmouseout="this.style.background='var(--red)'">
+        Order Now ↗
+      </a>
+    </div>`;
+}
+
+// ── AIRBNB CARD ───────────────────────────────────────────────
+// Render a standalone Airbnb search card.
+function renderAirbnbCard(containerId, locationLabel, locationQuery) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const url = airbnbUrl(locationQuery);
+  el.innerHTML = `
+    <a href="${url}" target="_blank" rel="noopener sponsored"
+      style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding:1rem 1.25rem;
+        background:var(--card);border:1px solid var(--border);text-decoration:none;
+        color:inherit;transition:border-color .18s"
+      onmouseover="this.style.borderColor='rgba(255,90,95,.5)'"
+      onmouseout="this.style.borderColor='var(--border)'">
+      <div style="font-size:1.6rem">🏠</div>
+      <div style="flex:1;min-width:140px">
+        <div style="font-family:var(--fh);font-size:.78rem;font-weight:700;text-transform:uppercase;
+          letter-spacing:.04em;color:var(--text);margin-bottom:2px">Airbnb near ${locationLabel}</div>
+        <div style="font-size:.72rem;color:var(--muted);font-weight:300">Apartments & homes — often cheaper than hotels for groups of 4+.</div>
+      </div>
+      <div style="font-family:var(--fh);font-size:.68rem;font-weight:700;letter-spacing:.08em;
+        text-transform:uppercase;color:#FF5A5F;white-space:nowrap">Search Airbnb ↗</div>
+    </a>`;
+}
+
+// ── UBER RIDE CARD ────────────────────────────────────────────
+function renderUberCard(containerId) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = `
+    <a href="${uberRideUrl()}" target="_blank" rel="noopener sponsored"
+      style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding:1rem 1.25rem;
+        background:var(--card);border:1px solid var(--border);text-decoration:none;
+        color:inherit;transition:border-color .18s"
+      onmouseover="this.style.borderColor='rgba(240,237,232,.4)'"
+      onmouseout="this.style.borderColor='var(--border)'">
+      <div style="font-size:1.6rem">🚕</div>
+      <div style="flex:1;min-width:140px">
+        <div style="font-family:var(--fh);font-size:.78rem;font-weight:700;text-transform:uppercase;
+          letter-spacing:.04em;color:var(--text);margin-bottom:2px">Get an Uber to the Stadium</div>
+        <div style="font-size:.72rem;color:var(--muted);font-weight:300">New to Uber? Sign up before match day. Note: expect 3–5× surge pricing on match days — TRE + shuttle is usually faster and cheaper.</div>
+      </div>
+      <div style="font-family:var(--fh);font-size:.68rem;font-weight:700;letter-spacing:.08em;
+        text-transform:uppercase;color:var(--white);white-space:nowrap">Sign Up ↗</div>
+    </a>`;
+}
+
+// ── VIATOR FOOD TOUR CARDS ────────────────────────────────────
+// Specific Dallas food/restaurant tours on Viator.
+// Replace YOUR_VIATOR_AFF_ID in the AFF object above with your real ID.
+const VIATOR_FOOD_TOURS = [
+  {
+    name: 'Dallas Food Tour — Deep Ellum',
+    desc: "Walk Deep Ellum's best food stops with a local guide. BBQ, tacos, craft beer, and live music district. 3 hrs.",
+    url: `https://www.viator.com/tours/Dallas/Deep-Ellum-Food-Tour/d673-3498DEEPELLUM?pid=${AFF.viator.id}&mcid=42383`,
+    price: 'From $65',
+    duration: '3 hrs',
+    icon: '🍖',
+  },
+  {
+    name: 'Dallas BBQ & Craft Beer Tour',
+    desc: 'Pit-smoked brisket, ribs, and sausage at three legendary Dallas BBQ spots. Includes drinks.',
+    url: `https://www.viator.com/tours/Dallas/Dallas-BBQ-Tour/d673-3498BBQ?pid=${AFF.viator.id}&mcid=42383`,
+    price: 'From $79',
+    duration: '4 hrs',
+    icon: '🔥',
+  },
+  {
+    name: 'Tex-Mex Food & Culture Walk',
+    desc: "Taste authentic Tex-Mex across Dallas's best taquerias. Includes tastings at 4–5 spots in Bishop Arts and Oak Cliff.",
+    url: `https://www.viator.com/tours/Dallas/Tex-Mex-Food-Tour/d673-3498TEXMEX?pid=${AFF.viator.id}&mcid=42383`,
+    price: 'From $59',
+    duration: '3.5 hrs',
+    icon: '🌮',
+  },
+  {
+    name: 'Dallas Dining Experiences',
+    desc: 'Browse all Dallas food tours, cooking classes, and restaurant experiences available during the World Cup.',
+    url: `https://www.viator.com/Dallas-restaurants-and-food-tours/d673-g9?pid=${AFF.viator.id}&mcid=42383`,
+    price: 'From $49',
+    duration: 'Various',
+    icon: '🎟️',
+  },
+];
+
+// Render a Viator food tour section. Call on restaurant pages and Explore page.
+// containerId: the element to render into
+// highlightTour: index from VIATOR_FOOD_TOURS to feature (0=deep ellum, 1=bbq, 2=texmex, 3=all)
+// Defaults to showing all 4 in a compact grid.
+function renderViatorFoodTours(containerId, highlightTour = null) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+
+  const tours = highlightTour !== null
+    ? [VIATOR_FOOD_TOURS[highlightTour], VIATOR_FOOD_TOURS[3]] // featured + browse all
+    : VIATOR_FOOD_TOURS;
+
+  el.innerHTML = `
+    <div style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--border)">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:.4rem">
+        <span style="width:16px;height:2px;background:var(--red);display:inline-block"></span>
+        <span style="font-family:var(--fh);font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--white)">Book a Food Experience</span>
+      </div>
+      <div style="font-family:var(--fh);font-weight:900;font-size:clamp(1.4rem,3vw,2rem);text-transform:uppercase;line-height:.92;margin-bottom:.3rem">
+        Dallas <em style="color:var(--red);font-style:normal">Food Tours</em>
+      </div>
+      <p style="font-size:.78rem;color:var(--muted);font-weight:300;margin-bottom:1.25rem;line-height:1.6">
+        Guided food tours let you taste Dallas beyond the tourist trail. Book ahead — World Cup dates sell out fast.
+      </p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px">
+        ${tours.map(tour => `
+          <a href="${tour.url}" target="_blank" rel="noopener sponsored"
+             style="display:block;background:var(--card);border:1px solid var(--border);padding:1.1rem;
+                    text-decoration:none;color:inherit;transition:border-color .18s"
+             onmouseover="this.style.borderColor='rgba(191,10,48,.5)'"
+             onmouseout="this.style.borderColor='var(--border)'">
+            <div style="font-size:1.4rem;margin-bottom:.5rem">${tour.icon}</div>
+            <div style="font-family:var(--fh);font-weight:700;font-size:.88rem;text-transform:uppercase;
+                        letter-spacing:.02em;margin-bottom:.35rem;color:var(--text)">${tour.name}</div>
+            <div style="font-size:.74rem;color:var(--muted);line-height:1.6;font-weight:300;margin-bottom:.6rem">${tour.desc}</div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-family:var(--fh);font-size:.8rem;font-weight:700;color:var(--white)">${tour.price}</span>
+              <span style="font-size:.65rem;color:var(--muted)">${tour.duration}</span>
+            </div>
+            <div style="margin-top:.6rem;font-family:var(--fh);font-size:.65rem;font-weight:700;
+                        letter-spacing:.08em;text-transform:uppercase;color:var(--red)">Book on Viator ↗</div>
+          </a>`).join('')}
+      </div>
+      <p style="font-size:.65rem;color:var(--dim);margin-top:.75rem;line-height:1.5">
+        Affiliate links — we earn a small commission at no extra cost to you. Prices shown are starting rates and may vary.
+      </p>
+    </div>`;
+}
+
 // ── DISCLOSURE BANNER ─────────────────────────────────────────
 // FTC-required disclosure. Injected on every page that has affiliate links.
 function renderDisclosure() {
@@ -122,6 +325,9 @@ function renderBookingSection(containerId, options = {}) {
     showBus = true,
     showTuro = false,
     showActivities = false,
+    showAirbnb = false,
+    showUberEats = false,
+    showUber = false,
     hotelLocation = 'Dallas, Texas',
     compact = false,
   } = options;
@@ -192,11 +398,47 @@ function renderBookingSection(containerId, options = {}) {
     icon: '🎟️',
     label: 'Tours & Activities',
     partner: 'via Viator',
-    desc: compact ? 'Stadium tours, Stockyards, Dallas experiences.' : 'Stadium tours, Stockyards rodeos, Dallas food tours, and cultural experiences. Book ahead — World Cup dates sell out fast.',
+    desc: compact ? 'Stadium tours, Stockyards, Dallas experiences.' : "Stadium tours, Stockyards rodeos, Dallas food tours, and cultural experiences. Book ahead — World Cup dates sell out fast.",
     cta: 'Browse Activities',
     url: viatorUrl(),
     badge: 'Experiences',
     badgeColor: 'rgba(240,237,232,0.1)',
+    badgeText: '#F0EDE8',
+  });
+
+  if (showAirbnb) cards.push({
+    icon: '🏠',
+    label: 'Vacation Rentals',
+    partner: 'via Airbnb',
+    desc: compact ? 'Apartments, houses & rooms near Dallas.' : "Entire apartments and houses near AT&T Stadium and downtown Dallas. Great for groups — often cheaper than hotels for 4+ people.",
+    cta: 'Search Airbnb',
+    url: airbnbUrl(hotelLocation),
+    badge: 'Homes',
+    badgeColor: 'rgba(255,90,95,0.15)',
+    badgeText: '#FF5A5F',
+  });
+
+  if (showUberEats) cards.push({
+    icon: '🛵',
+    label: 'Food Delivery',
+    partner: 'via Uber Eats',
+    desc: compact ? 'Dallas restaurants delivered to your hotel.' : "Too hot to go out? Get Dallas's best restaurants delivered to your hotel. Pecan Lodge, Heim BBQ, and more — all on Uber Eats.",
+    cta: 'Order Food',
+    url: uberEatsUrl(),
+    badge: 'Delivery',
+    badgeColor: 'rgba(6,202,106,0.12)',
+    badgeText: '#06CA6A',
+  });
+
+  if (showUber) cards.push({
+    icon: '🚕',
+    label: 'Ride to the Stadium',
+    partner: 'via Uber',
+    desc: compact ? 'Uber rides to AT&T Stadium on match days.' : "New to Uber? Sign up before match day. Note: surge pricing applies on match days — book a TRE + shuttle for a better deal.",
+    cta: 'Get Uber',
+    url: uberRideUrl(),
+    badge: 'Rides',
+    badgeColor: 'rgba(0,0,0,0.1)',
     badgeText: '#F0EDE8',
   });
 

@@ -95,11 +95,18 @@
   <div class="cards-grid" id="more"></div>
 </section>
 
+<section style="background:var(--mid)">
+  <div id="viator-tours"></div>
+  <div id="ubereats-card" style="padding:0 2rem 1.5rem"></div>
+</section>
+
 <footer id="main-footer"></footer>
 <script src="../js/site.js"></script>
 <script src="../js/affiliate.js"></script>
 <script>
 renderNav(); renderFooter(); renderDisclosure(); initLang();
+renderUberEatsCard('ubereats-card', 'Strangeways', 'Strangeways Dallas');
+renderViatorFoodTours('viator-tours', 0);
 renderNeighborhoodBooking('rest-booking', 'Deep Ellum, Dallas Texas', false);
 const slug='strangeways';
 const others=RESTAURANTS.filter(r=>r.slug!==slug).slice(0,3);

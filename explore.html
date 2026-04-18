@@ -87,12 +87,15 @@
     <button class="tab" onclick="filterRest(event,'bbq')" id="rest-tab-bbq">BBQ</button>
     <button class="tab" onclick="filterRest(event,'texmex')" id="rest-tab-tex">Tex-Mex</button>
     <button class="tab" onclick="filterRest(event,'international')" id="rest-tab-intl">International</button>
-    <button class="tab" onclick="filterRest(event,'bar')" id="rest-tab-bar">Bars</button>
+    <button class="tab" onclick="filterRest(event,'halal')" id="rest-tab-bar">Halal</button>
   </div>
   <div class="rest-grid" id="rest-grid"></div>
 </section>
 
 <section style="background:var(--mid)"><div id="explore-booking"></div></section>
+<section style="padding:3rem 2rem;background:var(--mid)">
+  <div id="viator-tours-explore"></div>
+</section>
 <footer id="main-footer"></footer>
 <script src="js/site.js"></script>
 <script src="js/affiliate.js"></script>
@@ -169,7 +172,8 @@ if (window.location.hash === '#restaurants') {
 (function(){
   // Add booking section to explore page
   const el = document.getElementById('explore-booking');
-  if(el) renderBookingSection('explore-booking', {
+  if(el) renderViatorFoodTours('viator-tours-explore');
+renderBookingSection('explore-booking', {
     title:'Plan Your Dallas Stay',
     subtitle:'Book hotels, flights, and rental cars for the World Cup. Prices rise fast as June approaches.',
     showHotels:true, showFlights:true, showCars:true, showBus:true, showTuro:false, showActivities:true,

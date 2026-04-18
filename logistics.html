@@ -58,6 +58,7 @@
   <div class="sec-label" id="log-opts-label">All Options</div>
   <div style="font-family:var(--fh);font-weight:900;font-size:clamp(2rem,5vw,3.2rem);text-transform:uppercase;line-height:.92;margin-bottom:1.5rem" id="log-opts-title">Getting Around</div>
   <div class="option-grid" id="log-opts-grid"></div>
+  <div id="uber-card" style="margin-top:1rem"></div>
   <div style="display:flex;gap:10px;flex-wrap:wrap">
     <a href="https://www.dart.org" target="_blank" rel="noopener" class="ext-link">DART Transit ↗</a>
     <a href="https://maps.google.com/?q=AT%26T+Stadium+Arlington+TX" target="_blank" rel="noopener" class="ext-link">Stadium Directions ↗</a>
@@ -77,6 +78,7 @@
 <script>
 renderNav(); renderFooter(); renderDisclosure(); initLang();
 renderLogisticsPage();
+renderUberCard('uber-card');
 renderBookingSection('logistics-booking', {
   title: t('log_book_label'),
   subtitle: t('log_book_sub'),
@@ -86,10 +88,12 @@ renderBookingSection('logistics-booking', {
 });
 document.addEventListener('langchange', () => {
   renderLogisticsPage();
+renderUberCard('uber-card');
   renderBookingSection('logistics-booking', {
     title: t('log_book_label'), subtitle: t('log_book_sub'),
     showHotels:true, showFlights:true, showCars:true,
     showBus:true, showTuro:true, showActivities:false,
+    showAirbnb:true, showUber:true,
     hotelLocation:'Arlington Texas AT&T Stadium',
   });
 });

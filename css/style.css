@@ -284,7 +284,7 @@ html.light ::-webkit-scrollbar-thumb{background:var(--dim)}
 /* ── LIGHT MODE: nav links ── */
 html.light .nav-links a{color:rgba(255,255,255,.7)}
 html.light .nav-links a:hover,html.light .nav-links a.active{color:#fff;border-color:var(--red)}
-html.light .logo .g{color:#F0EDE8}
+html.light .logo .g{color:#fff}
 html.light .logo .r{color:var(--red)}
 
 /* ── LIGHT MODE: buttons ── */
