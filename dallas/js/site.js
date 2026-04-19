@@ -967,6 +967,10 @@ const TRANSLATIONS = {
     updated:'Updated',
 
     // FOOTER
+    bk_esim_label: 'US eSIM', bk_esim_badge: 'Essential',
+    bk_esim_cta: 'Get US eSIM',
+    bk_esim_desc_s: 'Activate a US eSIM before you land.',
+    bk_esim_desc: 'Stay connected from the moment you land. US Mobile eSIM works on all major US networks — activate before you fly, no SIM swap needed.',
     footer_note:'Fan-made visitor guide for FIFA World Cup 2026 · Not affiliated with FIFA or the City of Dallas',
     booking_sub: 'Find the best deals on hotels, flights, and transport to Dallas.',
     bk_deals: 'Deals',
@@ -1119,6 +1123,10 @@ const TRANSLATIONS = {
     sunrise:'Amanecer', sunset:'Atardecer', wind_dir:'Dirección Viento',
     updated:'Actualizado',
 
+    bk_esim_label: 'eSIM EE.UU.', bk_esim_badge: 'Esencial',
+    bk_esim_cta: 'Obtener eSIM',
+    bk_esim_desc_s: 'Activa una eSIM de EE.UU. antes de llegar.',
+    bk_esim_desc: 'Conecítate desde que aterrizas. US Mobile eSIM funciona en las principales redes de EE.UU.',
     footer_note:'Guía de visitantes creada por fanáticos para la Copa Mundial FIFA 2026 · No afiliada con FIFA ni la Ciudad de Dallas',
     booking_sub: 'Encuentra las mejores ofertas en hoteles, vuelos y transporte a Dallas.',
     bk_deals: 'Ofertas',
@@ -1272,6 +1280,10 @@ const TRANSLATIONS = {
     sunrise:'Lever du soleil', sunset:'Coucher du soleil', wind_dir:'Direction Vent',
     updated:'Mis à jour',
 
+    bk_esim_label: 'eSIM USA', bk_esim_badge: 'Essentiel',
+    bk_esim_cta: 'Obtenir eSIM',
+    bk_esim_desc_s: 'Activez une eSIM US avant d\'atterrir.',
+    bk_esim_desc: 'Connecté dès l\'atterrissage. US Mobile eSIM fonctionne sur tous les grands réseaux américains.',
     footer_note:'Guide de visiteurs créé par des fans pour la Coupe du Monde FIFA 2026 · Non affilié à la FIFA ni à la ville de Dallas',
     booking_sub: 'Trouvez les meilleures offres en hotels, vols et transport vers Dallas.',
     bk_deals: 'Offres',
@@ -1395,6 +1407,10 @@ const TRANSLATIONS = {
     humidity:'Vochtigheid', wind:'Windsnelheid', uv_index:'UV-index',
     sunrise:'Zonsopgang', sunset:'Zonsondergang', wind_dir:'Windrichting',
     updated:'Bijgewerkt',
+    bk_esim_label: 'US eSIM', bk_esim_badge: 'Essentieel',
+    bk_esim_cta: 'eSIM Ophalen',
+    bk_esim_desc_s: 'Activeer een US eSIM voor de landing.',
+    bk_esim_desc: 'Verbonden zodra je landt. US Mobile eSIM werkt op alle grote Amerikaanse netwerken.',
     footer_note:"Fangemaakt bezoekersguide voor het FIFA WK 2026 - Niet gelieerd aan FIFA",
     booking_sub: 'Vind de beste deals voor hotels, vluchten en vervoer naar Dallas.',
     bk_deals: 'Deals',

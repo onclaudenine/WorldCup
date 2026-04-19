@@ -66,6 +66,14 @@ const AFF = {
     id: 'YOUR_UBER_AFF_ID',             // from Impact.com dashboard (same as Uber Eats app)
     baseUrl: 'https://www.uber.com/global/en/sign-up/rider/',
   },
+
+  // US Mobile eSIM — sign up at usmobile.com/affiliate → runs through Impact.com
+  // Commission: $30 flat fee per new customer signup
+  // Perfect for international visitors needing a US eSIM on arrival
+  usmobile: {
+    id: 'YOUR_USMOBILE_AFF_ID',         // from Impact.com dashboard
+    baseUrl: 'https://www.usmobile.com',
+  },
 };
 
 // ── LINK BUILDERS ─────────────────────────────────────────────
@@ -109,6 +117,10 @@ function turoUrl() {
 
 function viatorUrl() {
   return `${AFF.viator.baseUrl}?pid=${AFF.viator.id}`;
+}
+
+function usMobileUrl() {
+  return `${AFF.usmobile.baseUrl}?ref=${AFF.usmobile.id}`;
 }
 
 function airbnbUrl(location = 'Dallas, TX', checkin = '2026-06-14', checkout = '2026-07-15') {
@@ -160,6 +172,32 @@ function renderUberEatsCard(containerId, restaurantName, restaurantQuery) {
         Order on Uber Eats ↗
       </a>
     </div>`;
+}
+
+// ── US MOBILE eSIM CARD ──────────────────────────────────
+// Render a US Mobile eSIM card — ideal for airport and survival pages
+function renderUsMobileCard(containerId) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const url = usMobileUrl();
+  el.innerHTML = `
+    <a href="${url}" target="_blank" rel="noopener sponsored"
+      style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding:1rem 1.25rem;
+        background:var(--card);border:1px solid var(--border);text-decoration:none;
+        color:inherit;transition:border-color .18s;border-left:4px solid var(--gold)"
+      onmouseover="this.style.borderLeftColor='var(--red)'"
+      onmouseout="this.style.borderLeftColor='var(--gold)'">
+      <div style="font-size:1.6rem;flex-shrink:0">📱</div>
+      <div style="flex:1;min-width:160px">
+        <div style="font-family:var(--fh);font-size:.82rem;font-weight:700;text-transform:uppercase;
+          letter-spacing:.04em;color:var(--text);margin-bottom:2px">US Mobile eSIM — Stay Connected in the USA</div>
+        <div style="font-size:.72rem;color:var(--muted);font-weight:300;line-height:1.55">
+          Activate a US eSIM before you land. No physical SIM needed — works on iPhone XR/XS and newer, and most Android devices. Access to all 3 major US networks.
+        </div>
+      </div>
+      <div style="font-family:var(--fh);font-size:.68rem;font-weight:700;letter-spacing:.08em;
+        text-transform:uppercase;color:var(--gold);white-space:nowrap;flex-shrink:0">Get eSIM ↗</div>
+    </a>`;
 }
 
 // ── AIRBNB CARD ───────────────────────────────────────────────
@@ -323,6 +361,7 @@ function renderBookingSection(containerId, options = {}) {
     showAirbnb = false,
     showUberEats = false,
     showUber = false,
+    showUsMobile = false,
     hotelLocation = 'Dallas, Texas',
     compact = false,
   } = options;
@@ -437,6 +476,19 @@ function renderBookingSection(containerId, options = {}) {
     url: uberEatsUrl(),
     badge: tr('bk_eats_badge', 'Delivery'),
     badgeColor: 'rgba(6,202,106,0.12)', badgeText: '#06CA6A',
+  });
+
+  if (showUsMobile) cards.push({
+    icon: '📱',
+    label: tr('bk_esim_label', 'US eSIM'),
+    partner: 'via US Mobile',
+    desc: compact
+      ? tr('bk_esim_desc_s', 'Activate a US eSIM before you land.')
+      : tr('bk_esim_desc', 'Stay connected from the moment you land. US Mobile eSIM works on all major networks — activate before you fly, no SIM swap needed.'),
+    cta: tr('bk_esim_cta', 'Get US eSIM'),
+    url: usMobileUrl(),
+    badge: tr('bk_esim_badge', 'Essential'),
+    badgeColor: 'rgba(201,168,76,0.15)', badgeText: '#C9A84C',
   });
 
   if (showUber) cards.push({
