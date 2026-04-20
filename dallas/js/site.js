@@ -10,6 +10,11 @@ const SITE = {
     { label: 'Stay',      href: '/accommodation.html', key: 'nav_accommodation' },
     { label: 'Budget',    href: '/budget.html',        key: 'nav_budget' },
     { label: 'Shopping',  href: '/shopping.html',      key: 'nav_shopping' },
+    { label: 'Tickets',   href: '/tickets.html',       key: 'nav_tickets' },
+    { label: 'Day Trips', href: '/daytrips.html',       key: 'nav_daytrips' },
+    { label: 'Phrases',   href: '/phrases.html',        key: 'nav_phrases' },
+    { label: 'Halal',     href: '/halal.html',          key: 'nav_halal' },
+    { label: 'Groups',    href: '/groups.html',         key: 'nav_groups' },
     { label: 'Checklist', href: '/checklist.html',     key: 'nav_checklist' },
     { label: 'Survival',  href: '/survival.html',      key: 'nav_survival' },
     { label: 'Families',  href: '/families.html',      key: 'nav_families' },
@@ -868,6 +873,7 @@ const TRANSLATIONS = {
     nav_matches:'Matches', nav_map:'Map', nav_explore:'Explore',
     nav_logistics:'Get There', nav_fanzones:'Fan Zones', nav_airport:'Airport',
     nav_accommodation:'Stay', nav_budget:'Budget', nav_shopping:'Shopping',
+    nav_tickets:'Tickets', nav_daytrips:'Day Trips', nav_phrases:'Phrases', nav_halal:'Halal', nav_groups:'Groups',
     nav_checklist:'Checklist', nav_survival:'Survival', nav_families:'Families', nav_weather:'Weather',
 
     // HOMEPAGE
@@ -1034,6 +1040,7 @@ const TRANSLATIONS = {
     nav_matches:'Partidos', nav_map:'Mapa', nav_explore:'Explorar',
     nav_logistics:'Cómo Llegar', nav_fanzones:'Fanzones', nav_airport:'Aeropuerto',
     nav_accommodation:'Alojamiento', nav_budget:'Presupuesto', nav_shopping:'Compras',
+    nav_tickets:'Entradas', nav_daytrips:'Excursiones', nav_phrases:'Frases', nav_halal:'Halal', nav_groups:'Grupos',
     nav_checklist:'Lista', nav_survival:'Guía', nav_families:'Familias', nav_weather:'Clima',
 
     home_eyebrow:'Copa Mundial FIFA 2026 · Dallas, Texas',
@@ -1190,6 +1197,7 @@ const TRANSLATIONS = {
     nav_matches:'Matchs', nav_map:'Carte', nav_explore:'Explorer',
     nav_logistics:'Y Aller', nav_fanzones:'Fan Zones', nav_airport:'Aéroport',
     nav_accommodation:'Hébergement', nav_budget:'Budget', nav_shopping:'Shopping',
+    nav_tickets:'Billets', nav_daytrips:'Excursions', nav_phrases:'Phrases', nav_halal:'Halal', nav_groups:'Groupes',
     nav_checklist:'Liste',
     nav_survival:'Guide', nav_families:'Familles', nav_weather:'Météo',
 
@@ -1347,6 +1355,7 @@ const TRANSLATIONS = {
     nav_matches:'Wedstrijden', nav_map:'Kaart', nav_explore:'Verkennen',
     nav_logistics:'Reizen', nav_fanzones:'Fanzones', nav_airport:'Vliegveld',
     nav_accommodation:'Verblijf', nav_budget:'Budget', nav_shopping:'Winkelen',
+    nav_tickets:'Tickets', nav_daytrips:'Dagtrips', nav_phrases:'Zinnen', nav_halal:'Halal', nav_groups:'Groepen',
     nav_checklist:'Checklist', nav_survival:'Gids', nav_families:'Families', nav_weather:'Weer',
     home_eyebrow:'FIFA Wereldkampioenschap 2026 - Dallas, Texas',
     home_h1_line1:'Big', home_h1_line2:'D', home_h1_line3:'Bezoekersguide',
