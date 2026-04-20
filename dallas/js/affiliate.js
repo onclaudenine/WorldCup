@@ -196,30 +196,6 @@ function renderUsMobileCard(containerId) {
     </a>`;
 }
 
-// ── AIRBNB CARD ───────────────────────────────────────────────
-// Render a standalone Airbnb search card.
-function renderAirbnbCard(containerId, locationLabel, locationQuery) {
-  const el = document.getElementById(containerId);
-  if (!el) return;
-  const url = airbnbUrl(locationQuery);
-  el.innerHTML = `
-    <a href="${url}" target="_blank" rel="noopener sponsored"
-      style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding:1rem 1.25rem;
-        background:var(--card);border:1px solid var(--border);text-decoration:none;
-        color:inherit;transition:border-color .18s"
-      onmouseover="this.style.borderColor='rgba(255,90,95,.5)'"
-      onmouseout="this.style.borderColor='var(--border)'">
-      <div style="font-size:1.6rem">🏠</div>
-      <div style="flex:1;min-width:140px">
-        <div style="font-family:var(--fh);font-size:.78rem;font-weight:700;text-transform:uppercase;
-          letter-spacing:.04em;color:var(--text);margin-bottom:2px">Airbnb near ${locationLabel}</div>
-        <div style="font-size:.72rem;color:var(--muted);font-weight:300">Apartments & homes — often cheaper than hotels for groups of 4+.</div>
-      </div>
-      <div style="font-family:var(--fh);font-size:.68rem;font-weight:700;letter-spacing:.08em;
-        text-transform:uppercase;color:#FF5A5F;white-space:nowrap">Search Airbnb ↗</div>
-    </a>`;
-}
-
 // ── UBER RIDE CARD ────────────────────────────────────────────
 function renderUberCard(containerId) {
   const el = document.getElementById(containerId);
@@ -450,11 +426,11 @@ function renderBookingSection(containerId, options = {}) {
 
   if (showVrbo) cards.push({
     icon: '🏠',
-    label: tr('bk_airbnb_label', 'Vacation Rentals'),
+    label: tr('bk_airbnb_label', 'VRBO Vacation Rentals'),
     partner: 'via VRBO',
     desc: compact
       ? tr('bk_airbnb_desc_s', 'Apartments, houses & rooms near Dallas.')
-      : tr('bk_airbnb_desc',   'Entire apartments and houses near AT&T Stadium. Great for groups — often cheaper than hotels for 4+.'),
+      : tr('bk_airbnb_desc',   'Entire homes and apartments near AT&T Stadium on VRBO. Great for groups — often cheaper than hotels for 4+.'),
     cta: tr('bk_airbnb_cta', 'Search VRBO'),
     url: vrboUrl(),
     badge: tr('bk_airbnb_badge', 'Homes'),
