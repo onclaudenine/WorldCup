@@ -1037,6 +1037,7 @@ const TRANSLATIONS = {
     local_favorites:'Local Favorites',
     where_to_eat:'Where to Eat',
     all_tab:'All', bbq_tab:'BBQ', texmex_tab:'Tex-Mex',
+    mexican_tab:'Mexican', asian_tab:'Asian', fastfood_tab:'Fast Food',
     international_tab:'International', bars_tab:'Bars',
 
     // LOGISTICS PAGE
@@ -1200,6 +1201,7 @@ const TRANSLATIONS = {
     local_favorites:'Favoritos Locales',
     where_to_eat:'Dónde Comer',
     all_tab:'Todo', bbq_tab:'BBQ', texmex_tab:'Tex-Mex',
+    mexican_tab:'Mexicana', asian_tab:'Asiática', fastfood_tab:'Comida Rápida',
     international_tab:'Internacional', bars_tab:'Bares',
 
     logistics_title:'Cómo Llegar',
@@ -1358,6 +1360,7 @@ const TRANSLATIONS = {
     local_favorites:'Favoris Locaux',
     where_to_eat:'Où Manger',
     all_tab:'Tout', bbq_tab:'BBQ', texmex_tab:'Tex-Mex',
+    mexican_tab:'Mexicaine', asian_tab:'Asiatique', fastfood_tab:'Fast Food',
     international_tab:'International', bars_tab:'Bars',
 
     logistics_title:'Comment Y Aller',
@@ -1503,6 +1506,7 @@ const TRANSLATIONS = {
     nightlife:'Nachtleven', culture:'Cultuur',
     local_favorites:'Lokale Favorieten', where_to_eat:'Waar Eten',
     all_tab:'Alles', bbq_tab:'BBQ', texmex_tab:'Tex-Mex',
+    mexican_tab:'Mexicaans', asian_tab:'Aziatisch', fastfood_tab:'Fast Food',
     international_tab:'Internationaal', bars_tab:'Halal',
     logistics_title:'Hoe Kom je Er',
     recommended_route:'Aanbevolen Route', step_by_step:'Stap voor Stap',
@@ -1737,7 +1741,7 @@ const PAGE_CONTENT = {
     exp_rest_label: 'Local Favorites',
     exp_rest_title: 'Where to Eat',
     exp_tabs_all: 'All Areas', exp_tabs_food: 'Food & Drink', exp_tabs_night: 'Nightlife', exp_tabs_culture: 'Culture',
-    exp_rest_all: 'All', exp_rest_bbq: 'BBQ', exp_rest_tex: 'Tex-Mex', exp_rest_intl: 'International', exp_rest_bar: 'Halal',
+    exp_rest_all: 'All', exp_rest_bbq: 'BBQ', exp_rest_tex: 'Tex-Mex', exp_rest_mex: 'Mexican', exp_rest_asian: 'Asian', exp_rest_ff: 'Fast Food', exp_rest_intl: 'International', exp_rest_bar: 'Halal',
     exp_explore_link: 'Explore',
 
     // ── MAP ───────────────────────────────────────────────────
@@ -1889,7 +1893,7 @@ const PAGE_CONTENT = {
     exp_nbh_label: 'Seis Zonas para Conocer', exp_nbh_title: 'Barrios',
     exp_rest_label: 'Favoritos Locales', exp_rest_title: 'Dónde Comer',
     exp_tabs_all: 'Todas las Zonas', exp_tabs_food: 'Comida y Bebida', exp_tabs_night: 'Nocturno', exp_tabs_culture: 'Cultura',
-    exp_rest_all: 'Todo', exp_rest_bbq: 'BBQ', exp_rest_tex: 'Tex-Mex', exp_rest_intl: 'Internacional', exp_rest_bar: 'Halal',
+    exp_rest_all: 'Todo', exp_rest_bbq: 'BBQ', exp_rest_tex: 'Tex-Mex', exp_rest_mex: 'Mexicana', exp_rest_asian: 'Asiática', exp_rest_ff: 'Comida Rápida', exp_rest_intl: 'Internacional', exp_rest_bar: 'Halal',
     exp_explore_link: 'Explorar',
     map_label: 'Mapa Interactivo', map_title: 'Mapa de Dallas',
     map_sub: 'Estadio, paradas de transporte, hoteles, fan zones y restaurantes — todo en un mapa.',
@@ -2006,7 +2010,7 @@ const PAGE_CONTENT = {
     exp_nbh_label: 'Six Zones à Connaître', exp_nbh_title: 'Quartiers',
     exp_rest_label: 'Favoris Locaux', exp_rest_title: 'Où Manger',
     exp_tabs_all: 'Toutes les Zones', exp_tabs_food: 'Nourriture & Boissons', exp_tabs_night: 'Soirée', exp_tabs_culture: 'Culture',
-    exp_rest_all: 'Tout', exp_rest_bbq: 'BBQ', exp_rest_tex: 'Tex-Mex', exp_rest_intl: 'International', exp_rest_bar: 'Halal',
+    exp_rest_all: 'Tout', exp_rest_bbq: 'BBQ', exp_rest_tex: 'Tex-Mex', exp_rest_mex: 'Mexicaine', exp_rest_asian: 'Asiatique', exp_rest_ff: 'Fast Food', exp_rest_intl: 'International', exp_rest_bar: 'Halal',
     exp_explore_link: 'Explorer',
     map_label: 'Carte Interactive', map_title: 'Carte de Dallas',
     map_sub: 'Stade, arrêts de transport, hôtels, fan zones et restaurants — tout sur une seule carte.',
@@ -2123,7 +2127,7 @@ const PAGE_CONTENT = {
     exp_nbh_label: 'Zes Gebieden om te Kennen', exp_nbh_title: 'Wijken',
     exp_rest_label: 'Lokale Favorieten', exp_rest_title: 'Waar Eten',
     exp_tabs_all: 'Alle Gebieden', exp_tabs_food: 'Eten en Drinken', exp_tabs_night: 'Nachtleven', exp_tabs_culture: 'Cultuur',
-    exp_rest_all: 'Alles', exp_rest_bbq: 'BBQ', exp_rest_tex: 'Tex-Mex', exp_rest_intl: 'Internationaal', exp_rest_bar: 'Halal',
+    exp_rest_all: 'Alles', exp_rest_bbq: 'BBQ', exp_rest_tex: 'Tex-Mex', exp_rest_mex: 'Mexicaans', exp_rest_asian: 'Aziatisch', exp_rest_ff: 'Fast Food', exp_rest_intl: 'Internationaal', exp_rest_bar: 'Halal',
     exp_explore_link: 'Verkennen',
     map_label: 'Interactieve Bezoekerskaart', map_title: 'Dallas Kaart',
     map_sub: 'Stadion, vervoershaltes, hotels, fanzones en restaurants op een kaart.',
@@ -2204,7 +2208,40 @@ function renderSurvivalPage() {
         {url:'https://esta.cbp.dhs.gov', key:4},
       ]
     },
-  ];
+  {
+    slug: 'jfk-memorial',
+    name: 'JFK Memorial & Sixth Floor Museum',
+    icon: '🏛️',
+    cat: 'landmark',
+    area: 'Downtown Dallas',
+    price: '$',
+    dart: true,
+    duration: '2–3 hours',
+    desc: 'The site where President Kennedy was assassinated in 1963. The Sixth Floor Museum in the former Texas School Book Depository is one of the most visited museums in Texas — moving, historically significant, and essential Dallas history.',
+    long: 'Dealey Plaza in downtown Dallas is where President John F. Kennedy was shot on November 22, 1963 — one of the most significant moments in American history. The Sixth Floor Museum occupies the floor of the former Texas School Book Depository from which shots were fired. The museum covers Kennedy\'s presidency, the assassination, and its aftermath through film, photography, and artifacts. Powerful and sobering. Dealey Plaza itself is free to visit — stand on the grassy knoll and see the view for yourself. The museum requires a ticket ($18). DART Green/Blue Line to West End station, 5-minute walk.',
+    highlights: ['The sniper\'s nest recreated exactly as it was in 1963','Original film footage of the motorcade','Dealey Plaza outdoor memorial — free to visit','Walking distance from Dallas\'s historic West End district'],
+    tips: ['Buy museum tickets online in advance — lines can be long','Allow 2 hours minimum for the museum','The grassy knoll and plaza are free — no ticket needed','Combine with a walk through the West End and Klyde Warren Park'],
+    address: '411 Elm St, Dallas, TX 75202',
+    gmaps: 'https://maps.google.com/?q=Sixth+Floor+Museum+Dallas+TX',
+    website: 'https://www.jfk.org',
+  },
+  {
+    slug: 'gun-range',
+    name: 'Shoot Smart Gun Range',
+    icon: '🎯',
+    cat: 'indoor',
+    area: 'Multiple DFW Locations',
+    price: '$$',
+    dart: false,
+    duration: '1–2 hours',
+    desc: 'Shoot a real American firearm at one of DFW\'s premier indoor shooting ranges. For many international visitors, this is a uniquely American experience unavailable at home. Professional instruction, safety equipment provided, and a wide range of firearms to try.',
+    long: 'Shooting at an American gun range is one of the most uniquely American experiences available to international visitors. Shoot Smart is one of DFW\'s most professional and well-run ranges — clean, safe, and welcoming to first-timers. Staff provide full safety briefing and instruction. No prior experience needed. Firearms available to rent include pistols, rifles, and shotguns. All safety equipment (ear protection, eye protection) is provided. Multiple DFW locations including Arlington near the stadium. Visitors from countries without civilian gun access consistently describe this as the most memorable activity of their trip.',
+    highlights: ['Fully staffed with professional range safety officers','No prior experience required — beginners welcome','Wide range of firearms to rent including pistols and rifles','Safety equipment included in range fee'],
+    tips: ['Book a lane in advance — busy on weekends','Closed-toe shoes required','Must be 18+ to shoot (21+ for handguns without a guardian)','Staff are excellent with first-timers — ask for instruction'],
+    address: 'Multiple DFW locations — 4825 S Cooper St, Arlington, TX (near stadium)',
+    gmaps: 'https://maps.google.com/?q=Shoot+Smart+Gun+Range+Arlington+TX',
+    website: 'https://www.shootsmart.com',
+  },  ];
   const grid = document.getElementById('surv-grid');
   if (!grid) return;
   grid.innerHTML = cards.map(c => {

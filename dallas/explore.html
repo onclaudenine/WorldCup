@@ -87,6 +87,9 @@
     <button class="tab active" onclick="filterRest(event,'all')" id="rest-tab-all">All</button>
     <button class="tab" onclick="filterRest(event,'bbq')" id="rest-tab-bbq">BBQ</button>
     <button class="tab" onclick="filterRest(event,'texmex')" id="rest-tab-tex">Tex-Mex</button>
+    <button class="tab" onclick="filterRest(event,'mexican')" id="rest-tab-mex">Mexican</button>
+    <button class="tab" onclick="filterRest(event,'asian')" id="rest-tab-asian">Asian</button>
+    <button class="tab" onclick="filterRest(event,'fastfood')" id="rest-tab-ff">Fast Food</button>
     <button class="tab" onclick="filterRest(event,'international')" id="rest-tab-intl">International</button>
     <button class="tab" onclick="filterRest(event,'halal')" id="rest-tab-bar">Halal</button>
   </div>
@@ -176,8 +179,9 @@ function updateExploreLang() {
     'exp-tab-all': 'exp_tabs_all', 'exp-tab-food': 'exp_tabs_food',
     'exp-tab-night': 'exp_tabs_night', 'exp-tab-culture': 'exp_tabs_culture',
     'rest-tab-all': 'exp_rest_all', 'rest-tab-bbq': 'exp_rest_bbq',
-    'rest-tab-tex': 'exp_rest_tex', 'rest-tab-intl': 'exp_rest_intl',
-    'rest-tab-bar': 'exp_rest_bar',
+    'rest-tab-tex': 'exp_rest_tex', 'rest-tab-mex': 'exp_rest_mex',
+    'rest-tab-asian': 'exp_rest_asian', 'rest-tab-ff': 'exp_rest_ff',
+    'rest-tab-intl': 'exp_rest_intl', 'rest-tab-bar': 'exp_rest_bar',
   };
   Object.entries(tabMap).forEach(([id, key]) => {
     const el = document.getElementById(id);
