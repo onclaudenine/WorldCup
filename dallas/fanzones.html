@@ -34,7 +34,7 @@
     </svg>
   </div>
   <div class="page-hero-content" style="position:relative;z-index:2">
-    <div class="sec-label">No Ticket? No Problem</div>
+    <div class="sec-label" data-i18n="fz_label">No Ticket? No Problem</div>
     <h1 style="font-family:var(--fh);font-weight:900;font-size:clamp(2.2rem,6vw,4.5rem);line-height:.92;text-transform:uppercase;margin-bottom:.75rem">Fan Zones & Watch Parties</h1>
     <p class="page-hero-sub">You don't need a match ticket to experience the World Cup in Dallas. The official FIFA Fan Festival and dozens of watch party venues bring the atmosphere to everyone — free or low cost.</p>
   </div>
@@ -42,7 +42,7 @@
 
 <!-- FIFA Fan Festival -->
 <section style="background:var(--mid)">
-  <div class="sec-label">Official Venue</div>
+  <div class="sec-label" data-i18n="fz_official_label">Official Venue</div>
   <div class="sec-title">FIFA Fan <em>Festival</em></div>
   <div style="background:var(--card);border:1px solid var(--border);padding:1.5rem;max-width:780px;margin-bottom:2rem">
     <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:1rem">
@@ -80,7 +80,7 @@
 
 <!-- Tips -->
 <section style="background:var(--mid)">
-  <div class="sec-label">Planning Tips</div>
+  <div class="sec-label" data-i18n="fz_tips_label">Planning Tips</div>
   <div class="sec-title">Fan Zone <em>Advice</em></div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:1.5rem">
     <div style="background:var(--card);border:1px solid var(--border);padding:1.25rem">
@@ -112,6 +112,7 @@
 <script src="js/affiliate.js"></script>
 <script>
 renderNav('fanzones'); renderFooter(); renderDisclosure(); initLang();
+document.addEventListener('langchange', function() { document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.getAttribute('data-i18n')) || el.textContent; }); });
 renderBookingSection('fanzone-booking', {
   title: 'Plan Your Fan Zone Visit',
   subtitle: 'Stay downtown Dallas for easy access to fan zones and DART connections to the stadium.',
