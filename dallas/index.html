@@ -208,21 +208,197 @@
   <div id="main-booking-widget"></div>
 </section>
 
-<section>
-  <div class="sec-label" data-i18n="home_quick_title">Everything You Need</div>
-  <div class="sec-title"><span data-i18n="home_quick_sub">Quick Links</span></div>
-  <div class="quick-links">
-    <a href="matches.html" class="ql-card"><span class="ql-icon">📅</span><div class="ql-title">Match Schedule</div><div class="ql-sub">All Dallas fixtures with dates & times</div></a>
-    <a href="map.html" class="ql-card"><span class="ql-icon">🗺️</span><div class="ql-title">Interactive Map</div><div class="ql-sub">Stadium, transit, hotels, fan zones</div></a>
-    <a href="explore.html" class="ql-card"><span class="ql-icon">🎸</span><div class="ql-title">Neighborhoods</div><div class="ql-sub">Deep Ellum, Uptown, Bishop Arts & more</div></a>
-    <a href="explore.html#restaurants" class="ql-card"><span class="ql-icon">🍽️</span><div class="ql-title">Restaurants</div><div class="ql-sub">BBQ, Tex-Mex, international, bars</div></a>
-    <a href="logistics.html" class="ql-card"><span class="ql-icon">🚌</span><div class="ql-title">Get to the Stadium</div><div class="ql-sub">DART rail, shuttles, parking guide</div></a>
-    <a href="checklist.html" class="ql-card"><span class="ql-icon">✅</span><div class="ql-title">Match Day Checklist</div><div class="ql-sub">Everything to pack and plan</div></a>
-    <a href="survival.html" class="ql-card"><span class="ql-icon">🌡️</span><div class="ql-title">Survival Guide</div><div class="ql-sub">Heat, tipping, transit, connectivity</div></a>
-    <a href="families.html" class="ql-card"><span class="ql-icon">👨‍👩‍👧</span><div class="ql-title">Family Activities</div><div class="ql-sub">Zoo, LEGOLAND, water parks, museums</div></a>
-    <a href="weather.html" class="ql-card"><span class="ql-icon">🌡️</span><div class="ql-title">Weather Forecast</div><div class="ql-sub">Live Dallas weather, 7-day forecast, °F/°C</div></a>
-    <a href="https://www.fifa.com/fifaplus/en/tournaments/mens/worldcup/canadamexicousa2026" target="_blank" rel="noopener" class="ql-card"><span class="ql-icon">⚽</span><div class="ql-title">FIFA Official Site ↗</div><div class="ql-sub">Tickets, tournament news, schedules</div></a>
+<!-- CATEGORISED GUIDE GRID -->
+<section id="guide">
+  <div class="sec-label" data-i18n="home_quick_title">Complete Dallas Guide</div>
+  <div class="sec-title">Everything You <em>Need</em></div>
+  <p style="font-size:.88rem;color:var(--muted);font-weight:300;line-height:1.75;max-width:600px;margin-bottom:2.5rem">18 guides covering every aspect of your Dallas World Cup visit — from buying tickets to halal food to day trips across Texas.</p>
+
+  <!-- MATCHES & TICKETS -->
+  <div class="guide-category">
+    <div class="guide-cat-header">
+      <span class="guide-cat-icon">⚽</span>
+      <div>
+        <div class="guide-cat-title">Matches & Tickets</div>
+        <div class="guide-cat-sub">AT&T Stadium hosts 9 matches including a Semifinal</div>
+      </div>
+    </div>
+    <div class="guide-cards">
+      <a href="matches.html" class="guide-card guide-card-featured">
+        <div class="gc-label">Schedule</div>
+        <div class="gc-title">Match Schedule</div>
+        <div class="gc-sub">All 9 Dallas fixtures with kickoff times, group stage to Semifinal</div>
+        <span class="gc-arrow">→</span>
+      </a>
+      <a href="tickets.html" class="guide-card">
+        <div class="gc-label">Buying</div>
+        <div class="gc-title">Ticket Guide</div>
+        <div class="gc-sub">Official FIFA tickets, resale prices, and scam warnings</div>
+        <span class="gc-arrow">→</span>
+      </a>
+      <a href="fanzones.html" class="guide-card">
+        <div class="gc-label">No Ticket?</div>
+        <div class="gc-title">Fan Zones</div>
+        <div class="gc-sub">Watch matches for free at the FIFA Fan Festival</div>
+        <span class="gc-arrow">→</span>
+      </a>
+      <a href="map.html" class="guide-card">
+        <div class="gc-label">Navigate</div>
+        <div class="gc-title">Interactive Map</div>
+        <div class="gc-sub">Stadium, hotels, DART stations, fan zones</div>
+        <span class="gc-arrow">→</span>
+      </a>
+    </div>
   </div>
+
+  <!-- GETTING THERE -->
+  <div class="guide-category">
+    <div class="guide-cat-header">
+      <span class="guide-cat-icon">✈️</span>
+      <div>
+        <div class="guide-cat-title">Getting There</div>
+        <div class="guide-cat-sub">DFW is one of the world's largest airports — plan ahead</div>
+      </div>
+    </div>
+    <div class="guide-cards">
+      <a href="airport.html" class="guide-card guide-card-featured">
+        <div class="gc-label">Arriving</div>
+        <div class="gc-title">Airport Guide</div>
+        <div class="gc-sub">DFW terminals, DART Orange Line, SIM cards, immigration tips</div>
+        <span class="gc-arrow">→</span>
+      </a>
+      <a href="logistics.html" class="guide-card">
+        <div class="gc-label">Match Day</div>
+        <div class="gc-title">Stadium Transit</div>
+        <div class="gc-sub">TRE train, free FIFA shuttle, Uber, parking</div>
+        <span class="gc-arrow">→</span>
+      </a>
+      <a href="groups.html" class="guide-card">
+        <div class="gc-label">Supporters</div>
+        <div class="gc-title">Group Travel</div>
+        <div class="gc-sub">Hotel blocks, group transport, supporters club meetups</div>
+        <span class="gc-arrow">→</span>
+      </a>
+      <a href="daytrips.html" class="guide-card">
+        <div class="gc-label">Explore Texas</div>
+        <div class="gc-title">Day Trips</div>
+        <div class="gc-sub">Fort Worth, Austin, San Antonio — Texas beyond Dallas</div>
+        <span class="gc-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- STAY & BUDGET -->
+  <div class="guide-category">
+    <div class="guide-cat-header">
+      <span class="guide-cat-icon">🏨</span>
+      <div>
+        <div class="guide-cat-title">Stay & Budget</div>
+        <div class="guide-cat-sub">Arlington vs Dallas vs Fort Worth — honest advice on all three</div>
+      </div>
+    </div>
+    <div class="guide-cards">
+      <a href="accommodation.html" class="guide-card guide-card-featured">
+        <div class="gc-label">Hotels & Rentals</div>
+        <div class="gc-title">Where to Stay</div>
+        <div class="gc-sub">Arlington near the stadium, downtown Dallas, or budget Fort Worth</div>
+        <span class="gc-arrow">→</span>
+      </a>
+      <a href="budget.html" class="guide-card">
+        <div class="gc-label">Money</div>
+        <div class="gc-title">Budget Guide</div>
+        <div class="gc-sub">Daily costs, tipping culture, ATM tips, price reality check</div>
+        <span class="gc-arrow">→</span>
+      </a>
+      <a href="shopping.html" class="guide-card">
+        <div class="gc-label">Retail</div>
+        <div class="gc-title">Shopping</div>
+        <div class="gc-sub">NorthPark, Galleria, Premium Outlets, Texas souvenirs</div>
+        <span class="gc-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- EAT & DRINK -->
+  <div class="guide-category">
+    <div class="guide-cat-header">
+      <span class="guide-cat-icon">🍽️</span>
+      <div>
+        <div class="guide-cat-title">Eat & Drink</div>
+        <div class="guide-cat-sub">13 restaurant guides including 4 halal options in Richardson</div>
+      </div>
+    </div>
+    <div class="guide-cards">
+      <a href="explore.html" class="guide-card guide-card-featured">
+        <div class="gc-label">All Food</div>
+        <div class="gc-title">Explore Dallas</div>
+        <div class="gc-sub">Neighborhoods, BBQ, Tex-Mex, international restaurants and bars</div>
+        <span class="gc-arrow">→</span>
+      </a>
+      <a href="halal.html" class="guide-card">
+        <div class="gc-label">Muslim Visitors</div>
+        <div class="gc-title">Halal Guide</div>
+        <div class="gc-sub">Halal restaurants, mosques, prayer facilities, travel tips</div>
+        <span class="gc-arrow">→</span>
+      </a>
+      <a href="restaurants/yemandi.html" class="guide-card">
+        <div class="gc-label">🔥 Viral</div>
+        <div class="gc-title">Yemandi Yemeni</div>
+        <div class="gc-sub">6M TikTok views · Halal lamb mandi · Richardson</div>
+        <span class="gc-arrow">→</span>
+      </a>
+      <a href="restaurants/pecan-lodge.html" class="guide-card">
+        <div class="gc-label">BBQ</div>
+        <div class="gc-title">Pecan Lodge</div>
+        <div class="gc-sub">Best brisket in Dallas · Deep Ellum · Lines from 11am</div>
+        <span class="gc-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- PLAN -->
+  <div class="guide-category">
+    <div class="guide-cat-header">
+      <span class="guide-cat-icon">📋</span>
+      <div>
+        <div class="guide-cat-title">Plan Your Trip</div>
+        <div class="guide-cat-sub">Everything you need before you board the plane</div>
+      </div>
+    </div>
+    <div class="guide-cards">
+      <a href="checklist.html" class="guide-card">
+        <div class="gc-label">Essentials</div>
+        <div class="gc-title">Match Day Checklist</div>
+        <div class="gc-sub">Clear bags, FIFA app, heat prep — 35 things to tick off</div>
+        <span class="gc-arrow">→</span>
+      </a>
+      <a href="survival.html" class="guide-card">
+        <div class="gc-label">Practical</div>
+        <div class="gc-title">Survival Guide</div>
+        <div class="gc-sub">Texas heat, tipping, healthcare, connectivity</div>
+        <span class="gc-arrow">→</span>
+      </a>
+      <a href="phrases.html" class="guide-card">
+        <div class="gc-label">Culture</div>
+        <div class="gc-title">Phrases & Culture</div>
+        <div class="gc-sub">Texas slang, customs, Fahrenheit, how to order BBQ</div>
+        <span class="gc-arrow">→</span>
+      </a>
+      <a href="families.html" class="guide-card">
+        <div class="gc-label">Kids</div>
+        <div class="gc-title">Family Guide</div>
+        <div class="gc-sub">Zoo, LEGOLAND, water parks, museums for all ages</div>
+        <span class="gc-arrow">→</span>
+      </a>
+      <a href="weather.html" class="guide-card">
+        <div class="gc-label">Conditions</div>
+        <div class="gc-title">Weather Forecast</div>
+        <div class="gc-sub">Live Dallas forecast, 7-day view, °F/°C toggle</div>
+        <span class="gc-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
 </section>
 
 <section style="background:var(--mid)">
@@ -241,10 +417,9 @@
   initWeather();
   renderBookingSection('main-booking-widget', {
     title: 'Plan Your Dallas Trip',
-    subtitle: 'Compare hotels near AT&T Stadium, find flights into DFW, and book rental cars — all in one place.',
+    subtitle: 'Compare hotels near AT&T Stadium, find flights into DFW, and book rental cars.',
     showHotels: true, showFlights: true, showCars: true, showBus: true, showVrbo: true, showUberEats: true, showTuro: true, showActivities: true,
     hotelLocation: 'Dallas Texas FIFA World Cup 2026',
   });
 </script>
-</body>
-</html>
+</body></html>

@@ -1,24 +1,72 @@
 // ── SHARED DATA ──────────────────────────────────────────────
 const SITE = {
+  // Flat nav kept for footer sitemap generation
   nav: [
     { label: 'Matches',   href: '/matches.html',      key: 'nav_matches' },
+    { label: 'Tickets',   href: '/tickets.html',       key: 'nav_tickets' },
     { label: 'Map',       href: '/map.html',           key: 'nav_map' },
-    { label: 'Explore',   href: '/explore.html',       key: 'nav_explore' },
+    { label: 'Airport',   href: '/airport.html',       key: 'nav_airport' },
     { label: 'Get There', href: '/logistics.html',     key: 'nav_logistics' },
     { label: 'Fan Zones', href: '/fanzones.html',      key: 'nav_fanzones' },
-    { label: 'Airport',   href: '/airport.html',       key: 'nav_airport' },
+    { label: 'Groups',    href: '/groups.html',         key: 'nav_groups' },
     { label: 'Stay',      href: '/accommodation.html', key: 'nav_accommodation' },
     { label: 'Budget',    href: '/budget.html',        key: 'nav_budget' },
     { label: 'Shopping',  href: '/shopping.html',      key: 'nav_shopping' },
-    { label: 'Tickets',   href: '/tickets.html',       key: 'nav_tickets' },
-    { label: 'Day Trips', href: '/daytrips.html',       key: 'nav_daytrips' },
-    { label: 'Phrases',   href: '/phrases.html',        key: 'nav_phrases' },
+    { label: 'Explore',   href: '/explore.html',       key: 'nav_explore' },
     { label: 'Halal',     href: '/halal.html',          key: 'nav_halal' },
-    { label: 'Groups',    href: '/groups.html',         key: 'nav_groups' },
+    { label: 'Day Trips', href: '/daytrips.html',       key: 'nav_daytrips' },
     { label: 'Checklist', href: '/checklist.html',     key: 'nav_checklist' },
     { label: 'Survival',  href: '/survival.html',      key: 'nav_survival' },
+    { label: 'Phrases',   href: '/phrases.html',        key: 'nav_phrases' },
     { label: 'Families',  href: '/families.html',      key: 'nav_families' },
     { label: 'Weather',   href: '/weather.html',        key: 'nav_weather' },
+  ],
+
+  // Categorised nav for dropdown menu
+  navCategories: [
+    {
+      label: 'Matches', key: 'cat_matches', icon: '⚽',
+      items: [
+        { label: 'Match Schedule', href: '/matches.html', key: 'nav_matches', sub: 'All 9 Dallas fixtures' },
+        { label: 'Tickets',        href: '/tickets.html',  key: 'nav_tickets', sub: 'How to buy & scam warnings' },
+        { label: 'Fan Zones',      href: '/fanzones.html', key: 'nav_fanzones', sub: 'Watch without a ticket' },
+        { label: 'Interactive Map',href: '/map.html',      key: 'nav_map', sub: 'Stadium, hotels, transit' },
+      ]
+    },
+    {
+      label: 'Getting There', key: 'cat_transport', icon: '✈️',
+      items: [
+        { label: 'Airport Guide',  href: '/airport.html',      key: 'nav_airport',    sub: 'DFW & Love Field' },
+        { label: 'Stadium Transit',href: '/logistics.html',    key: 'nav_logistics',  sub: 'TRE, shuttle, parking' },
+        { label: 'Group Travel',   href: '/groups.html',       key: 'nav_groups',     sub: 'Supporters clubs' },
+        { label: 'Day Trips',      href: '/daytrips.html',     key: 'nav_daytrips',   sub: 'Fort Worth, Austin, San Antonio' },
+      ]
+    },
+    {
+      label: 'Stay & Budget', key: 'cat_stay', icon: '🏨',
+      items: [
+        { label: 'Where to Stay',  href: '/accommodation.html', key: 'nav_accommodation', sub: 'Arlington vs Dallas vs FW' },
+        { label: 'Budget Guide',   href: '/budget.html',        key: 'nav_budget',        sub: 'How much does it cost?' },
+        { label: 'Shopping',       href: '/shopping.html',      key: 'nav_shopping',      sub: 'Malls, outlets & souvenirs' },
+      ]
+    },
+    {
+      label: 'Eat & Drink', key: 'cat_food', icon: '🍽️',
+      items: [
+        { label: 'Explore Dallas',       href: '/explore.html', key: 'nav_explore', sub: 'Neighborhoods & restaurants' },
+        { label: 'Halal & Muslim Guide', href: '/halal.html',   key: 'nav_halal',   sub: 'Halal food, mosques & tips' },
+      ]
+    },
+    {
+      label: 'Plan', key: 'cat_plan', icon: '📋',
+      items: [
+        { label: 'Match Day Checklist', href: '/checklist.html', key: 'nav_checklist', sub: 'Everything to pack' },
+        { label: 'Survival Guide',      href: '/survival.html',  key: 'nav_survival',  sub: 'Heat, money, safety' },
+        { label: 'Phrases & Culture',   href: '/phrases.html',   key: 'nav_phrases',   sub: 'Texas slang & customs' },
+        { label: 'Families',            href: '/families.html',  key: 'nav_families',  sub: 'Kids\'  activities' },
+        { label: 'Weather',             href: '/weather.html',   key: 'nav_weather',   sub: 'Live forecast' },
+      ]
+    },
   ]
 };
 
@@ -172,17 +220,41 @@ function renderNav(activePage) {
   const currentPath = window.location.pathname.split('/').pop() || 'index.html';
   const isLight = document.documentElement.classList.contains('light');
 
+  // Determine active category
+  function getActiveCategory() {
+    for (const cat of SITE.navCategories) {
+      for (const item of cat.items) {
+        if (currentPath === item.href.replace(/^\//, '') || activePage === item.href.replace(/^\//, '').replace('.html','')) {
+          return cat.key;
+        }
+      }
+    }
+    return null;
+  }
+  const activeCat = getActiveCategory();
+
   nav.innerHTML = `
     <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#002868 33.3%,#BF0A30 33.3%,#BF0A30 66.6%,#F0EDE8 66.6%);opacity:0.7;z-index:1"></div>
     <a class="logo" href="${base}index.html">⚽ Dallas<span class="g">2026</span></a>
-    <ul class="nav-links">
-      ${SITE.nav.map(n => {
-        const href = base + n.href.replace(/^\//, '');
-        const fileName = n.href.replace(/^\//, '');
-        const isActive = currentPath === fileName || (currentPath === 'index.html' && n.href === '/matches.html' && activePage === 'matches');
-        const navKey = 'nav_' + n.href.replace(/^\//, '').replace('.html','').replace('-','_');
-        const label = t(navKey) || n.label;
-        return `<li><a href="${href}" class="${isActive ? 'active' : ''}" data-navkey="${navKey}">${label}</a></li>`;
+    <ul class="nav-links nav-cats">
+      ${SITE.navCategories.map(cat => {
+        const isActiveCat = activeCat === cat.key;
+        return `<li class="nav-cat-item${isActiveCat ? ' active-cat' : ''}">
+          <button class="nav-cat-btn${isActiveCat ? ' active' : ''}" onclick="toggleDropdown(this)" aria-expanded="false">
+            ${cat.label} <span class="nav-caret">▾</span>
+          </button>
+          <div class="nav-dropdown">
+            ${cat.items.map(item => {
+              const href = base + item.href.replace(/^\//, '');
+              const fileName = item.href.replace(/^\//, '');
+              const isActive = currentPath === fileName;
+              return `<a href="${href}" class="nav-dd-item${isActive ? ' active' : ''}">
+                <span class="nav-dd-label">${item.label}</span>
+                <span class="nav-dd-sub">${item.sub}</span>
+              </a>`;
+            }).join('')}
+          </div>
+        </li>`;
       }).join('')}
     </ul>
     <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
@@ -203,7 +275,20 @@ function renderNav(activePage) {
       </button>
     </div>`;
 
-  // Inject mobile drawer after nav (only once)
+  // Close dropdown when clicking outside
+  if (!window._navClickHandlerSet) {
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-cat-item')) {
+        document.querySelectorAll('.nav-cat-btn').forEach(b => {
+          b.setAttribute('aria-expanded', 'false');
+          b.closest('.nav-cat-item').classList.remove('dd-open');
+        });
+      }
+    });
+    window._navClickHandlerSet = true;
+  }
+
+  // Mobile drawer with categories
   if (!document.getElementById('mobile-nav-drawer')) {
     const drawer = document.createElement('div');
     drawer.id = 'mobile-nav-drawer';
@@ -211,15 +296,18 @@ function renderNav(activePage) {
     drawer.setAttribute('aria-hidden', 'true');
     drawer.innerHTML = `
       <div style="padding:.5rem 1.25rem 1rem;border-bottom:1px solid var(--border);margin-bottom:.5rem">
-        <div style="font-family:var(--fh);font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem">Navigate</div>
-        ${SITE.nav.map(n => {
-          const href = base + n.href.replace(/^\//, '');
-          const fileName = n.href.replace(/^\//, '');
-          const isActive = currentPath === fileName;
-          const navKey2 = 'nav_' + n.href.replace(/^\//, '').replace('.html','').replace('-','_');
-          const label2 = t(navKey2) || n.label;
-          return `<a href="${href}" class="mobile-nav-link${isActive ? ' active' : ''}" onclick="closeMobileNav()" data-navkey="${navKey2}">${label2}</a>`;
-        }).join('')}
+        ${SITE.navCategories.map(cat => `
+          <div style="margin-bottom:1rem">
+            <div style="font-family:var(--fh);font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:.5rem">${cat.icon} ${cat.label}</div>
+            ${cat.items.map(item => {
+              const href = base + item.href.replace(/^\//, '');
+              const fileName = item.href.replace(/^\//, '');
+              const isActive = currentPath === fileName;
+              return `<a href="${href}" class="mobile-nav-link${isActive ? ' active' : ''}" onclick="closeMobileNav()">
+                ${item.label}</a>`;
+            }).join('')}
+          </div>
+        `).join('')}
       </div>
       <div style="padding:1rem 1.25rem">
         <div style="font-family:var(--fh);font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem">Language</div>
@@ -231,6 +319,21 @@ function renderNav(activePage) {
         </div>
       </div>`;
     document.body.insertBefore(drawer, document.body.firstChild);
+  }
+}
+
+function toggleDropdown(btn) {
+  const item = btn.closest('.nav-cat-item');
+  const isOpen = item.classList.contains('dd-open');
+  // Close all
+  document.querySelectorAll('.nav-cat-item.dd-open').forEach(el => {
+    el.classList.remove('dd-open');
+    el.querySelector('.nav-cat-btn').setAttribute('aria-expanded', 'false');
+  });
+  // Open this one if it was closed
+  if (!isOpen) {
+    item.classList.add('dd-open');
+    btn.setAttribute('aria-expanded', 'true');
   }
 }
 
