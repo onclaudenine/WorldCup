@@ -23,7 +23,7 @@
 
 <section style="background:var(--mid)">
   <div class="sec-label" data-i18n="hal_key_label">Key Info</div>
-  <div class="sec-title">Dallas for <em>Muslim Visitors</em></div>
+  <div class="sec-title" data-i18n="hal_key_title">Dallas for <em>Muslim Visitors</em></div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1px;background:var(--border);margin-bottom:2rem">
     <div style="background:var(--card);padding:1.25rem"><div class="card-label">Halal food availability</div><div style="font-size:.82rem;color:var(--muted);font-weight:300;line-height:1.65">Excellent — particularly in Richardson (15 min from downtown). Multiple certified halal restaurants across all price ranges.</div></div>
     <div style="background:var(--card);padding:1.25rem"><div class="card-label">Mosques</div><div style="font-size:.82rem;color:var(--muted);font-weight:300;line-height:1.65">Several masjids in the Dallas-Fort Worth area. Islamic Association of North Texas (IANT) in Richardson is the main community centre.</div></div>
@@ -34,7 +34,7 @@
 
 <section>
   <div class="sec-label" data-i18n="hal_rest_label">Halal Restaurants</div>
-  <div class="sec-title">Where to <em>Eat</em></div>
+  <div class="sec-title" data-i18n="hal_rest_title">Where to <em>Eat</em></div>
   <p style="font-size:.88rem;color:var(--muted);font-weight:300;line-height:1.75;max-width:640px;margin-bottom:1.5rem">Richardson (15-20 min from downtown Dallas on DART Red Line) is the heart of halal dining in DFW — a cluster of excellent restaurants within walking distance of each other.</p>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px">
     <a href="restaurants/yemandi.html" style="background:var(--card);border:1px solid var(--border);border-left:4px solid var(--gold);padding:1.4rem;text-decoration:none;color:inherit;display:block;transition:border-color .2s" onmouseover="this.style.borderLeftColor='var(--red)'" onmouseout="this.style.borderLeftColor='var(--gold)'">
@@ -66,7 +66,7 @@
 
 <section style="background:var(--mid)">
   <div class="sec-label" data-i18n="hal_mosque_label">Mosques &amp; Prayer</div>
-  <div class="sec-title">Prayer Facilities <em>in Dallas</em></div>
+  <div class="sec-title" data-i18n="hal_mosque_title">Prayer Facilities <em>in Dallas</em></div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-top:1.5rem">
     <div style="background:var(--card);border:1px solid var(--border);padding:1.4rem">
       <div style="font-family:var(--fh);font-size:1.1rem;font-weight:700;text-transform:uppercase;margin-bottom:.3rem">IANT — Islamic Association of North Texas</div>
@@ -96,7 +96,7 @@
 
 <section>
   <div class="sec-label" data-i18n="hal_tips_label">Practical Tips</div>
-  <div class="sec-title">Muslim-Friendly <em>Travel Tips</em></div>
+  <div class="sec-title" data-i18n="hal_tips_title">Muslim-Friendly <em>Travel Tips</em></div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:1.5rem">
     <div style="background:var(--card);border:1px solid var(--border);padding:1.25rem">
       <div style="font-family:var(--fh);font-size:.9rem;font-weight:700;text-transform:uppercase;margin-bottom:.4rem">Verify halal certification</div>
@@ -128,5 +128,6 @@
 <footer id="main-footer"></footer>
 <script src="js/site.js"></script><script src="js/affiliate.js"></script>
 <script>renderNav('halal'); renderFooter(); renderDisclosure(); initLang();
-document.addEventListener('langchange', function() { document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.getAttribute('data-i18n')) || el.textContent; }); });</script>
+document.addEventListener('langchange', updateAllI18n);
+if (currentLang !== 'en') updateAllI18n();</script>
 </body></html>

@@ -23,7 +23,7 @@
 
 <section style="background:var(--mid)">
   <div class="sec-label" data-i18n="dt_fw_label">30 Minutes Away</div>
-  <div class="sec-title">Fort Worth <em>Stockyards</em></div>
+  <div class="sec-title" data-i18n="dt_fw_title">Fort Worth <em>Stockyards</em></div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start">
     <div>
       <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem">
@@ -50,7 +50,7 @@
 
 <section>
   <div class="sec-label" data-i18n="dt_austin_label">3 Hours Away</div>
-  <div class="sec-title">Austin — Live Music <em>Capital of the World</em></div>
+  <div class="sec-title" data-i18n="dt_austin_title">Austin — Live Music <em>Capital of the World</em></div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;margin-top:.5rem">
     <div>
       <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem">
@@ -103,7 +103,7 @@
 
 <section>
   <div class="sec-label" data-i18n="dt_waco_label">1.5 Hours Away</div>
-  <div class="sec-title">Waco — <em>Magnolia Market</em></div>
+  <div class="sec-title" data-i18n="dt_waco_title">Waco — <em>Magnolia Market</em></div>
   <div style="max-width:780px;margin-top:.5rem">
     <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem">
       <div style="background:var(--card);border:1px solid var(--border);padding:.6rem 1rem;text-align:center"><div style="font-family:var(--fh);font-size:1.4rem;font-weight:900;color:var(--white)">1.5 hrs</div><div style="font-size:.65rem;color:var(--muted);font-weight:300;text-transform:uppercase;letter-spacing:.06em">Drive from Dallas</div></div>
@@ -128,7 +128,8 @@
 <script src="js/site.js"></script><script src="js/affiliate.js"></script>
 <script>
 renderNav('daytrips'); renderFooter(); renderDisclosure(); initLang();
-document.addEventListener('langchange', function() { document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.getAttribute('data-i18n')) || el.textContent; }); });
+document.addEventListener('langchange', updateAllI18n);
+if (currentLang !== 'en') updateAllI18n();
 renderBookingSection('daytrips-booking', { title:'Plan Your Day Trips', subtitle:'Rent a car to explore Texas. VRBO vacation homes in Austin or San Antonio make great overnight bases.', showFlights:false, showCars:true, showTuro:true, showVrbo:true, hotelLocation:'Austin Texas' });
 </script>
 </body></html>

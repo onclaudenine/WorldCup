@@ -23,7 +23,7 @@
 
 <section style="background:var(--mid)">
   <div class="sec-label" data-i18n="tkt_official_label">Official Tickets</div>
-  <div class="sec-title">Buy from <em>FIFA Direct</em></div>
+  <div class="sec-title" data-i18n="tkt_official_title">Buy from <em>FIFA Direct</em></div>
   <div style="background:rgba(191,10,48,0.08);border-left:3px solid var(--red);padding:1rem 1.25rem;max-width:680px;margin-bottom:1.5rem;font-size:.85rem;color:var(--muted);line-height:1.75;font-weight:300">
     <strong style="color:var(--text)">Always buy official first.</strong> The only authorised source for FIFA World Cup 2026 tickets is <strong style="color:var(--text)">FIFA.com/tickets</strong>. Any other site selling "official" tickets is a third party at best and a scam at worst.
   </div>
@@ -78,7 +78,7 @@
 
 <section>
   <div class="sec-label" data-i18n="tkt_resale_label">Resale Market</div>
-  <div class="sec-title">If Official Tickets <em>Are Sold Out</em></div>
+  <div class="sec-title" data-i18n="tkt_resale_title">If Official Tickets <em>Are Sold Out</em></div>
   <p style="font-size:.88rem;color:var(--muted);font-weight:300;line-height:1.75;max-width:640px;margin-bottom:1.5rem">FIFA runs an official resale platform — this is the safest secondary market option. Third-party resale sites also carry World Cup tickets but with significant price premiums.</p>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px">
     <div style="background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);padding:1.25rem">
@@ -98,7 +98,7 @@
 
 <section style="background:var(--mid)">
   <div class="sec-label" data-i18n="tkt_scam_label">Scam Warning</div>
-  <div class="sec-title">Don't Get <em>Scammed</em></div>
+  <div class="sec-title" data-i18n="tkt_scam_title">Don't Get <em>Scammed</em></div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:1.5rem">
     <div style="background:var(--card);border:1px solid var(--border);border-left:3px solid var(--red);padding:1.25rem">
       <div style="font-family:var(--fh);font-size:.9rem;font-weight:700;text-transform:uppercase;color:var(--red);margin-bottom:.4rem">PDF tickets are fake</div>
@@ -121,7 +121,7 @@
 
 <section>
   <div class="sec-label" data-i18n="tkt_stadium_label">At the Stadium</div>
-  <div class="sec-title">Using Your <em>Ticket</em></div>
+  <div class="sec-title" data-i18n="tkt_stadium_title">Using Your <em>Ticket</em></div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:1.5rem">
     <div style="background:var(--card);border:1px solid var(--border);padding:1.25rem">
       <div style="font-family:var(--fh);font-size:.9rem;font-weight:700;text-transform:uppercase;margin-bottom:.4rem">Download the FIFA App</div>
@@ -147,7 +147,8 @@
 <script src="js/site.js"></script><script src="js/affiliate.js"></script>
 <script>
 renderNav('tickets'); renderFooter(); renderDisclosure(); initLang();
-document.addEventListener('langchange', function() { document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.getAttribute('data-i18n')) || el.textContent; }); });
+document.addEventListener('langchange', updateAllI18n);
+if (currentLang !== 'en') updateAllI18n();
 renderBookingSection('tickets-booking', { title:'Plan Your Match Day', subtitle:'Book your hotel near AT&T Stadium and flights into DFW.', showHotels:true, showFlights:true, showVrbo:true, showCars:true, hotelLocation:'Arlington Texas near AT&T Stadium' });
 </script>
 </body></html>

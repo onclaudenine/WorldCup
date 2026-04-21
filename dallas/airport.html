@@ -34,7 +34,7 @@
     </svg>
   </div>
   <div class="page-hero-content" style="position:relative;z-index:2">
-    <div class="sec-label">Arriving in Dallas</div>
+    <div class="sec-label" data-i18n="ap_label">Arriving in Dallas</div>
     <h1 style="font-family:var(--fh);font-weight:900;font-size:clamp(2.2rem,6vw,4.5rem);line-height:.92;text-transform:uppercase;margin-bottom:.75rem">Dallas Airport Guide</h1>
     <p class="page-hero-sub">DFW International is one of the largest airports in the world. Here's everything you need to get from the plane to your hotel without stress — terminals, immigration, DART, SIM cards, and more.</p>
   </div>
@@ -42,8 +42,8 @@
 
 <!-- DFW Overview -->
 <section style="background:var(--mid)">
-  <div class="sec-label">Primary Airport</div>
-  <div class="sec-title">Dallas Fort Worth <em>International</em> (DFW)</div>
+  <div class="sec-label" data-i18n="ap_primary_label">Primary Airport</div>
+  <div class="sec-title" data-i18n="ap_title_dfw">Dallas Fort Worth <em>International</em> (DFW)</div>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--border);margin-bottom:2rem">
     <div style="background:var(--card);padding:1.25rem">
@@ -115,8 +115,8 @@
 
 <!-- Terminal Map -->
 <section>
-  <div class="sec-label">Terminal Guide</div>
-  <div class="sec-title">Which Terminal <em>Are You In?</em></div>
+  <div class="sec-label" data-i18n="ap_terminal_label">Terminal Guide</div>
+  <div class="sec-title" data-i18n="ap_terminals_title">Which Terminal <em>Are You In?</em></div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:1.5rem">
     <div style="background:var(--card);border:1px solid var(--border);padding:1.25rem">
       <div style="font-family:var(--fh);font-size:1.4rem;font-weight:900;color:var(--red);margin-bottom:.4rem">Terminal A</div>
@@ -148,8 +148,8 @@
 
 <!-- Love Field -->
 <section style="background:var(--mid)">
-  <div class="sec-label">Secondary Airport</div>
-  <div class="sec-title">Dallas Love Field <em>(DAL)</em></div>
+  <div class="sec-label" data-i18n="ap_secondary_label">Secondary Airport</div>
+  <div class="sec-title" data-i18n="ap_title_dal">Dallas Love Field <em>(DAL)</em></div>
   <div style="max-width:700px">
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--border);margin-bottom:1.5rem">
       <div style="background:var(--card);padding:1.1rem">
@@ -175,8 +175,8 @@
 
 <!-- Key Tips -->
 <section>
-  <div class="sec-label">Essential Tips</div>
-  <div class="sec-title">Don't Make <em>These Mistakes</em></div>
+  <div class="sec-label" data-i18n="ap_tips_label">Essential Tips</div>
+  <div class="sec-title" data-i18n="ap_tips_title">Don't Make <em>These Mistakes</em></div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-top:1.5rem">
     <div style="background:var(--card);border:1px solid var(--border);border-left:3px solid var(--red);padding:1.25rem">
       <div style="font-family:var(--fh);font-size:.9rem;font-weight:700;text-transform:uppercase;margin-bottom:.4rem">Don't take a taxi from DFW</div>
@@ -215,6 +215,8 @@
 <script src="js/affiliate.js"></script>
 <script>
 renderNav('airport'); renderFooter(); renderDisclosure(); initLang();
+document.addEventListener('langchange', updateAllI18n);
+if (currentLang !== 'en') updateAllI18n();
 renderUsMobileCard('esim-card');
 renderBookingSection('airport-booking', {
   title: 'Book Your Dallas Trip',

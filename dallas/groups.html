@@ -23,7 +23,7 @@
 
 <section style="background:var(--mid)">
   <div class="sec-label" data-i18n="grp_accom_label">Group Accommodation</div>
-  <div class="sec-title">Staying Together as <em>a Group</em></div>
+  <div class="sec-title" data-i18n="grp_accom_title">Staying Together as <em>a Group</em></div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-top:1.5rem">
     <div style="background:var(--card);border:1px solid var(--border);padding:1.4rem">
       <div style="font-family:var(--fh);font-size:.9rem;font-weight:700;text-transform:uppercase;margin-bottom:.4rem">Hotel room blocks</div>
@@ -42,7 +42,7 @@
 
 <section>
   <div class="sec-label" data-i18n="grp_transport_label">Getting to the Stadium</div>
-  <div class="sec-title">Group Transport to <em>AT&T Stadium</em></div>
+  <div class="sec-title" data-i18n="grp_transport_title">Group Transport to <em>AT&T Stadium</em></div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:1.5rem">
     <div style="background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);padding:1.25rem">
       <div style="font-family:var(--fh);font-size:.9rem;font-weight:700;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem">TRE Train — best for groups</div>
@@ -65,7 +65,7 @@
 
 <section style="background:var(--mid)">
   <div class="sec-label" data-i18n="grp_meet_label">Finding Each Other</div>
-  <div class="sec-title">Meeting Points & <em>Communication</em></div>
+  <div class="sec-title" data-i18n="grp_meet_title">Meeting Points & <em>Communication</em></div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:1.5rem;max-width:780px">
     <div>
       <div style="font-family:var(--fh);font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)">Before the match</div>
@@ -88,7 +88,7 @@
 
 <section>
   <div class="sec-label" data-i18n="grp_clubs_label">Supporters Clubs</div>
-  <div class="sec-title">Connect with Your <em>Nation's Fans</em></div>
+  <div class="sec-title" data-i18n="grp_clubs_title">Connect with Your <em>Nation's Fans</em></div>
   <p style="font-size:.88rem;color:var(--muted);font-weight:300;line-height:1.75;max-width:640px;margin-bottom:1.5rem">Most national team supporters clubs organise group travel packages, ticket ballots, and meetup events during major tournaments. Connect with yours before you travel.</p>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px">
     <div style="background:var(--card);border:1px solid var(--border);padding:1.25rem">
@@ -112,7 +112,7 @@
 
 <section style="background:var(--mid)">
   <div class="sec-label" data-i18n="grp_checklist_label">Group Checklist</div>
-  <div class="sec-title">Before You <em>Travel</em></div>
+  <div class="sec-title" data-i18n="grp_checklist_title">Before You <em>Travel</em></div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:1.5rem;max-width:780px">
     <div>
       <div style="font-family:var(--fh);font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)">6+ months before</div>
@@ -142,7 +142,8 @@
 <script src="js/site.js"></script><script src="js/affiliate.js"></script>
 <script>
 renderNav('groups'); renderFooter(); renderDisclosure(); initLang();
-document.addEventListener('langchange', function() { document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.getAttribute('data-i18n')) || el.textContent; }); });
+document.addEventListener('langchange', updateAllI18n);
+if (currentLang !== 'en') updateAllI18n();
 renderBookingSection('groups-booking', { title:'Book Group Accommodation', subtitle:'VRBO houses sleep 8–16 people and often work out cheaper per person than hotels. Compare hotel blocks too.', showHotels:true, showVrbo:true, showCars:true, showFlights:true, hotelLocation:'Dallas Texas group accommodation' });
 </script>
 </body></html>

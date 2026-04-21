@@ -34,7 +34,7 @@
     </svg>
   </div>
   <div class="page-hero-content" style="position:relative;z-index:2">
-    <div class="sec-label">Financial Planning</div>
+    <div class="sec-label" data-i18n="bud_label">Financial Planning</div>
     <h1 style="font-family:var(--fh);font-weight:900;font-size:clamp(2.2rem,6vw,4.5rem);line-height:.92;text-transform:uppercase;margin-bottom:.75rem">Dallas Budget Guide</h1>
     <p class="page-hero-sub">The honest truth about what a week in Dallas actually costs — from stadium snacks to hotel rates to tipping culture. Plan your budget before you arrive and avoid the nasty surprises.</p>
   </div>
@@ -42,8 +42,8 @@
 
 <!-- Daily budget tiers -->
 <section style="background:var(--mid)">
-  <div class="sec-label">Daily Budget by Tier</div>
-  <div class="sec-title">How Much Will <em>You Spend?</em></div>
+  <div class="sec-label" data-i18n="bud_tiers_label">Daily Budget by Tier</div>
+  <div class="sec-title" data-i18n="bud_tiers_title">How Much Will <em>You Spend?</em></div>
   <p style="font-size:.85rem;color:var(--muted);font-weight:300;line-height:1.75;max-width:600px;margin-bottom:2rem">Per person per day, excluding match tickets and accommodation. All prices in USD.</p>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:2px;background:var(--border)">
@@ -91,8 +91,8 @@
 
 <!-- Price guide -->
 <section>
-  <div class="sec-label">What Things Cost</div>
-  <div class="sec-title">Price <em>Reality Check</em></div>
+  <div class="sec-label" data-i18n="bud_prices_label">What Things Cost</div>
+  <div class="sec-title" data-i18n="bud_prices_title">Price <em>Reality Check</em></div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:1.5rem">
 
     <div>
@@ -176,8 +176,8 @@
 
 <!-- Tipping guide -->
 <section style="background:var(--mid)">
-  <div class="sec-label">Tipping Culture</div>
-  <div class="sec-title">Tipping in <em>Texas</em></div>
+  <div class="sec-label" data-i18n="bud_tip_label">Tipping Culture</div>
+  <div class="sec-title" data-i18n="bud_tip_title">Tipping in <em>Texas</em></div>
   <div style="background:rgba(191,10,48,0.08);border-left:3px solid var(--red);padding:1rem 1.25rem;margin-bottom:1.5rem;max-width:680px;font-size:.85rem;color:var(--muted);line-height:1.75;font-weight:300">
     <strong style="color:var(--text)">Tipping is not optional in the US.</strong> Service staff are often paid below minimum wage with the expectation that tips make up the difference. Not tipping is considered rude and can cause genuine financial hardship for the worker. Budget for it.
   </div>
@@ -217,8 +217,8 @@
 
 <!-- Money saving tips -->
 <section>
-  <div class="sec-label">Save Money</div>
-  <div class="sec-title">Budget <em>Smart Tips</em></div>
+  <div class="sec-label" data-i18n="bud_save_label">Save Money</div>
+  <div class="sec-title" data-i18n="bud_save_title">Budget <em>Smart Tips</em></div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:1.5rem">
     <div style="background:var(--card);border:1px solid var(--border);padding:1.25rem">
       <div style="font-size:1.4rem;margin-bottom:.5rem">🏛️</div>
@@ -258,6 +258,8 @@
 <script src="js/affiliate.js"></script>
 <script>
 renderNav('budget'); renderFooter(); renderDisclosure(); initLang();
+document.addEventListener('langchange', updateAllI18n);
+if (currentLang !== 'en') updateAllI18n();
 </script>
 </body>
 </html>

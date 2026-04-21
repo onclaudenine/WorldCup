@@ -34,7 +34,7 @@
     </svg>
   </div>
   <div class="page-hero-content" style="position:relative;z-index:2">
-    <div class="sec-label">Where to Stay</div>
+    <div class="sec-label" data-i18n="acc_label">Where to Stay</div>
     <h1 style="font-family:var(--fh);font-weight:900;font-size:clamp(2.2rem,6vw,4.5rem);line-height:.92;text-transform:uppercase;margin-bottom:.75rem">Accommodation Guide</h1>
     <p class="page-hero-sub">Arlington, downtown Dallas, or Fort Worth? Each has real pros and cons depending on how many matches you're attending, your budget, and what you want to do between games. Here's the honest breakdown.</p>
   </div>
@@ -42,8 +42,8 @@
 
 <!-- Area comparison -->
 <section style="background:var(--mid)">
-  <div class="sec-label">The Big Decision</div>
-  <div class="sec-title">Arlington vs Dallas vs <em>Fort Worth</em></div>
+  <div class="sec-label" data-i18n="acc_decision_label">The Big Decision</div>
+  <div class="sec-title" data-i18n="acc_decision_title">Arlington vs Dallas vs <em>Fort Worth</em></div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2px;background:var(--border);margin-top:1.5rem">
 
     <div style="background:var(--card);padding:1.5rem;border-top:3px solid var(--red)">
@@ -87,8 +87,8 @@
 
 <!-- Hotel recommendations -->
 <section>
-  <div class="sec-label">Recommended Hotels</div>
-  <div class="sec-title">Where We'd <em>Stay</em></div>
+  <div class="sec-label" data-i18n="acc_hotels_label">Recommended Hotels</div>
+  <div class="sec-title" data-i18n="acc_hotels_title">Where We'd <em>Stay</em></div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-top:1.5rem">
 
     <div style="background:var(--card);border:1px solid var(--border);padding:1.4rem">
@@ -167,8 +167,8 @@
 
 <!-- Booking tips -->
 <section style="background:var(--mid)">
-  <div class="sec-label">Booking Advice</div>
-  <div class="sec-title">Book Early. <em>Very Early.</em></div>
+  <div class="sec-label" data-i18n="acc_tips_label">Booking Advice</div>
+  <div class="sec-title" data-i18n="acc_tips_title">Book Early. <em>Very Early.</em></div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:1.5rem">
     <div style="background:var(--card);border:1px solid var(--border);padding:1.25rem">
       <div style="font-family:var(--fh);font-size:.9rem;font-weight:700;text-transform:uppercase;color:var(--red);margin-bottom:.4rem">Book now — prices will double</div>
@@ -195,6 +195,8 @@
 <script src="js/affiliate.js"></script>
 <script>
 renderNav('accommodation'); renderFooter(); renderDisclosure(); initLang();
+document.addEventListener('langchange', updateAllI18n);
+if (currentLang !== 'en') updateAllI18n();
 renderBookingSection('accom-booking', {
   title: 'Search & Book Now',
   subtitle: 'Compare hotels across Arlington, Dallas, and Fort Worth. Prices rise fast — book refundable rates today.',

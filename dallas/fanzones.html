@@ -43,7 +43,7 @@
 <!-- FIFA Fan Festival -->
 <section style="background:var(--mid)">
   <div class="sec-label" data-i18n="fz_official_label">Official Venue</div>
-  <div class="sec-title">FIFA Fan <em>Festival</em></div>
+  <div class="sec-title" data-i18n="fz_official_title">FIFA Fan <em>Festival</em></div>
   <div style="background:var(--card);border:1px solid var(--border);padding:1.5rem;max-width:780px;margin-bottom:2rem">
     <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:1rem">
       <span class="tag tag-red">FREE ENTRY</span>
@@ -81,7 +81,7 @@
 <!-- Tips -->
 <section style="background:var(--mid)">
   <div class="sec-label" data-i18n="fz_tips_label">Planning Tips</div>
-  <div class="sec-title">Fan Zone <em>Advice</em></div>
+  <div class="sec-title" data-i18n="fz_tips_title">Fan Zone <em>Advice</em></div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:1.5rem">
     <div style="background:var(--card);border:1px solid var(--border);padding:1.25rem">
       <div style="font-size:1.5rem;margin-bottom:.5rem">⏰</div>
@@ -112,7 +112,8 @@
 <script src="js/affiliate.js"></script>
 <script>
 renderNav('fanzones'); renderFooter(); renderDisclosure(); initLang();
-document.addEventListener('langchange', function() { document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.getAttribute('data-i18n')) || el.textContent; }); });
+document.addEventListener('langchange', updateAllI18n);
+if (currentLang !== 'en') updateAllI18n();
 renderBookingSection('fanzone-booking', {
   title: 'Plan Your Fan Zone Visit',
   subtitle: 'Stay downtown Dallas for easy access to fan zones and DART connections to the stadium.',

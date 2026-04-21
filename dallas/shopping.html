@@ -43,7 +43,7 @@
 <!-- Main malls -->
 <section style="background:var(--mid)">
   <div class="sec-label" data-i18n="shop_malls_label">Major Shopping Centers</div>
-  <div class="sec-title">The Big <em>Malls</em></div>
+  <div class="sec-title" data-i18n="shop_malls_title">The Big <em>Malls</em></div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-top:1.5rem">
 
     <div style="background:var(--card);border:1px solid var(--border);padding:1.4rem">
@@ -129,7 +129,7 @@
 <!-- Texas souvenirs -->
 <section>
   <div class="sec-label" data-i18n="shop_souv_label">What to Buy</div>
-  <div class="sec-title">Authentic Texas <em>Souvenirs</em></div>
+  <div class="sec-title" data-i18n="shop_souv_title">Authentic Texas <em>Souvenirs</em></div>
   <p style="font-size:.85rem;color:var(--muted);font-weight:300;line-height:1.75;max-width:600px;margin-bottom:2rem">Skip the airport gift shop. These are the things worth bringing home from Dallas.</p>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px">
     <div style="background:var(--card);border:1px solid var(--border);padding:1.25rem">
@@ -168,7 +168,7 @@
 <!-- Tax refund note -->
 <section style="background:var(--mid)">
   <div class="sec-label" data-i18n="shop_intl_label">International Shoppers</div>
-  <div class="sec-title">Tax & Shopping <em>Tips</em></div>
+  <div class="sec-title" data-i18n="shop_intl_title">Tax & Shopping <em>Tips</em></div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:1.5rem">
     <div style="background:var(--card);border:1px solid var(--border);padding:1.25rem">
       <div style="font-family:var(--fh);font-size:.9rem;font-weight:700;text-transform:uppercase;margin-bottom:.4rem">No VAT refund in the US</div>
@@ -194,7 +194,8 @@
 <script src="js/affiliate.js"></script>
 <script>
 renderNav('shopping'); renderFooter(); renderDisclosure(); initLang();
-document.addEventListener('langchange', function() { document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.getAttribute('data-i18n')) || el.textContent; }); });
+document.addEventListener('langchange', updateAllI18n);
+if (currentLang !== 'en') updateAllI18n();
 </script>
 </body>
 </html>

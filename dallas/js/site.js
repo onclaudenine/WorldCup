@@ -25,46 +25,46 @@ const SITE = {
   // Categorised nav for dropdown menu
   navCategories: [
     {
-      label: 'Matches', key: 'cat_matches', icon: '⚽',
+      labelKey: 'cat_matches', key: 'cat_matches', icon: '⚽',
       items: [
-        { label: 'Match Schedule', href: '/matches.html', key: 'nav_matches', sub: 'All 9 Dallas fixtures' },
-        { label: 'Tickets',        href: '/tickets.html',  key: 'nav_tickets', sub: 'How to buy & scam warnings' },
-        { label: 'Fan Zones',      href: '/fanzones.html', key: 'nav_fanzones', sub: 'Watch without a ticket' },
-        { label: 'Interactive Map',href: '/map.html',      key: 'nav_map', sub: 'Stadium, hotels, transit' },
+        { labelKey: 'nav_item_schedule', href: '/matches.html',  subKey: 'nav_item_schedule_sub' },
+        { labelKey: 'nav_item_tickets',  href: '/tickets.html',  subKey: 'nav_item_tickets_sub' },
+        { labelKey: 'nav_item_fanzones', href: '/fanzones.html', subKey: 'nav_item_fanzones_sub' },
+        { labelKey: 'nav_item_map',      href: '/map.html',      subKey: 'nav_item_map_sub' },
       ]
     },
     {
-      label: 'Getting There', key: 'cat_transport', icon: '✈️',
+      labelKey: 'cat_transport', key: 'cat_transport', icon: '✈️',
       items: [
-        { label: 'Airport Guide',  href: '/airport.html',      key: 'nav_airport',    sub: 'DFW & Love Field' },
-        { label: 'Stadium Transit',href: '/logistics.html',    key: 'nav_logistics',  sub: 'TRE, shuttle, parking' },
-        { label: 'Group Travel',   href: '/groups.html',       key: 'nav_groups',     sub: 'Supporters clubs' },
-        { label: 'Day Trips',      href: '/daytrips.html',     key: 'nav_daytrips',   sub: 'Fort Worth, Austin, San Antonio' },
+        { labelKey: 'nav_item_airport',   href: '/airport.html',    subKey: 'nav_item_airport_sub' },
+        { labelKey: 'nav_item_transit',   href: '/logistics.html',  subKey: 'nav_item_transit_sub' },
+        { labelKey: 'nav_item_groups',    href: '/groups.html',     subKey: 'nav_item_groups_sub' },
+        { labelKey: 'nav_item_daytrips',  href: '/daytrips.html',   subKey: 'nav_item_daytrips_sub' },
       ]
     },
     {
-      label: 'Stay & Budget', key: 'cat_stay', icon: '🏨',
+      labelKey: 'cat_stay', key: 'cat_stay', icon: '🏨',
       items: [
-        { label: 'Where to Stay',  href: '/accommodation.html', key: 'nav_accommodation', sub: 'Arlington vs Dallas vs FW' },
-        { label: 'Budget Guide',   href: '/budget.html',        key: 'nav_budget',        sub: 'How much does it cost?' },
-        { label: 'Shopping',       href: '/shopping.html',      key: 'nav_shopping',      sub: 'Malls, outlets & souvenirs' },
+        { labelKey: 'nav_item_stay',     href: '/accommodation.html', subKey: 'nav_item_stay_sub' },
+        { labelKey: 'nav_item_budget',   href: '/budget.html',        subKey: 'nav_item_budget_sub' },
+        { labelKey: 'nav_item_shopping', href: '/shopping.html',      subKey: 'nav_item_shopping_sub' },
       ]
     },
     {
-      label: 'Eat & Drink', key: 'cat_food', icon: '🍽️',
+      labelKey: 'cat_food', key: 'cat_food', icon: '🍽️',
       items: [
-        { label: 'Explore Dallas',       href: '/explore.html', key: 'nav_explore', sub: 'Neighborhoods & restaurants' },
-        { label: 'Halal & Muslim Guide', href: '/halal.html',   key: 'nav_halal',   sub: 'Halal food, mosques & tips' },
+        { labelKey: 'nav_item_explore', href: '/explore.html', subKey: 'nav_item_explore_sub' },
+        { labelKey: 'nav_item_halal',   href: '/halal.html',   subKey: 'nav_item_halal_sub' },
       ]
     },
     {
-      label: 'Plan', key: 'cat_plan', icon: '📋',
+      labelKey: 'cat_plan', key: 'cat_plan', icon: '📋',
       items: [
-        { label: 'Match Day Checklist', href: '/checklist.html', key: 'nav_checklist', sub: 'Everything to pack' },
-        { label: 'Survival Guide',      href: '/survival.html',  key: 'nav_survival',  sub: 'Heat, money, safety' },
-        { label: 'Phrases & Culture',   href: '/phrases.html',   key: 'nav_phrases',   sub: 'Texas slang & customs' },
-        { label: 'Families',            href: '/families.html',  key: 'nav_families',  sub: 'Kids\'  activities' },
-        { label: 'Weather',             href: '/weather.html',   key: 'nav_weather',   sub: 'Live forecast' },
+        { labelKey: 'nav_item_checklist', href: '/checklist.html', subKey: 'nav_item_checklist_sub' },
+        { labelKey: 'nav_item_survival',  href: '/survival.html',  subKey: 'nav_item_survival_sub' },
+        { labelKey: 'nav_item_phrases',   href: '/phrases.html',   subKey: 'nav_item_phrases_sub' },
+        { labelKey: 'nav_item_families',  href: '/families.html',  subKey: 'nav_item_families_sub' },
+        { labelKey: 'nav_item_weather',   href: '/weather.html',   subKey: 'nav_item_weather_sub' },
       ]
     },
   ]
@@ -239,18 +239,21 @@ function renderNav(activePage) {
     <ul class="nav-links nav-cats">
       ${SITE.navCategories.map(cat => {
         const isActiveCat = activeCat === cat.key;
+        const catLabel = t(cat.labelKey) || cat.labelKey;
         return `<li class="nav-cat-item${isActiveCat ? ' active-cat' : ''}">
-          <button class="nav-cat-btn${isActiveCat ? ' active' : ''}" onclick="toggleDropdown(this)" aria-expanded="false">
-            ${cat.label} <span class="nav-caret">▾</span>
+          <button class="nav-cat-btn${isActiveCat ? ' active' : ''}" onclick="toggleDropdown(this)" aria-expanded="false" data-catkey="${cat.labelKey}">
+            ${catLabel} <span class="nav-caret">▾</span>
           </button>
           <div class="nav-dropdown">
             ${cat.items.map(item => {
               const href = base + item.href.replace(/^\//, '');
               const fileName = item.href.replace(/^\//, '');
               const isActive = currentPath === fileName;
-              return `<a href="${href}" class="nav-dd-item${isActive ? ' active' : ''}">
-                <span class="nav-dd-label">${item.label}</span>
-                <span class="nav-dd-sub">${item.sub}</span>
+              const itemLabel = t(item.labelKey) || item.labelKey;
+              const itemSub = t(item.subKey) || item.subKey;
+              return `<a href="${href}" class="nav-dd-item${isActive ? ' active' : ''}" data-labelkey="${item.labelKey}" data-subkey="${item.subKey}">
+                <span class="nav-dd-label">${itemLabel}</span>
+                <span class="nav-dd-sub">${itemSub}</span>
               </a>`;
             }).join('')}
           </div>
@@ -275,6 +278,39 @@ function renderNav(activePage) {
       </button>
     </div>`;
 
+  // Re-translate nav on language change
+  if (!window._navLangHandlerSet) {
+    document.addEventListener('langchange', function() {
+      // Update category button labels
+      document.querySelectorAll('[data-catkey]').forEach(el => {
+        const key = el.getAttribute('data-catkey');
+        const translated = t(key);
+        if (translated) {
+          // For buttons: update text but keep the caret span
+          if (el.tagName === 'BUTTON') {
+            const caret = el.querySelector('.nav-caret');
+            el.textContent = translated + ' ';
+            if (caret) el.appendChild(caret);
+          } else {
+            el.textContent = el.getAttribute('data-icon') + ' ' + translated;
+          }
+        }
+      });
+      // Update dropdown item labels and subs
+      document.querySelectorAll('[data-labelkey]').forEach(el => {
+        const labelKey = el.getAttribute('data-labelkey');
+        const subKey = el.getAttribute('data-subkey');
+        const labelEl = el.querySelector('.nav-dd-label');
+        const subEl = el.querySelector('.nav-dd-sub');
+        if (labelEl && t(labelKey)) labelEl.textContent = t(labelKey);
+        if (subEl && subKey && t(subKey)) subEl.textContent = t(subKey);
+        // Mobile nav links (no children)
+        if (!labelEl && t(labelKey)) el.textContent = t(labelKey);
+      });
+    });
+    window._navLangHandlerSet = true;
+  }
+
   // Close dropdown when clicking outside
   if (!window._navClickHandlerSet) {
     document.addEventListener('click', function(e) {
@@ -298,13 +334,12 @@ function renderNav(activePage) {
       <div style="padding:.5rem 1.25rem 1rem;border-bottom:1px solid var(--border);margin-bottom:.5rem">
         ${SITE.navCategories.map(cat => `
           <div style="margin-bottom:1rem">
-            <div style="font-family:var(--fh);font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:.5rem">${cat.icon} ${cat.label}</div>
+            <div style="font-family:var(--fh);font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:.5rem" data-catkey="${cat.labelKey}">${cat.icon} ${t(cat.labelKey) || cat.labelKey}</div>
             ${cat.items.map(item => {
               const href = base + item.href.replace(/^\//, '');
               const fileName = item.href.replace(/^\//, '');
               const isActive = currentPath === fileName;
-              return `<a href="${href}" class="mobile-nav-link${isActive ? ' active' : ''}" onclick="closeMobileNav()">
-                ${item.label}</a>`;
+              return `<a href="${href}" class="mobile-nav-link${isActive ? ' active' : ''}" onclick="closeMobileNav()" data-labelkey="${item.labelKey}">${t(item.labelKey) || item.labelKey}</a>`;
             }).join('')}
           </div>
         `).join('')}
@@ -1173,7 +1208,87 @@ const TRANSLATIONS = {
     // Explore page boxes
     exp_section_rest:'Restaurants', exp_section_nbh:'Neighborhoods',
     exp_nbh_label:'Explore by Neighborhood',
-        footer_note:'Fan-made visitor guide for FIFA World Cup 2026 · Not affiliated with FIFA or the City of Dallas',
+        
+    // ── NAV CATEGORY + ITEM LABELS ──
+    cat_matches:'Matches',
+    cat_transport:'Getting There',
+    cat_stay:'Stay & Budget',
+    cat_food:'Eat & Drink',
+    cat_plan:'Plan',
+    nav_item_schedule:'Match Schedule',
+    nav_item_schedule_sub:'All 9 Dallas fixtures',
+    nav_item_tickets:'Tickets',
+    nav_item_tickets_sub:'How to buy & scam warnings',
+    nav_item_fanzones:'Fan Zones',
+    nav_item_fanzones_sub:'Watch without a ticket',
+    nav_item_map:'Interactive Map',
+    nav_item_map_sub:'Stadium, hotels, transit',
+    nav_item_airport:'Airport Guide',
+    nav_item_airport_sub:'DFW & Love Field',
+    nav_item_transit:'Stadium Transit',
+    nav_item_transit_sub:'TRE, shuttle, parking',
+    nav_item_groups:'Group Travel',
+    nav_item_groups_sub:'Supporters clubs',
+    nav_item_daytrips:'Day Trips',
+    nav_item_daytrips_sub:'Fort Worth, Austin, San Antonio',
+    nav_item_stay:'Where to Stay',
+    nav_item_stay_sub:'Arlington vs Dallas vs FW',
+    nav_item_budget:'Budget Guide',
+    nav_item_budget_sub:'How much does it cost?',
+    nav_item_shopping:'Shopping',
+    nav_item_shopping_sub:'Malls, outlets & souvenirs',
+    nav_item_explore:'Explore Dallas',
+    nav_item_explore_sub:'Neighborhoods & restaurants',
+    nav_item_halal:'Halal & Muslim Guide',
+    nav_item_halal_sub:'Halal food, mosques & tips',
+    nav_item_checklist:'Match Day Checklist',
+    nav_item_checklist_sub:'Everything to pack',
+    nav_item_survival:'Survival Guide',
+    nav_item_survival_sub:'Heat, money, safety',
+    nav_item_phrases:'Phrases & Culture',
+    nav_item_phrases_sub:'Texas slang & customs',
+    nav_item_families:'Families',
+    nav_item_families_sub:'Kids activities',
+    nav_item_weather:'Weather',
+    nav_item_weather_sub:'Live forecast',
+    
+    // ── SEC-TITLE TRANSLATIONS [EN] ──
+    tkt_official_title:'Buy from FIFA Direct',
+    tkt_resale_title:'If Official Tickets Are Sold Out',
+    tkt_scam_title:'Don\'t Get Scammed',
+    tkt_stadium_title:'Using Your Ticket',
+    fz_official_title:'FIFA Fan Festival',
+    fz_tips_title:'Fan Zone Advice',
+    ap_terminals_title:'Which Terminal Are You In?',
+    ap_tips_title:'Don\'t Make These Mistakes',
+    acc_decision_title:'Arlington vs Dallas vs Fort Worth',
+    acc_hotels_title:'Where We\'d Stay',
+    acc_tips_title:'Book Early. Very Early.',
+    bud_tiers_title:'How Much Will You Spend?',
+    bud_prices_title:'Price Reality Check',
+    bud_tip_title:'Tipping in Texas',
+    bud_save_title:'Budget Smart Tips',
+    shop_malls_title:'The Big Malls',
+    shop_souv_title:'Authentic Texas Souvenirs',
+    shop_intl_title:'Tax & Shopping Tips',
+    grp_accom_title:'Staying Together as a Group',
+    grp_transport_title:'Group Transport to AT&T Stadium',
+    grp_meet_title:'Meeting Points & Communication',
+    grp_clubs_title:'Connect with Your Nation\'s Fans',
+    grp_checklist_title:'Before You Travel',
+    dt_fw_title:'Fort Worth Stockyards',
+    dt_austin_title:'Austin — Live Music Capital of the World',
+    dt_sa_title:'San Antonio — The Alamo & River Walk',
+    dt_waco_title:'Waco — Magnolia Market',
+    hal_key_title:'Dallas for Muslim Visitors',
+    hal_rest_title:'Where to Eat',
+    hal_mosque_title:'Prayer Facilities in Dallas',
+    hal_tips_title:'Muslim-Friendly Travel Tips',
+    phr_slang_title:'Words You\'ll Hear',
+    phr_wrong_title:'Cultural Differences That Catch People Out',
+    phr_useful_title:'What to Actually Say',
+    phr_temp_title:'Fahrenheit Quick Reference',
+    footer_note:'Fan-made visitor guide for FIFA World Cup 2026 · Not affiliated with FIFA or the City of Dallas',
     booking_sub: 'Find the best deals on hotels, flights, and transport to Dallas.',
     bk_deals: 'Deals',
     bk_hotels_label: 'Hotels',
@@ -1445,7 +1560,87 @@ const TRANSLATIONS = {
     bk_ubereats_label: 'Comida a Domicilio', bk_ubereats_badge: 'Entrega',
     bk_ubereats_cta: 'Pedir Comida', bk_ubereats_desc_s: 'Uber Eats en Dallas.',
     bk_ubereats_desc: 'Pide de cientos de restaurantes de Dallas. Genial para noches en el hotel.',
-        footer_note:'Guía de visitantes creada por fanáticos para la Copa Mundial FIFA 2026 · No afiliada con FIFA ni la Ciudad de Dallas',
+        
+    // ── NAV CATEGORY + ITEM LABELS ──
+    cat_matches:'Partidos',
+    cat_transport:'Cómo Llegar',
+    cat_stay:'Alojamiento y Presupuesto',
+    cat_food:'Comer y Beber',
+    cat_plan:'Planificar',
+    nav_item_schedule:'Calendario',
+    nav_item_schedule_sub:'Los 9 partidos de Dallas',
+    nav_item_tickets:'Entradas',
+    nav_item_tickets_sub:'Cómo comprar y evitar estafas',
+    nav_item_fanzones:'Zonas de Fans',
+    nav_item_fanzones_sub:'Ver sin entrada',
+    nav_item_map:'Mapa Interactivo',
+    nav_item_map_sub:'Estadio, hoteles, transporte',
+    nav_item_airport:'Guía del Aeropuerto',
+    nav_item_airport_sub:'DFW y Love Field',
+    nav_item_transit:'Transporte al Estadio',
+    nav_item_transit_sub:'TRE, lanzadera, parking',
+    nav_item_groups:'Viaje en Grupo',
+    nav_item_groups_sub:'Peñas y grupos',
+    nav_item_daytrips:'Excursiones',
+    nav_item_daytrips_sub:'Fort Worth, Austin, San Antonio',
+    nav_item_stay:'Dónde Alojarse',
+    nav_item_stay_sub:'Arlington vs Dallas vs FW',
+    nav_item_budget:'Guía de Presupuesto',
+    nav_item_budget_sub:'¿Cuánto cuesta?',
+    nav_item_shopping:'Compras',
+    nav_item_shopping_sub:'Centros comerciales y souvenirs',
+    nav_item_explore:'Explorar Dallas',
+    nav_item_explore_sub:'Barrios y restaurantes',
+    nav_item_halal:'Guía Halal y Musulmana',
+    nav_item_halal_sub:'Comida halal y mezquitas',
+    nav_item_checklist:'Lista del Día del Partido',
+    nav_item_checklist_sub:'Todo lo que llevar',
+    nav_item_survival:'Guía de Supervivencia',
+    nav_item_survival_sub:'Calor, dinero, seguridad',
+    nav_item_phrases:'Frases y Cultura',
+    nav_item_phrases_sub:'Jerga texana y costumbres',
+    nav_item_families:'Familias',
+    nav_item_families_sub:'Actividades para niños',
+    nav_item_weather:'Tiempo',
+    nav_item_weather_sub:'Previsión en directo',
+    
+    // ── SEC-TITLE TRANSLATIONS [ES] ──
+    tkt_official_title:'Compra en FIFA Directamente',
+    tkt_resale_title:'Si las Entradas Oficiales Se Agotan',
+    tkt_scam_title:'No Te Estafes',
+    tkt_stadium_title:'Usando Tu Entrada',
+    fz_official_title:'FIFA Fan Festival',
+    fz_tips_title:'Consejos para la Fan Zone',
+    ap_terminals_title:'¿En Qué Terminal Estás?',
+    ap_tips_title:'No Cometas Estos Errores',
+    acc_decision_title:'Arlington vs Dallas vs Fort Worth',
+    acc_hotels_title:'Dónde Nos Alojaríamos',
+    acc_tips_title:'Reserva Pronto. Muy Pronto.',
+    bud_tiers_title:'¿Cuánto Gastarás?',
+    bud_prices_title:'Verificación de Precios',
+    bud_tip_title:'Las Propinas en Texas',
+    bud_save_title:'Consejos para Ahorrar',
+    shop_malls_title:'Los Grandes Centros',
+    shop_souv_title:'Souvenirs Auténticos de Texas',
+    shop_intl_title:'Consejos de Impuestos y Compras',
+    grp_accom_title:'Alojarse Juntos como Grupo',
+    grp_transport_title:'Transporte Grupal al AT&T Stadium',
+    grp_meet_title:'Puntos de Encuentro y Comunicación',
+    grp_clubs_title:'Conéctate con los Fans de Tu Nación',
+    grp_checklist_title:'Antes de Viajar',
+    dt_fw_title:'Fort Worth Stockyards',
+    dt_austin_title:'Austin — Capital de la Música en Vivo',
+    dt_sa_title:'San Antonio — El Álamo y el River Walk',
+    dt_waco_title:'Waco — Magnolia Market',
+    hal_key_title:'Dallas para Visitantes Musulmanes',
+    hal_rest_title:'Dónde Comer',
+    hal_mosque_title:'Instalaciones de Oración en Dallas',
+    hal_tips_title:'Consejos para Visitantes Musulmanes',
+    phr_slang_title:'Palabras Que Escucharás',
+    phr_wrong_title:'Diferencias Culturales Que Sorprenden',
+    phr_useful_title:'Qué Decir Realmente',
+    phr_temp_title:'Referencia Rápida de Fahrenheit',
+    footer_note:'Guía de visitantes creada por fanáticos para la Copa Mundial FIFA 2026 · No afiliada con FIFA ni la Ciudad de Dallas',
     booking_sub: 'Encuentra las mejores ofertas en hoteles, vuelos y transporte a Dallas.',
     bk_deals: 'Ofertas',
     bk_hotels_label: 'Hoteles',
@@ -1715,7 +1910,87 @@ const TRANSLATIONS = {
     bk_ubereats_label: 'Livraison de Repas', bk_ubereats_badge: 'Livraison',
     bk_ubereats_cta: 'Commander', bk_ubereats_desc_s: 'Uber Eats à Dallas.',
     bk_ubereats_desc: 'Commandez depuis des centaines de restaurants. Parfait pour les soirées à l\'hôtel.',
-        footer_note:'Guide de visiteurs créé par des fans pour la Coupe du Monde FIFA 2026 · Non affilié à la FIFA ni à la ville de Dallas',
+        
+    // ── NAV CATEGORY + ITEM LABELS ──
+    cat_matches:'Matchs',
+    cat_transport:'Y Aller',
+    cat_stay:'Séjour et Budget',
+    cat_food:'Manger et Boire',
+    cat_plan:'Planifier',
+    nav_item_schedule:'Calendrier',
+    nav_item_schedule_sub:'Les 9 matchs de Dallas',
+    nav_item_tickets:'Billets',
+    nav_item_tickets_sub:'Comment acheter et éviter les arnaques',
+    nav_item_fanzones:'Fan Zones',
+    nav_item_fanzones_sub:'Regarder sans billet',
+    nav_item_map:'Carte Interactive',
+    nav_item_map_sub:'Stade, hôtels, transports',
+    nav_item_airport:'Guide Aéroport',
+    nav_item_airport_sub:'DFW et Love Field',
+    nav_item_transit:'Transport Stade',
+    nav_item_transit_sub:'TRE, navette, parking',
+    nav_item_groups:'Voyage en Groupe',
+    nav_item_groups_sub:'Clubs de supporters',
+    nav_item_daytrips:'Excursions',
+    nav_item_daytrips_sub:'Fort Worth, Austin, San Antonio',
+    nav_item_stay:'Où Séjourner',
+    nav_item_stay_sub:'Arlington vs Dallas vs FW',
+    nav_item_budget:'Guide Budget',
+    nav_item_budget_sub:'Combien ça coûte?',
+    nav_item_shopping:'Shopping',
+    nav_item_shopping_sub:'Centres commerciaux et souvenirs',
+    nav_item_explore:'Explorer Dallas',
+    nav_item_explore_sub:'Quartiers et restaurants',
+    nav_item_halal:'Guide Halal et Musulman',
+    nav_item_halal_sub:'Nourriture halal et mosquées',
+    nav_item_checklist:'Checklist Jour de Match',
+    nav_item_checklist_sub:'Tout ce qu\'il faut',
+    nav_item_survival:'Guide de Survie',
+    nav_item_survival_sub:'Chaleur, argent, sécurité',
+    nav_item_phrases:'Phrases et Culture',
+    nav_item_phrases_sub:'Argot texan et coutumes',
+    nav_item_families:'Familles',
+    nav_item_families_sub:'Activités pour enfants',
+    nav_item_weather:'Météo',
+    nav_item_weather_sub:'Prévisions en direct',
+    
+    // ── SEC-TITLE TRANSLATIONS [FR] ──
+    tkt_official_title:'Acheter chez FIFA Directement',
+    tkt_resale_title:'Si les Billets Officiels Sont Épuisés',
+    tkt_scam_title:'Ne Vous Faites Pas Arnaquer',
+    tkt_stadium_title:'Utiliser Votre Billet',
+    fz_official_title:'FIFA Fan Festival',
+    fz_tips_title:'Conseils pour la Fan Zone',
+    ap_terminals_title:'Dans Quel Terminal Êtes-Vous?',
+    ap_tips_title:'Ne Faites Pas Ces Erreurs',
+    acc_decision_title:'Arlington vs Dallas vs Fort Worth',
+    acc_hotels_title:'Où Nous Séjournerions',
+    acc_tips_title:'Réservez Tôt. Très Tôt.',
+    bud_tiers_title:'Combien Dépenserez-Vous?',
+    bud_prices_title:'Vérification des Prix',
+    bud_tip_title:'Les Pourboires au Texas',
+    bud_save_title:'Conseils pour Économiser',
+    shop_malls_title:'Les Grands Centres',
+    shop_souv_title:'Souvenirs Authentiques du Texas',
+    shop_intl_title:'Conseils Taxes et Shopping',
+    grp_accom_title:'Séjourner Ensemble en Groupe',
+    grp_transport_title:'Transport Groupe vers AT&T Stadium',
+    grp_meet_title:'Points de Rendez-Vous et Communication',
+    grp_clubs_title:'Rejoignez les Fans de Votre Nation',
+    grp_checklist_title:'Avant de Voyager',
+    dt_fw_title:'Fort Worth Stockyards',
+    dt_austin_title:'Austin — Capitale de la Musique Live',
+    dt_sa_title:'San Antonio — L\'Alamo et la River Walk',
+    dt_waco_title:'Waco — Magnolia Market',
+    hal_key_title:'Dallas pour les Visiteurs Musulmans',
+    hal_rest_title:'Où Manger',
+    hal_mosque_title:'Lieux de Prière à Dallas',
+    hal_tips_title:'Conseils pour Visiteurs Musulmans',
+    phr_slang_title:'Mots Que Vous Entendrez',
+    phr_wrong_title:'Différences Culturelles Surprenantes',
+    phr_useful_title:'Ce Qu\'il Faut Vraiment Dire',
+    phr_temp_title:'Référence Rapide Fahrenheit',
+    footer_note:'Guide de visiteurs créé par des fans pour la Coupe du Monde FIFA 2026 · Non affilié à la FIFA ni à la ville de Dallas',
     booking_sub: 'Trouvez les meilleures offres en hotels, vols et transport vers Dallas.',
     bk_deals: 'Offres',
     bk_hotels_label: 'Hotels',
@@ -1955,7 +2230,87 @@ const TRANSLATIONS = {
     bk_ubereats_label: 'Maaltijdbezorging', bk_ubereats_badge: 'Bezorging',
     bk_ubereats_cta: 'Bestellen', bk_ubereats_desc_s: 'Uber Eats in Dallas.',
     bk_ubereats_desc: 'Bestel bij honderden restaurants. Perfect voor avonden in het hotel.',
-        footer_note:"Fangemaakt bezoekersguide voor het FIFA WK 2026 - Niet gelieerd aan FIFA",
+        
+    // ── NAV CATEGORY + ITEM LABELS ──
+    cat_matches:'Wedstrijden',
+    cat_transport:'Reizen',
+    cat_stay:'Verblijf en Budget',
+    cat_food:'Eten en Drinken',
+    cat_plan:'Plannen',
+    nav_item_schedule:'Wedstrijdschema',
+    nav_item_schedule_sub:'Alle 9 Dallas wedstrijden',
+    nav_item_tickets:'Tickets',
+    nav_item_tickets_sub:'Hoe te kopen en oplichting vermijden',
+    nav_item_fanzones:'Fanzones',
+    nav_item_fanzones_sub:'Kijken zonder ticket',
+    nav_item_map:'Interactieve Kaart',
+    nav_item_map_sub:'Stadion, hotels, vervoer',
+    nav_item_airport:'Luchthavenguids',
+    nav_item_airport_sub:'DFW en Love Field',
+    nav_item_transit:'Stadion Vervoer',
+    nav_item_transit_sub:'TRE, pendel, parkeren',
+    nav_item_groups:'Groepsreis',
+    nav_item_groups_sub:'Supportersclubs',
+    nav_item_daytrips:'Dagtrips',
+    nav_item_daytrips_sub:'Fort Worth, Austin, San Antonio',
+    nav_item_stay:'Waar te Verblijven',
+    nav_item_stay_sub:'Arlington vs Dallas vs FW',
+    nav_item_budget:'Budgetgids',
+    nav_item_budget_sub:'Hoeveel kost het?',
+    nav_item_shopping:'Winkelen',
+    nav_item_shopping_sub:'Winkelcentra en souvenirs',
+    nav_item_explore:'Dallas Verkennen',
+    nav_item_explore_sub:'Wijken en restaurants',
+    nav_item_halal:'Halal en Moslimgids',
+    nav_item_halal_sub:'Halal eten en moskeeën',
+    nav_item_checklist:'Wedstrijddag Checklist',
+    nav_item_checklist_sub:'Alles wat je nodig hebt',
+    nav_item_survival:'Overlevingsgids',
+    nav_item_survival_sub:'Hitte, geld, veiligheid',
+    nav_item_phrases:'Zinnen en Cultuur',
+    nav_item_phrases_sub:'Texaans jargon en gewoonten',
+    nav_item_families:'Gezinnen',
+    nav_item_families_sub:'Activiteiten voor kinderen',
+    nav_item_weather:'Weer',
+    nav_item_weather_sub:'Live weersvoorspelling',
+    
+    // ── SEC-TITLE TRANSLATIONS [NL] ──
+    tkt_official_title:'Koop bij FIFA Rechtstreeks',
+    tkt_resale_title:'Als Officiële Tickets Uitverkocht Zijn',
+    tkt_scam_title:'Word Niet Opgelicht',
+    tkt_stadium_title:'Uw Ticket Gebruiken',
+    fz_official_title:'FIFA Fan Festival',
+    fz_tips_title:'Fanzone Advies',
+    ap_terminals_title:'In Welke Terminal Ben Je?',
+    ap_tips_title:'Maak Deze Fouten Niet',
+    acc_decision_title:'Arlington vs Dallas vs Fort Worth',
+    acc_hotels_title:'Waar Wij Zouden Verblijven',
+    acc_tips_title:'Boek Vroeg. Heel Vroeg.',
+    bud_tiers_title:'Hoeveel Ga Je Uitgeven?',
+    bud_prices_title:'Prijzen Realiteitscheck',
+    bud_tip_title:'Fooi Geven in Texas',
+    bud_save_title:'Slimme Bespaartips',
+    shop_malls_title:'De Grote Malls',
+    shop_souv_title:'Authentieke Texas Souvenirs',
+    shop_intl_title:'Belasting en Winkeltips',
+    grp_accom_title:'Samen Verblijven als Groep',
+    grp_transport_title:'Groepstransport naar AT&T Stadium',
+    grp_meet_title:'Ontmoetingspunten en Communicatie',
+    grp_clubs_title:'Verbinding met Fans van Uw Land',
+    grp_checklist_title:'Voor het Vertrek',
+    dt_fw_title:'Fort Worth Stockyards',
+    dt_austin_title:'Austin — Live Muziekhoofdstad',
+    dt_sa_title:'San Antonio — De Alamo en River Walk',
+    dt_waco_title:'Waco — Magnolia Market',
+    hal_key_title:'Dallas voor Moslimgasten',
+    hal_rest_title:'Waar te Eten',
+    hal_mosque_title:'Gebedsruimtes in Dallas',
+    hal_tips_title:'Moslimvriendelijke Reistips',
+    phr_slang_title:'Woorden Die U Hoort',
+    phr_wrong_title:'Culturele Verschillen Die Verrassen',
+    phr_useful_title:'Wat U Echt Moet Zeggen',
+    phr_temp_title:'Fahrenheit Snelreferentie',
+    footer_note:"Fangemaakt bezoekersguide voor het FIFA WK 2026 - Niet gelieerd aan FIFA",
     booking_sub: 'Vind de beste deals voor hotels, vluchten en vervoer naar Dallas.',
     bk_deals: 'Deals',
     bk_hotels_label: 'Hotels',
@@ -2043,6 +2398,20 @@ function setLang(lang) {
 
   // Fire a custom event so pages can react
   document.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
+}
+
+// ── UNIVERSAL PAGE TRANSLATOR ─────────────────────────────────
+// Call this on langchange for any page that uses data-i18n attributes.
+// Handles both simple text and data-i18n-attr for attributes.
+function updateAllI18n() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const attr = el.getAttribute('data-i18n-attr');
+    const val = t(key);
+    if (!val) return;
+    if (attr) { el.setAttribute(attr, val); }
+    else { el.textContent = val; }
+  });
 }
 
 // Apply saved language on page load
