@@ -1,291 +1,441 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://usafootballguide.com/dallas/</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/index.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/matches</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/matches.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/explore</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/explore.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/logistics</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/logistics.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/fanzones</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/fanzones.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/airport</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/airport.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/accommodation</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/accommodation.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/budget</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/budget.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/shopping</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/shopping.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/survival</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/tickets.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/daytrips.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/checklist</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/phrases.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/families</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/halal.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/groups.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/weather</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/survival.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/checklist.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/families.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/weather.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/map</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/map.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/restaurants/pecan-lodge</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/restaurants/pecan-lodge.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/restaurants/heim-bbq</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/restaurants/heim-bbq.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/restaurants/smoky-rose</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/restaurants/smoky-rose.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/restaurants/lucia</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/restaurants/lucia.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/restaurants/knife</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/restaurants/knife.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/restaurants/revolver-taco</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/restaurants/revolver-taco.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/restaurants/eleno</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/restaurants/eleno.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/restaurants/strangeways</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/restaurants/strangeways.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/restaurants/hg-sply-co</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/restaurants/hg-sply-co.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/restaurants/noodle-wave</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/restaurants/noodle-wave.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/restaurants/new-york-eats</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/restaurants/new-york-eats.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/restaurants/afrah-mediterranean</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/restaurants/afrah-mediterranean.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/neighborhoods/deep-ellum</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/restaurants/yemandi.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/neighborhoods/uptown</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/restaurants/el-fenix.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/neighborhoods/bishop-arts</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/restaurants/urban-taco.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/neighborhoods/arts-district</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/restaurants/meso-maya.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/neighborhoods/oak-cliff</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/restaurants/mi-cocina.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/neighborhoods/stockyards</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/restaurants/las-palmas.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/activities/perot-museum</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/restaurants/javier-gourmet.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/restaurants/trompo.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/restaurants/calle-doce.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/restaurants/loro.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/restaurants/uchi-dallas.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/restaurants/ngon-vietnamese.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/restaurants/korean-bbq-partners.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/restaurants/ramen-suzuki.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/restaurants/monkey-king-noodle.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/restaurants/pho-bang.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/restaurants/whataburger.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/restaurants/in-n-out.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/restaurants/pdq.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/restaurants/raising-canes.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/restaurants/buc-ees.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/restaurants/al-biernat.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/restaurants/tei-an.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/restaurants/mot-hai-ba.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/neighborhoods/deep-ellum.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/neighborhoods/uptown.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/neighborhoods/bishop-arts.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/neighborhoods/arts-district.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/neighborhoods/oak-cliff.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/neighborhoods/stockyards.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://usafootballguide.com/dallas/activities/perot-museum.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/activities/dallas-zoo</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/activities/dallas-zoo.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/activities/reunion-tower</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/activities/reunion-tower.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/activities/six-flags-over-texas</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/activities/six-flags-over-texas.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/activities/dallas-arboretum</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/activities/dallas-arboretum.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/activities/hawaiian-falls</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/activities/hawaiian-falls.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/activities/sea-life-aquarium</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/activities/sea-life-aquarium.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/activities/legoland-discovery</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/activities/legoland-discovery.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/activities/globe-life-field</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/activities/globe-life-field.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/activities/national-western-heritage</loc>
-    <lastmod>2026-04-19</lastmod>
+    <loc>https://usafootballguide.com/dallas/activities/national-western-heritage.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/tickets</loc>
-    <lastmod>2026-04-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://usafootballguide.com/dallas/activities/jfk-memorial.html</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://usafootballguide.com/dallas/phrases</loc>
-    <lastmod>2026-04-20</lastmod>
+    <loc>https://usafootballguide.com/dallas/activities/gun-range.html</loc>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://usafootballguide.com/dallas/daytrips</loc>
-    <lastmod>2026-04-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://usafootballguide.com/dallas/halal</loc>
-    <lastmod>2026-04-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://usafootballguide.com/dallas/groups</loc>
-    <lastmod>2026-04-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://usafootballguide.com/dallas/restaurants/yemandi</loc>
-    <lastmod>2026-04-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.5</priority>
   </url>
 </urlset>
