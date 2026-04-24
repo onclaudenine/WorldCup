@@ -1,3 +1,13 @@
+
+// ── GOOGLE TRANSLATE REDIRECT ──────────────────────────────────────────────
+function gtTranslate() {
+  var sel = document.getElementById('gt-select');
+  if (!sel || sel.value === 'en') return;
+  var to = sel.value.split('|')[1];
+  var url = 'https://translate.google.com/translate?sl=en&tl=' + to + '&u=' + encodeURIComponent(window.location.href);
+  window.open(url, '_blank');
+  setTimeout(function(){ sel.value = 'en'; }, 100);
+}
 // ── SHARED DATA ──────────────────────────────────────────────
 const SITE = {
   // Flat nav kept for footer sitemap generation
@@ -457,6 +467,26 @@ function renderNav(activePage) {
       }).join('')}
     </ul>
     <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+      <div class="gt-wrapper">
+        <select id="gt-select" onchange="gtTranslate()" title="Translate this page">
+          <option value="en">&#127760; Translate</option>
+          <option value="en|nl">&#127475;&#127473; Nederlands</option>
+          <option value="en|es">&#127466;&#127480; Español</option>
+          <option value="en|fr">&#127467;&#127479; Français</option>
+          <option value="en|de">&#127465;&#127466; Deutsch</option>
+          <option value="en|ar">&#127480;&#127462; Arabic</option>
+          <option value="en|pt">&#127463;&#127479; Português</option>
+          <option value="en|it">&#127470;&#127481; Italiano</option>
+          <option value="en|ja">&#127471;&#127477; 日本語</option>
+          <option value="en|ko">&#127472;&#127479; 한국어</option>
+          <option value="en|zh-CN">&#127464;&#127475; 中文</option>
+          <option value="en|ru">&#127479;&#127482; Русский</option>
+          <option value="en|tr">&#127481;&#127479; Türkçe</option>
+          <option value="en|pl">&#127477;&#127473; Polski</option>
+          <option value="en|hi">&#127470;&#127475; हिन्दी</option>
+          <option value="en|id">&#127470;&#127465; Indonesia</option>
+        </select>
+      </div>
       <div class="lang-switcher">
         <button class="lang-btn active" onclick="setLang('en')">EN</button>
         <button class="lang-btn" onclick="setLang('es')">ES</button>

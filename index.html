@@ -943,15 +943,6 @@ footer {
 </footer>
 
 
-<script>
-function doGTranslate(lang_pair) {
-  if (!lang_pair || lang_pair === 'en') return;
-  var to = lang_pair.split('|')[1];
-  // Use Google Translate website redirect — the most reliable free method
-  var url = 'https://translate.google.com/translate?sl=en&tl=' + to +
-            '&u=' + encodeURIComponent(window.location.href);
-  window.open(url, '_blank');
-}
-</script>
+
 </body>
 </html>

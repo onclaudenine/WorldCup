@@ -21,46 +21,18 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="stylesheet" href="css/style.css">
 <style>
-/* Google Translate Widget Styling */
-#google_translate_element {
-  display: inline-flex;
-  align-items: center;
-}
-#google_translate_element .goog-te-gadget {
-  font-family: var(--fb) !important;
-  font-size: 0 !important;
-  color: transparent !important;
-}
-#google_translate_element .goog-te-gadget-simple {
-  background: transparent !important;
-  border: 1px solid var(--border) !important;
-  border-radius: 3px !important;
-  padding: 3px 8px !important;
-  font-size: .72rem !important;
-  color: var(--muted) !important;
-  cursor: pointer !important;
-  white-space: nowrap !important;
-}
-#google_translate_element .goog-te-gadget-simple:hover {
-  border-color: var(--text) !important;
-  color: var(--text) !important;
-}
-#google_translate_element .goog-te-gadget-simple .goog-te-menu-value span {
-  color: var(--muted) !important;
-  font-size: .72rem !important;
-}
-#google_translate_element .goog-te-gadget-simple .goog-te-menu-value span:first-child {
-  color: var(--text) !important;
-}
-/* Hide Google Translate banner at top of page */
-.goog-te-banner-frame { display: none !important; }
-body { top: 0 !important; }
-.skiptranslate { display: none !important; }
+
+<style>
+.gt-wrapper{display:inline-flex;align-items:center}
+.gt-wrapper select{background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:3px;padding:3px 6px;font-size:.68rem;cursor:pointer;font-family:var(--fb);height:28px;max-width:130px}
+.gt-wrapper select:hover{border-color:var(--text);color:var(--text)}
+.gt-wrapper select:focus{outline:none}
+@media(max-width:768px){.gt-wrapper{display:none}}
 </style>
 </head>
 <body>
 <div id="affiliate-disclosure"></div>
-<div id="google_translate_element" style="position:fixed;bottom:20px;right:20px;z-index:9999;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:6px 10px;box-shadow:0 4px 16px rgba(0,0,0,.3)"></div>
+
 <nav id="main-nav"></nav>
 
 <div class="page-hero" style="margin-top:56px">
@@ -157,18 +129,7 @@ renderBookingSection('tickets-booking', {
 });
 if (currentLang !== 'en') { updateAllI18n(); }
 </script>
-<!-- Google Translate Widget -->
-<script type="text/javascript">
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({
-    pageLanguage: 'en',
-    includedLanguages: 'nl,es,fr,de,ar,pt,it,ja,ko,zh-CN,zh-TW,ru,tr,pl,sv,no,da,fi,id,ms,th,vi,hi,ur,fa,he',
-    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-    autoDisplay: false,
-    multilanguagePage: true
-  }, 'google_translate_element');
-}
-</script>
-<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
 </body>
 </html>
