@@ -215,8 +215,8 @@ if (window.location.hash === '#restaurants') {
   const el = document.getElementById('explore-booking');
   if(el) renderViatorFoodTours('viator-tours-explore');
 renderBookingSection('explore-booking', {
-    title:'Plan Your Dallas Stay',
-    subtitle:'Book hotels, flights, and rental cars for the World Cup. Prices rise fast as June approaches.',
+    title:tr('book_explore','Plan Your Dallas Stay'),
+    subtitle:tr('book_dallas_stay_sub','Book hotels, flights, and rental cars for your World Cup visit.'),
     showHotels:true, showFlights:true, showCars:true, showBus:true, showTuro:false, showActivities:true,
     hotelLocation:'Dallas Texas',
   });

@@ -169,8 +169,8 @@ renderNav(); renderFooter(); renderDisclosure(); initLang();
 const slug = 'dallas-arboretum';
 
 renderBookingSection('activity-booking', {
-  title: 'Plan Around This Visit',
-  subtitle: 'Stay close, book a rental car for flexibility, or grab tour tickets in advance.',
+  title:tr('book_plan_visit','Plan Around This Visit'),
+  subtitle:tr('book_plan_visit_sub','Stay close, book a rental car and make the most of your day.'),
   showHotels: true,
   showFlights: false,
   showCars: false,
@@ -189,6 +189,9 @@ document.getElementById('more-acts').innerHTML = others.map(act => `
     <div class="card-body">${act.desc}</div>
     <span class="card-arrow">→</span>
   </a>`).join('');
+
+document.addEventListener('langchange', updateAllI18n);
+if (typeof currentLang !== 'undefined' && currentLang !== 'en') updateAllI18n();
 </script>
 </body>
 </html>

@@ -72,5 +72,7 @@
 renderNav("explore"); renderFooter(); renderDisclosure(); initLang();
 renderUberEatsCard("ubereats-card", "Whataburger", "Whataburger Dallas");
 renderViatorFoodTours("viator-tours", 2);
+document.addEventListener('langchange', updateAllI18n);
+if (typeof currentLang !== 'undefined' && currentLang !== 'en') updateAllI18n();
 </script>
 </body></html>

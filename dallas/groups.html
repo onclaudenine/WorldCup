@@ -159,6 +159,6 @@
 renderNav('groups'); renderFooter(); renderDisclosure(); initLang();
 document.addEventListener('langchange', updateAllI18n);
 if (currentLang !== 'en') updateAllI18n();
-renderBookingSection('groups-booking', { title:'Book Group Accommodation', subtitle:'VRBO houses sleep 8–16 people and often work out cheaper per person than hotels. Compare hotel blocks too.', showHotels:true, showVrbo:true, showCars:true, showFlights:true, hotelLocation:'Dallas Texas group accommodation' });
+renderBookingSection('groups-booking', { title:tr('grp_book_title','Book Group Accommodation'), subtitle:tr('book_groups_sub','VRBO houses sleep 8–16 people and often work out cheaper per person than hotels.'), showHotels:true, showVrbo:true, showCars:true, showFlights:true, hotelLocation:'Dallas Texas group accommodation' });
 </script>
 </body></html>

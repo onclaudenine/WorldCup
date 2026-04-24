@@ -126,6 +126,9 @@
 renderNav("explore"); renderFooter(); renderDisclosure(); initLang();
 renderUberEatsCard("ubereats-card", "New York Eats", "New York Eats Arlington TX");
 renderViatorFoodTours("viator-tours", 3);
+
+document.addEventListener('langchange', updateAllI18n);
+if (typeof currentLang !== 'undefined' && currentLang !== 'en') updateAllI18n();
 </script>
 </body>
 </html>

@@ -424,10 +424,12 @@
   initCountdown('cd-d','cd-h','cd-m','cd-s');
   initWeather();
   renderBookingSection('main-booking-widget', {
-    title: 'Plan Your Dallas Trip',
-    subtitle: 'Compare hotels near AT&T Stadium, find flights into DFW, and book rental cars.',
+    title: tr('home_book_title', 'Plan Your Dallas Trip'),
+    subtitle: tr('home_book_sub', 'Compare hotels near AT&T Stadium, find flights into DFW, and book rental cars.'),
     showHotels: true, showFlights: true, showCars: true, showBus: true, showVrbo: true, showUberEats: true, showTuro: true, showActivities: true,
     hotelLocation: 'Dallas Texas FIFA World Cup 2026',
   });
+document.addEventListener('langchange', updateAllI18n);
+if (typeof currentLang !== 'undefined' && currentLang !== 'en') updateAllI18n();
 </script>
 </body></html>

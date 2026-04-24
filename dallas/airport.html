@@ -234,8 +234,8 @@ document.addEventListener('langchange', updateAllI18n);
 if (currentLang !== 'en') updateAllI18n();
 renderUsMobileCard('esim-card');
 renderBookingSection('airport-booking', {
-  title: 'Book Your Dallas Trip',
-  subtitle: 'Find flights into DFW, hotels near downtown Dallas, and rental cars for the journey.',
+  title:tr('book_dallas_trip','Book Your Dallas Trip'),
+  subtitle:tr('book_dallas_trip_sub','Find flights into DFW, hotels near the stadium, and rental cars.'),
   showHotels: true, showFlights: true, showCars: true, showBus: false, showVrbo: true,
   hotelLocation: 'Downtown Dallas Texas near DFW Airport',
 });

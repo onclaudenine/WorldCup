@@ -130,8 +130,8 @@ renderNav('fanzones'); renderFooter(); renderDisclosure(); initLang();
 document.addEventListener('langchange', updateAllI18n);
 if (currentLang !== 'en') updateAllI18n();
 renderBookingSection('fanzone-booking', {
-  title: 'Plan Your Fan Zone Visit',
-  subtitle: 'Stay downtown Dallas for easy access to fan zones and DART connections to the stadium.',
+  title:tr('book_fanzone','Plan Your Fan Zone Visit'),
+  subtitle:tr('book_fanzone_sub','Stay downtown Dallas for easy access to fan zones and DART connections.'),
   showHotels: true, showFlights: true, showCars: false, showBus: false, showVrbo: true,
   hotelLocation: 'Downtown Dallas Texas',
 });

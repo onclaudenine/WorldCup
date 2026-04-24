@@ -164,6 +164,6 @@
 renderNav('tickets'); renderFooter(); renderDisclosure(); initLang();
 document.addEventListener('langchange', updateAllI18n);
 if (currentLang !== 'en') updateAllI18n();
-renderBookingSection('tickets-booking', { title:'Plan Your Match Day', subtitle:'Book your hotel near AT&T Stadium and flights into DFW.', showHotels:true, showFlights:true, showVrbo:true, showCars:true, hotelLocation:'Arlington Texas near AT&T Stadium' });
+renderBookingSection('tickets-booking', { title:tr('tkt_book_title','Plan Your Match Day'), subtitle:tr('book_match_day_sub','Book your hotel near AT&T Stadium and flights into DFW.'), showHotels:true, showFlights:true, showVrbo:true, showCars:true, hotelLocation:'Arlington Texas near AT&T Stadium' });
 </script>
 </body></html>

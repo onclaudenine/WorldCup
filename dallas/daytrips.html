@@ -145,6 +145,6 @@
 renderNav('daytrips'); renderFooter(); renderDisclosure(); initLang();
 document.addEventListener('langchange', updateAllI18n);
 if (currentLang !== 'en') updateAllI18n();
-renderBookingSection('daytrips-booking', { title:'Plan Your Day Trips', subtitle:'Rent a car to explore Texas. VRBO vacation homes in Austin or San Antonio make great overnight bases.', showFlights:false, showCars:true, showTuro:true, showVrbo:true, hotelLocation:'Austin Texas' });
+renderBookingSection('daytrips-booking', { title:tr('dt_book_title','Plan Your Day Trips'), subtitle:tr('book_daytrips_sub','Rent a car to explore Texas. VRBO vacation homes make great overnight bases.'), showFlights:false, showCars:true, showTuro:true, showVrbo:true, hotelLocation:'Austin Texas' });
 </script>
 </body></html>

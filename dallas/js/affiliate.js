@@ -173,6 +173,7 @@ function renderUberEatsCard(containerId, restaurantName, restaurantQuery) {
 // ── US MOBILE eSIM CARD ──────────────────────────────────
 // Render a US Mobile eSIM card — ideal for airport and survival pages
 function renderUsMobileCard(containerId) {
+  _affRegister(renderUsMobileCard, [containerId]);
   const el = document.getElementById(containerId);
   if (!el) return;
   const url = usMobileUrl();
@@ -317,6 +318,7 @@ function renderDisclosure() {
 // options: { title, subtitle, context, showHotels, showFlights, showCars, showBus, showTuro, showActivities }
 
 function renderBookingSection(containerId, options = {}) {
+  _affRegister(renderBookingSection, [containerId, options]);
   const el = document.getElementById(containerId);
   if (!el) return;
 

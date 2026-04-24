@@ -213,8 +213,8 @@ renderNav('accommodation'); renderFooter(); renderDisclosure(); initLang();
 document.addEventListener('langchange', updateAllI18n);
 if (currentLang !== 'en') updateAllI18n();
 renderBookingSection('accom-booking', {
-  title: 'Search & Book Now',
-  subtitle: 'Compare hotels across Arlington, Dallas, and Fort Worth. Prices rise fast — book refundable rates today.',
+  title:tr('book_search_now','Search & Book Now'),
+  subtitle:tr('book_search_now_sub','Compare hotels across Arlington, Dallas, and Fort Worth.'),
   showHotels: true, showFlights: false, showCars: true, showBus: false, showTuro: true, showVrbo: true,
   hotelLocation: 'Dallas Texas FIFA World Cup 2026',
 });

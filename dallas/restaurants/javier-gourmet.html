@@ -71,5 +71,7 @@
 renderNav("explore"); renderFooter(); renderDisclosure(); initLang();
 renderUberEatsCard("ubereats-card", "Javier's Gourmet Mexicano", "Javier's Gourmet Mexicano Dallas TX");
 renderViatorFoodTours("viator-tours", 2);
+document.addEventListener('langchange', updateAllI18n);
+if (typeof currentLang !== 'undefined' && currentLang !== 'en') updateAllI18n();
 </script>
 </body></html>
