@@ -110,7 +110,7 @@
 <script src="js/site.js"></script>
 <script src="js/affiliate.js"></script>
 <script>
-renderNav('tickets'); renderFooter(); renderDisclosure(); initLang();
+renderNav('tickets') injectTranslateBtn(); renderFooter(); renderDisclosure(); initLang();
 renderTicketsPage();
 document.addEventListener('langchange', renderTicketsPage);
 document.addEventListener('langchange', updateAllI18n);

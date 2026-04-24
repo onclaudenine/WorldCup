@@ -134,7 +134,7 @@
 <script src="js/site.js"></script>
 <script src="js/affiliate.js"></script>
 <script>
-renderNav('fanzones'); renderFooter(); renderDisclosure(); initLang();
+renderNav('fanzones') injectTranslateBtn(); renderFooter(); renderDisclosure(); initLang();
 document.addEventListener('langchange', updateAllI18n);
 if (currentLang !== 'en') updateAllI18n();
 renderBookingSection('fanzone-booking', {

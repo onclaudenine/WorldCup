@@ -458,25 +458,7 @@ function renderNav(activePage) {
       }).join('')}
     </ul>
     <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-      <div style="position:relative" id="gt-dropdown-wrap">
-        <button onclick="document.getElementById(\'gt-menu\').style.display=document.getElementById(\'gt-menu\').style.display===\'none\'?\'block\':\'none\'" style="background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:3px;padding:3px 8px;font-size:.68rem;cursor:pointer;height:28px;white-space:nowrap;display:flex;align-items:center;gap:4px">&#127760; Translate <span style="font-size:.5rem">▾</span></button>
-        <div id="gt-menu" style="display:none;position:absolute;top:32px;right:0;background:var(--card);border:1px solid var(--border);border-radius:4px;box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:500;min-width:160px;padding:4px 0">
-          <div onclick="gtGo(\'nl\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇳🇱 Nederlands</div>
-          <div onclick="gtGo(\'es\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇪🇸 Español</div>
-          <div onclick="gtGo(\'fr\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇫🇷 Français</div>
-          <div onclick="gtGo(\'de\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇩🇪 Deutsch</div>
-          <div onclick="gtGo(\'ar\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇸🇦 Arabic</div>
-          <div onclick="gtGo(\'pt\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇧🇷 Português</div>
-          <div onclick="gtGo(\'it\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇮🇹 Italiano</div>
-          <div onclick="gtGo(\'ja\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇯🇵 日本語</div>
-          <div onclick="gtGo(\'ko\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇰🇷 한국어</div>
-          <div onclick="gtGo(\'zh-CN\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇨🇳 中文</div>
-          <div onclick="gtGo(\'ru\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇷🇺 Русский</div>
-          <div onclick="gtGo(\'tr\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇹🇷 Türkçe</div>
-          <div onclick="gtGo(\'hi\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇮🇳 हिन्दी</div>
-        </div>
-      </div>
-      <div class="lang-switcher">
+            <div class="lang-switcher">
         <button class="lang-btn active" onclick="setLang('en')">EN</button>
         <button class="lang-btn" onclick="setLang('es')">ES</button>
         <button class="lang-btn" onclick="setLang('fr')">FR</button>
@@ -4486,21 +4468,73 @@ const TRANSLATIONS = {
 };
 
 
-// Close translate dropdown when clicking outside
-document.addEventListener('click', function(e) {
-  var wrap = document.getElementById('gt-dropdown-wrap');
-  var menu = document.getElementById('gt-menu');
-  if (wrap && menu && !wrap.contains(e.target)) {
-    menu.style.display = 'none';
-  }
-});
 
-// Google Translate redirect function
-function gtGo(lang) {
-  var menu = document.getElementById('gt-menu');
-  if (menu) menu.style.display = 'none';
-  var url = 'https://translate.google.com/translate?sl=en&tl=' + lang + '&u=' + encodeURIComponent(window.location.href);
-  window.location.href = url;
+
+// ── GOOGLE TRANSLATE BUTTON ───────────────────────────────────────────────
+// Injected after renderNav() — avoids template literal escaping issues
+function injectTranslateBtn() {
+  // Don't inject twice
+  if (document.getElementById('gt-btn')) return;
+
+  // Build the dropdown
+  var btn = document.createElement('button');
+  btn.id = 'gt-btn';
+  btn.innerHTML = '&#127760; Translate &#9662;';
+  btn.style.cssText = 'background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:3px;padding:3px 8px;font-size:.68rem;cursor:pointer;height:28px;white-space:nowrap;font-family:var(--fb)';
+
+  var menu = document.createElement('div');
+  menu.id = 'gt-menu';
+  menu.style.cssText = 'display:none;position:absolute;top:34px;right:0;background:var(--card);border:1px solid var(--border);border-radius:4px;box-shadow:0 8px 24px rgba(0,0,0,.5);z-index:9999;min-width:160px;padding:4px 0';
+
+  var langs = [
+    ['nl','\uD83C\uDDF3\uD83C\uDDF1 Nederlands'],
+    ['es','\uD83C\uDDEA\uD83C\uDDF8 Español'],
+    ['fr','\uD83C\uDDEB\uD83C\uDDF7 Français'],
+    ['de','\uD83C\uDDE9\uD83C\uDDEA Deutsch'],
+    ['ar','\uD83C\uDDF8\uD83C\uDDE6 Arabic'],
+    ['pt','\uD83C\uDDE7\uD83C\uDDF7 Português'],
+    ['it','\uD83C\uDDEE\uD83C\uDDF9 Italiano'],
+    ['ja','\uD83C\uDDEF\uD83C\uDDF5 \u65E5\u672C\u8A9E'],
+    ['ko','\uD83C\uDDF0\uD83C\uDDF7 \uD55C\uAD6D\uC5B4'],
+    ['zh-CN','\uD83C\uDDE8\uD83C\uDDF3 \u4E2D\u6587'],
+    ['ru','\uD83C\uDDF7\uD83C\uDDFA \u0420\u0443\u0441\u0441\u043A\u0438\u0439'],
+    ['tr','\uD83C\uDDF9\uD83C\uDDF7 Türkçe'],
+    ['hi','\uD83C\uDDEE\uD83C\uDDF3 \u0939\u093F\u0928\u094D\u0926\u0940'],
+    ['id','\uD83C\uDDEE\uD83C\uDDE9 Indonesia'],
+  ];
+
+  langs.forEach(function(l) {
+    var item = document.createElement('div');
+    item.textContent = l[1];
+    item.style.cssText = 'padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap';
+    item.addEventListener('mouseenter', function(){ this.style.background = 'var(--mid)'; });
+    item.addEventListener('mouseleave', function(){ this.style.background = 'transparent'; });
+    item.addEventListener('click', function() {
+      menu.style.display = 'none';
+      window.location.href = 'https://translate.google.com/translate?sl=en&tl=' + l[0] + '&u=' + encodeURIComponent(window.location.href);
+    });
+    menu.appendChild(item);
+  });
+
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+  });
+
+  document.addEventListener('click', function() {
+    menu.style.display = 'none';
+  });
+
+  var wrap = document.createElement('div');
+  wrap.style.cssText = 'position:relative;display:inline-block';
+  wrap.appendChild(btn);
+  wrap.appendChild(menu);
+
+  // Insert before the lang-switcher in the nav
+  var langSwitcher = document.querySelector('.lang-switcher');
+  if (langSwitcher && langSwitcher.parentNode) {
+    langSwitcher.parentNode.insertBefore(wrap, langSwitcher);
+  }
 }
 
 // ── TRANSLATION HELPERS ───────────────────────────────────────
