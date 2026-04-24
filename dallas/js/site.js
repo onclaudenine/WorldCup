@@ -458,6 +458,24 @@ function renderNav(activePage) {
       }).join('')}
     </ul>
     <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+      <div style="position:relative" id="gt-dropdown-wrap">
+        <button onclick="document.getElementById(\'gt-menu\').style.display=document.getElementById(\'gt-menu\').style.display===\'none\'?\'block\':\'none\'" style="background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:3px;padding:3px 8px;font-size:.68rem;cursor:pointer;height:28px;white-space:nowrap;display:flex;align-items:center;gap:4px">&#127760; Translate <span style="font-size:.5rem">▾</span></button>
+        <div id="gt-menu" style="display:none;position:absolute;top:32px;right:0;background:var(--card);border:1px solid var(--border);border-radius:4px;box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:500;min-width:160px;padding:4px 0">
+          <div onclick="gtGo(\'nl\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇳🇱 Nederlands</div>
+          <div onclick="gtGo(\'es\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇪🇸 Español</div>
+          <div onclick="gtGo(\'fr\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇫🇷 Français</div>
+          <div onclick="gtGo(\'de\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇩🇪 Deutsch</div>
+          <div onclick="gtGo(\'ar\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇸🇦 Arabic</div>
+          <div onclick="gtGo(\'pt\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇧🇷 Português</div>
+          <div onclick="gtGo(\'it\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇮🇹 Italiano</div>
+          <div onclick="gtGo(\'ja\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇯🇵 日本語</div>
+          <div onclick="gtGo(\'ko\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇰🇷 한국어</div>
+          <div onclick="gtGo(\'zh-CN\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇨🇳 中文</div>
+          <div onclick="gtGo(\'ru\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇷🇺 Русский</div>
+          <div onclick="gtGo(\'tr\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇹🇷 Türkçe</div>
+          <div onclick="gtGo(\'hi\')" style="padding:7px 14px;font-size:.78rem;color:var(--muted);cursor:pointer;white-space:nowrap" onmouseover="this.style.background=\'var(--mid)\'" onmouseout="this.style.background=\'transparent\'">🇮🇳 हिन्दी</div>
+        </div>
+      </div>
       <div class="lang-switcher">
         <button class="lang-btn active" onclick="setLang('en')">EN</button>
         <button class="lang-btn" onclick="setLang('es')">ES</button>
@@ -4466,6 +4484,24 @@ const TRANSLATIONS = {
     pages:"Pagina's", official_links:'Officiele Links', emergency:'Noodgevallen',
   }
 };
+
+
+// Close translate dropdown when clicking outside
+document.addEventListener('click', function(e) {
+  var wrap = document.getElementById('gt-dropdown-wrap');
+  var menu = document.getElementById('gt-menu');
+  if (wrap && menu && !wrap.contains(e.target)) {
+    menu.style.display = 'none';
+  }
+});
+
+// Google Translate redirect function
+function gtGo(lang) {
+  var menu = document.getElementById('gt-menu');
+  if (menu) menu.style.display = 'none';
+  var url = 'https://translate.google.com/translate?sl=en&tl=' + lang + '&u=' + encodeURIComponent(window.location.href);
+  window.location.href = url;
+}
 
 // ── TRANSLATION HELPERS ───────────────────────────────────────
 function t(key) {
