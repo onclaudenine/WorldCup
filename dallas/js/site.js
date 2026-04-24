@@ -457,6 +457,7 @@ function renderNav(activePage) {
       }).join('')}
     </ul>
     <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+      <div id="google_translate_element" style="margin-right:4px"></div>
       <div class="lang-switcher">
         <button class="lang-btn active" onclick="setLang('en')">EN</button>
         <button class="lang-btn" onclick="setLang('es')">ES</button>

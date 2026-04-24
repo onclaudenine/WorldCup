@@ -792,3 +792,21 @@ html.light .nav-dd-item.active { background: rgba(191,10,48,.08); }
   .gc-sub { display: none; }
   .guide-card { padding: .9rem .9rem .75rem; }
 }
+
+/* ── Google Translate Widget ──────────────────────────────────── */
+#google_translate_element .goog-te-gadget-simple {
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 3px !important;
+  padding: 4px 8px !important;
+  cursor: pointer !important;
+}
+.goog-te-gadget-simple .goog-te-menu-value {
+  color: var(--muted) !important;
+  font-size: .7rem !important;
+  font-family: var(--fb) !important;
+}
+.goog-te-gadget-simple img { display: none !important; }
+.goog-te-banner-frame.skiptranslate { display: none !important; }
+body { top: 0px !important; }
+iframe.goog-te-menu-frame { box-shadow: 0 8px 32px rgba(0,0,0,.5) !important; }
