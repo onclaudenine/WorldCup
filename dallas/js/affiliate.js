@@ -77,6 +77,33 @@ const AFF = {
   },
 };
 
+// ── AFFILIATE RE-RENDER REGISTRY ─────────────────────────────
+// Tracks all render calls so they re-execute on language change
+const _affRegistry = [];
+let _affRendering = false;
+
+function _affRegister(fn, args) {
+  if (_affRendering) return;
+  const id = args[0];
+  const existing = _affRegistry.findIndex(r => r.args[0] === id && r.fn === fn);
+  if (existing >= 0) {
+    _affRegistry[existing] = { fn, args };
+  } else {
+    _affRegistry.push({ fn, args });
+  }
+}
+
+function _affReRenderAll() {
+  _affRendering = true;
+  _affRegistry.forEach(({ fn, args }) => {
+    try { fn(...args); } catch(e) { console.warn('Affiliate re-render error:', e); }
+  });
+  _affRendering = false;
+}
+
+document.addEventListener('langchange', _affReRenderAll);
+
+
 // ── LINK BUILDERS ─────────────────────────────────────────────
 // Each function returns a full affiliate URL for a specific search context.
 
